@@ -1,0 +1,11 @@
+# Ignore VS temp data
+.vs/
+.vscode/
+
+# Generated Binaries
+/bin/
+
+# CMake Build Files
+/build/
+
+*.user
