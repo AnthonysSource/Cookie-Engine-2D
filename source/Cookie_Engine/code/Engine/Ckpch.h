@@ -5,19 +5,19 @@
 #include <stdint.h>
 
 #include <fstream>
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
-#include <memory>
-#include <utility>
 #include <algorithm>
 #include <functional>
+#include <memory>
+#include <utility>
 
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #ifdef COOKIE_PLATFORM_WINDOWS
-    #include <Windows.h>
+#include <Windows.h>
 #endif
