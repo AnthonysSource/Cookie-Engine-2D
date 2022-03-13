@@ -37,6 +37,7 @@ set_target_properties(${CookieEngine} PROPERTIES
 target_include_directories(${CookieEngine} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glfw/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glad/include
+	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glm
 	${CMAKE_CURRENT_SOURCE_DIR})
 
 # Dependencies
