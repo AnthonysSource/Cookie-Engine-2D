@@ -1,28 +1,28 @@
 #pragma once
 
 namespace Cookie {
-namespace Logging {
+namespace Log {
 
-void init();
-void shutdown();
+void Init();
+void Shutdown();
 
-void info(const char *format, ...);
-void warning(const char *format, ...);
-void error(const char *format, ...);
-void assert(const char *format, ...);
+void Info(const char *format, ...);
+void Warning(const char *format, ...);
+void Error(const char *format, ...);
+void Assert(const char *format, ...);
 
 } // namespace Logging
 } // namespace Cookie
 
 #ifdef COOKIE_LOGGING
 #define COOKIE_LOG_INFO(...)                                                   \
-	{ Cookie::Logging::trace(__VA_ARGS__); }
+	{ Cookie::Log::Trace(__VA_ARGS__); }
 #define COOKIE_LOG_WARNING(...)                                                \
-	{ Cookie::Logging::warning(__VA_ARGS__); }
+	{ Cookie::Log::Warning(__VA_ARGS__); }
 #define COOKIE_LOG_ERROR(...)                                                  \
-	{ Cookie::Logging::error(__VA_ARGS__); }
+	{ Cookie::Log::Error(__VA_ARGS__); }
 #define COOKIE_LOG_ASSERT(...)                                                 \
-	{ Cookie::Logging::assert(__VA_ARGS__); }
+	{ Cookie::Log::Assert(__VA_ARGS__); }
 #else
 #define COOKIE_LOG_INFO(...)
 #define COOKIE_LOG_WARNING(...)

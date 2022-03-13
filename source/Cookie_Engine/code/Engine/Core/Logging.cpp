@@ -2,9 +2,9 @@
 #include "Engine/Ckpch.h"
 
 namespace Cookie {
-namespace Logging {
+namespace Log {
 
-void Logging::info(const char *format, ...) {
+void Log::Info(const char *format, ...) {
     // Use c++ formatting functions
 	char msg[256];
 	va_list ap;

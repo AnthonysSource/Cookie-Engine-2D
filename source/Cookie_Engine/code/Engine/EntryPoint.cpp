@@ -3,6 +3,6 @@
 #include <stdio.h>
 
 int main() {
-	Cookie::Application::init();
-	Cookie::Application::shutdown();
+	Cookie::Application::Init();
+	Cookie::Application::Shutdown();
 }

@@ -3,8 +3,8 @@
 namespace Cookie {
 namespace Application {
 
-void init();
-void shutdown();
+void Init();
+void Shutdown();
 
 } // namespace Application
 } // namespace Cookie

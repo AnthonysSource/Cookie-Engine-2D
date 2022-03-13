@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "InputSystem.h"
 #include "Logging.h"
 
 #include <GLFW/glfw3.h>
@@ -8,33 +9,44 @@ namespace Cookie {
 namespace Application {
 
 // Ptr to the application window
-GLFWwindow *s_window;
+GLFWwindow *s_Window;
 
-void Application::init() {
+void Application::Init() {
+
+	Log::Info("Starting up Cookie Engine");
 	// Init and create window
 	glfwInit();
-	s_window = glfwCreateWindow(1280, 720, "Cookie Engine", NULL, NULL);
-	if (!s_window) {
+
+	Log::Info("Creating window");
+	s_Window = glfwCreateWindow(1280, 720, "Cookie Engine", NULL, NULL);
+	if (!s_Window) {
 		glfwTerminate();
 	}
 
+	Log::Info("Setting up graphics context and OpenGL");
 	// Set current OpenGL context to the window
-	glfwMakeContextCurrent(s_window);
+	glfwMakeContextCurrent(s_Window);
 
 	// Setup OpenGL function loading
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-	Logging::info("Logging Test");
+	Log::Info("Initializing input system");
+	InputSystem::Init(s_Window);
 
+	Log::Info("Starting engine loop");
 	// Engine Loop
-	while (!glfwWindowShouldClose(s_window)) {
+	while (!glfwWindowShouldClose(s_Window)) {
 		glClear(GL_COLOR_BUFFER_BIT);
-		glfwSwapBuffers(s_window);
+		glfwSwapBuffers(s_Window);
 		glfwPollEvents();
+		InputSystem::Update();
 	}
 }
 
-void Application::shutdown() { glfwTerminate(); }
+void Application::Shutdown() {
+	Log::Info("Shutting down");
+	glfwTerminate();
+}
 
 } // namespace Application
 } // namespace Cookie
