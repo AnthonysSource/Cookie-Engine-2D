@@ -49,7 +49,7 @@ InputState s_InputState;
 InputState s_InputStateLastFrame;
 
 void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action,
-					   int mods) {
+						  int mods) {
 	// Push input event into queue
 	InputEvent e;
 	e.m_KeyCode = key;
@@ -92,17 +92,20 @@ void InputSystem::Update() {
 		// 			  glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
 		// }
 
-		// Log::Info("Keyname: %s / Event Action: %d / Keydown: %d / Keyheld: %d "
+		// Log::Info("Keyname: %s / Event Action: %d / Keydown: %d / Keyheld: %d
+		// "
 		// 		  "/ Keyup: %d",
 		// 		  glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action,
 		// 		  s_InputState.m_Keyboard.m_KeyDown[e.m_KeyCode],
 		// 		  s_InputState.m_Keyboard.m_KeyHeld[e.m_KeyCode],
 		// 		  s_InputState.m_Keyboard.m_KeyUp[e.m_KeyCode]);
-
 		s_InputEventsBuffer.pop();
 	}
 
+	// Reset input state
 	for (size_t i = 0; i < 255; i++) {
+		// We dont reset keyheld because that gets
+		// reset in a keyup event
 		s_InputState.m_Keyboard.m_KeyDown[i] = false;
 		s_InputState.m_Keyboard.m_KeyUp[i] = false;
 	}
