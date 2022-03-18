@@ -5,13 +5,19 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+#include "FileSystem.h"
+#include "FileSystemTest.h"
+
 namespace Cookie {
 namespace Application {
 
 // Ptr to the application window
 GLFWwindow *s_Window;
 
+
 void Application::Init() {
+
+	FileSystem::RunFileSystemTest();
 
 	Log::Info("Starting up Cookie Engine");
 	// Init and create window
