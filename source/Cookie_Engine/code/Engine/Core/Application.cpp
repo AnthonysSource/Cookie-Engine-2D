@@ -1,12 +1,12 @@
 #include "Application.h"
-#include "InputSystem.h"
-#include "Logging.h"
+#include "InputSystem/InputSystem.h"
+#include "Logging/Logging.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include "FileSystem.h"
-#include "FileSystemTest.h"
+#include "FileSystem/FileSystem.h"
+#include "FileSystem/FileSystemTest.h"
 
 namespace Cookie {
 namespace Application {

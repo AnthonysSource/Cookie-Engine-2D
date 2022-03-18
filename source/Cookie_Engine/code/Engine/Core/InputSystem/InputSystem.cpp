@@ -1,6 +1,6 @@
 #include "InputSystem.h"
-#include "BasicTypes.h"
-#include "Logging.h"
+#include "Core/BasicTypes.h"
+#include "Core/Logging/Logging.h"
 #include <GLFW/glfw3.h>
 #include <queue>
 
