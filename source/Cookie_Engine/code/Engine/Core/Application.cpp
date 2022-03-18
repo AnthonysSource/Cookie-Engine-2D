@@ -19,27 +19,27 @@ void Application::Init() {
 
 	FileSystem::RunFileSystemTest();
 
-	Log::Info("Starting up Cookie Engine");
+	COOKIE_LOG_INFO("Starting up Cookie Engine");
 	// Init and create window
 	glfwInit();
 
-	Log::Info("Creating window");
+	COOKIE_LOG_INFO("Creating window");
 	s_Window = glfwCreateWindow(1280, 720, "Cookie Engine", NULL, NULL);
 	if (!s_Window) {
 		glfwTerminate();
 	}
 
-	Log::Info("Setting up graphics context and OpenGL");
+	COOKIE_LOG_INFO("Setting up graphics context and OpenGL");
 	// Set current OpenGL context to the window
 	glfwMakeContextCurrent(s_Window);
 
 	// Setup OpenGL function loading
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
-	Log::Info("Initializing input system");
+	COOKIE_LOG_INFO("Initializing input system");
 	InputSystem::Init(s_Window);
 
-	Log::Info("Starting engine loop");
+	COOKIE_LOG_INFO("Starting engine loop");
 	// Engine Loop
 	while (!glfwWindowShouldClose(s_Window)) {
 		glClear(GL_COLOR_BUFFER_BIT);

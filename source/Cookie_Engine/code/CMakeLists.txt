@@ -49,7 +49,8 @@ target_link_libraries(${CookieEngine} PRIVATE
 target_compile_definitions(${CookieEngine} PRIVATE
 	COOKIE_PLATFORM_WINDOWS
 	GLFW_INCLUDE_NONE
-	$<$<CONFIG:Debug>:COOKIE_DEBUG>)
+	$<$<CONFIG:Debug>:COOKIE_DEBUG>
+	$<$<CONFIG:Debug>:COOKIE_LOGGING>)
 	
 # Set precompiled headers
 target_precompile_headers(${CookieEngine} PRIVATE 

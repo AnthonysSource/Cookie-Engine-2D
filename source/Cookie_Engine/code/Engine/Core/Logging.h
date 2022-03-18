@@ -16,7 +16,7 @@ void Assert(const char *format, ...);
 
 #ifdef COOKIE_LOGGING
 #define COOKIE_LOG_INFO(...)                                                   \
-	{ Cookie::Log::Trace(__VA_ARGS__); }
+	{ Cookie::Log::Info(__VA_ARGS__); }
 #define COOKIE_LOG_WARNING(...)                                                \
 	{ Cookie::Log::Warning(__VA_ARGS__); }
 #define COOKIE_LOG_ERROR(...)                                                  \
