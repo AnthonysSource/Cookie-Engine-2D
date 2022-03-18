@@ -38,7 +38,7 @@ target_include_directories(${CookieEngine} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glfw/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glad/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glm
-	${CMAKE_CURRENT_SOURCE_DIR})
+	${CMAKE_CURRENT_SOURCE_DIR}/Engine)
 
 # Dependencies
 target_link_libraries(${CookieEngine} PRIVATE

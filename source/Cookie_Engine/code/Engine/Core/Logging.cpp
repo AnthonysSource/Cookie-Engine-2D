@@ -1,5 +1,5 @@
 #include "Logging.h"
-#include "Engine/Ckpch.h"
+#include "Ckpch.h"
 
 namespace Cookie {
 namespace Log {
