@@ -19,6 +19,25 @@ void FileSystem::ReadFile(const char *path, char *outputBuffer, const size_t siz
 	stream.close();
 }
 
+std::string FileSystem::ReadTextFile(const char *path){
+	std::string fileText;
+	std::ifstream fileStream;
+	fileStream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	try
+	{
+		fileStream.open(path);
+		std::stringstream textStream;
+		textStream << fileStream.rdbuf();
+		fileStream.close();
+		fileText = textStream.str();
+	}
+	catch(const std::ifstream::failure e)
+	{
+		std::cerr << e.what() << '\n';
+	}
+	return fileText;
+}
+
 // void FileSystem::Write(char *data) { wf.write((char *)&data[i], sizeof(Dt));
 // }
 

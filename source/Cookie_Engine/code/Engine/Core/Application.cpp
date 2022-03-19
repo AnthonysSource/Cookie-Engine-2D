@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "BasicTypes.h"
 #include "InputSystem/InputSystem.h"
 #include "Logging/Logging.h"
 
@@ -14,14 +15,21 @@ namespace Application {
 // Ptr to the application window
 GLFWwindow *s_Window;
 
+float vertices[] = {
+	-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f,
+};
+
+u32 indices[] = {0, 1, 2, 2, 3, 0};
 
 void Application::Init() {
-
 	FileSystem::RunFileSystemTest();
 
 	COOKIE_LOG_INFO("Starting up Cookie Engine");
 	// Init and create window
 	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	COOKIE_LOG_INFO("Creating window");
 	s_Window = glfwCreateWindow(1280, 720, "Cookie Engine", NULL, NULL);
@@ -39,10 +47,91 @@ void Application::Init() {
 	COOKIE_LOG_INFO("Initializing input system");
 	InputSystem::Init(s_Window);
 
+	// Viewport settings and resize
+	glViewport(0, 0, 1280, 720);
+	glfwSetFramebufferSizeCallback(
+		s_Window, [](GLFWwindow *window, i32 width, i32 height) {
+			glViewport(0, 0, width, height);
+		});
+
+	// Quad Rendering Test
+	u32 VAO = 0;
+	u32 VBO = 0;
+	u32 EBO = 0;
+	u32 fragShader = 0;
+	u32 vertShader = 0;
+	u32 program = 0;
+
+	// VAO
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	// VBO
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	// EBO
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
+				 GL_STATIC_DRAW);
+
+	// Shader & Program
+	std::string vertexString = FileSystem::ReadTextFile("shaders/basic.vert");
+	std::string fragString = FileSystem::ReadTextFile("shaders/basic.frag");
+	const char *vertexSource = vertexString.c_str();
+	const char *fragSource = fragString.c_str();
+
+	vertShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertShader, 1, &vertexSource, NULL);
+	glCompileShader(vertShader);
+	int success;
+	char infoLog[512];
+	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(vertShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
+				  << infoLog << std::endl;
+	}
+
+	fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragShader, 1, &fragSource, NULL);
+	glCompileShader(fragShader);
+	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(fragShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
+				  << infoLog << std::endl;
+	}
+
+	program = glCreateProgram();
+	glAttachShader(program, vertShader);
+	glAttachShader(program, fragShader);
+	glLinkProgram(program);
+
+	glDetachShader(program, vertShader);
+	glDetachShader(program, fragShader);
+
+	glDeleteShader(vertShader);
+	glDeleteShader(fragShader);
+
+	glUseProgram(program);
+
+	// Layout
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
+						  (void *)0);
+	glEnableVertexAttribArray(0);
+
 	COOKIE_LOG_INFO("Starting engine loop");
-	// Engine Loop
 	while (!glfwWindowShouldClose(s_Window)) {
+		glClearColor(0.95f, 0.6f, 0.05f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		// Issue Drawcall
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
 		glfwSwapBuffers(s_Window);
 		glfwPollEvents();
 		InputSystem::Update();
