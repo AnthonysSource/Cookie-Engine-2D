@@ -3,8 +3,6 @@
 namespace Cookie {
 namespace RenderingSystem {
 
-
-
 void RenderingSystem::Render() {
 
 }

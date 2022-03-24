@@ -1,71 +1,51 @@
-#include "Core/BasicTypes.h"
+#include "RenderingAPI.h"
+#include <glad/glad.h>
 
 namespace Cookie {
 namespace RenderingAPI {
-
-struct VertexBuffer {
-	u32 m_DeviceID;
-	// Source data ref
-};
-
-struct IndexBuffer {
-	u32 m_DeviceID;
-	u32 m_IndexCount; // Amount of indices in the buffer
-};
-
-struct VertexArray {
-	u32 m_DeviceID;
-	VertexBuffer *m_VertexBuffer;
-	IndexBuffer *m_IndexBuffer;
-	// Layout
-};
-
-struct Program {
-	u32 m_DeviceID;
-	// Frag Shader
-	// Vert Shader
-};
-
-struct FragmentShader {
-	u32 m_DeviceID;
-	// Source Frag Shader
-};
-
-struct VertexShader {
-	u32 m_DeviceID;
-	// Source Vert Shader
-};
-
-struct MeshData {};
-
-struct RenderComponent {
-	u32 m_MeshID;
-	u32 m_MaterialID;
-};
-
-std::unordered_map<u32, MeshData> m_MeshRegistry;
-
 namespace Device {
 
-VertexArray CreateVertexArray();
-VertexBuffer CreateVertexBuffer();
-IndexBuffer CreateIndexBuffer();
-Program CreateProgram();
+VertexArray Device::CreateVertexArray() {
+	VertexArray va;
+	glGenVertexArrays(1, &va.m_DeviceID);
 
-void DeleteProgram();
+	// We shouldn't bind it here but we will temporarily
+	glBindVertexArray(va.m_DeviceID);
+	return va;
+}
 
-void ClearColorBuffer(float r, float g, float b, float a);
+VertexBuffer Device::CreateVertexBuffer(char *data, u32 size) {
+	VertexBuffer vb;
+	vb.m_Size = size;
+	glGenBuffers(1, &vb.m_DeviceID);
+	glBindBuffer(GL_ARRAY_BUFFER, vb.m_DeviceID);
+	// TODO: Add options to change gl_static_draw
+	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	return vb;
+}
+
+IndexBuffer Device::CreateIndexBuffer(char *data, u32 size) {
+	IndexBuffer ib;
+	glGenBuffers(1, &ib.m_DeviceID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib.m_DeviceID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	return ib;
+};
+
+// Program Device::CreateProgram();
+// void DeleteProgram();
+// void ClearColorBuffer(float r, float g, float b, float a);
 
 } // namespace Device
 
 namespace Context {
 
-void BindVertexArray(VertexArray *va);
-void BindVertexBuffer(VertexBuffer *vb);
-void BindIndexBuffer(IndexBuffer *ib);
-void BindProgram(Program *p);
+void DrawIndexed(VertexArray *va) {
+	glBindVertexArray(va->m_DeviceID);
 
-void DrawIndexed(VertexArray *va);
+	// We need to store this parameters in the va
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
 
 } // namespace Context
 

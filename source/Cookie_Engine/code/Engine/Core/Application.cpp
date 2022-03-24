@@ -9,6 +9,8 @@
 #include "FileSystem/FileSystem.h"
 #include "FileSystem/FileSystemTest.h"
 
+#include "Core/RenderingSystem/RenderingAPI.h"
+
 namespace Cookie {
 namespace Application {
 
@@ -55,27 +57,21 @@ void Application::Init() {
 		});
 
 	// Quad Rendering Test
-	u32 VAO = 0;
-	u32 VBO = 0;
-	u32 EBO = 0;
 	u32 fragShader = 0;
 	u32 vertShader = 0;
 	u32 program = 0;
 
+	using namespace RenderingAPI;
 	// VAO
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	VertexArray va = Device::CreateVertexArray();
 
 	// VBO
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	VertexBuffer vb =
+		Device::CreateVertexBuffer((char *)vertices, sizeof(vertices));
 
 	// EBO
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices,
-				 GL_STATIC_DRAW);
+	IndexBuffer ib =
+		Device::CreateIndexBuffer((char *)indices, sizeof(indices));
 
 	// Shader & Program
 	std::string vertexString = FileSystem::ReadTextFile("shaders/basic.vert");
@@ -129,8 +125,7 @@ void Application::Init() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Issue Drawcall
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		Context::DrawIndexed(&va);
 
 		glfwSwapBuffers(s_Window);
 		glfwPollEvents();
