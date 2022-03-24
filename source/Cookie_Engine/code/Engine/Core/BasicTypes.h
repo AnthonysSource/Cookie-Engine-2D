@@ -16,4 +16,7 @@ using u64 = uint64_t;
 using f32 = float_t;
 using f64 = double_t;
 
+using c16 = char16_t;
+using c32 = char32_t;
+
 } // namespace Cookie
