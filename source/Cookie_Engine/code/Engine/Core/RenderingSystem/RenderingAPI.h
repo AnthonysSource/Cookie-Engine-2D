@@ -5,12 +5,16 @@ namespace RenderingAPI {
 
 struct VertexBuffer {
 	u32 m_DeviceID;
-    u32 m_Size;
+	u32 m_Size;
 	// Source data ref
 };
 
+enum DataType : c32 { UINT_32 = sizeof(u32) };
+
 struct IndexBuffer {
 	u32 m_DeviceID;
+	u32 m_Size;
+	DataType m_DataType;
 	u32 m_IndexCount; // Amount of indices in the buffer
 };
 
@@ -19,6 +23,9 @@ struct VertexArray {
 	VertexBuffer *m_VertexBuffer;
 	IndexBuffer *m_IndexBuffer;
 	// Layout
+
+	void BindVertexBuffer(VertexBuffer *vb);
+	void BindIndexBuffer(IndexBuffer *ib);
 };
 
 struct Program {
@@ -47,9 +54,9 @@ struct RenderComponent {
 namespace Device {
 
 VertexArray CreateVertexArray();
-VertexBuffer CreateVertexBuffer(char* data ,u32 size);
-IndexBuffer CreateIndexBuffer(char* data ,u32 size);
-Program CreateProgram();
+VertexBuffer CreateVertexBuffer(char *data, u32 size);
+IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type);
+Program CreateProgram(const char *vertShaderPath, const char *fragShaderPath);
 
 void DeleteProgram();
 

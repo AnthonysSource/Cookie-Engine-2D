@@ -51,10 +51,9 @@ void Application::Init() {
 
 	// Viewport settings and resize
 	glViewport(0, 0, 1280, 720);
-	glfwSetFramebufferSizeCallback(
-		s_Window, [](GLFWwindow *window, i32 width, i32 height) {
-			glViewport(0, 0, width, height);
-		});
+	glfwSetFramebufferSizeCallback(s_Window, [](GLFWwindow *window, i32 width, i32 height) {
+		glViewport(0, 0, width, height);
+	});
 
 	// Quad Rendering Test
 	u32 fragShader = 0;
@@ -66,57 +65,19 @@ void Application::Init() {
 	VertexArray va = Device::CreateVertexArray();
 
 	// VBO
-	VertexBuffer vb =
-		Device::CreateVertexBuffer((char *)vertices, sizeof(vertices));
+	VertexBuffer vb = Device::CreateVertexBuffer((char *)vertices, sizeof(vertices));
 
 	// EBO
-	IndexBuffer ib =
-		Device::CreateIndexBuffer((char *)indices, sizeof(indices));
+	IndexBuffer ib = Device::CreateIndexBuffer((char *)indices, sizeof(indices), UINT_32);
+
+	va.BindIndexBuffer(&ib);
+	va.BindVertexBuffer(&vb);
 
 	// Shader & Program
-	std::string vertexString = FileSystem::ReadTextFile("shaders/basic.vert");
-	std::string fragString = FileSystem::ReadTextFile("shaders/basic.frag");
-	const char *vertexSource = vertexString.c_str();
-	const char *fragSource = fragString.c_str();
-
-	vertShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertShader, 1, &vertexSource, NULL);
-	glCompileShader(vertShader);
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vertShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-				  << infoLog << std::endl;
-	}
-
-	fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragShader, 1, &fragSource, NULL);
-	glCompileShader(fragShader);
-	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(fragShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-				  << infoLog << std::endl;
-	}
-
-	program = glCreateProgram();
-	glAttachShader(program, vertShader);
-	glAttachShader(program, fragShader);
-	glLinkProgram(program);
-
-	glDetachShader(program, vertShader);
-	glDetachShader(program, fragShader);
-
-	glDeleteShader(vertShader);
-	glDeleteShader(fragShader);
-
-	glUseProgram(program);
+	Program p = Device::CreateProgram("shaders/basic.vert", "shaders/basic.frag");
 
 	// Layout
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float),
-						  (void *)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
 
 	COOKIE_LOG_INFO("Starting engine loop");
@@ -125,6 +86,7 @@ void Application::Init() {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Issue Drawcall
+		Context::BindProgram(&p);
 		Context::DrawIndexed(&va);
 
 		glfwSwapBuffers(s_Window);
