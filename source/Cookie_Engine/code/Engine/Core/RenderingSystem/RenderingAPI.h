@@ -52,7 +52,6 @@ namespace RenderingAPI {
 	};
 
 	namespace Device {
-
 		VertexArray CreateVertexArray();
 		VertexBuffer CreateVertexBuffer(char *data, u32 size);
 		IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type);
@@ -61,18 +60,15 @@ namespace RenderingAPI {
 		void DeleteProgram();
 
 		void ClearColorBuffer(float r, float g, float b, float a);
-
 	} // namespace Device
 
 	namespace Context {
-
 		void BindVertexArray(VertexArray *va);
 		void BindVertexBuffer(VertexBuffer *vb);
 		void BindIndexBuffer(IndexBuffer *ib);
 		void BindProgram(Program *p);
 
 		void DrawIndexed(VertexArray *va);
-
 	} // namespace Context
 
 } // namespace RenderingAPI
