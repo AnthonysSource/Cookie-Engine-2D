@@ -3,7 +3,7 @@
 namespace Cookie {
 namespace RenderingSystem {
 
-void Render();
+	void Render();
 
 }
 } // namespace Cookie

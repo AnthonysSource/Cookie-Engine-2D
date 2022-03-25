@@ -5,9 +5,9 @@
 namespace Cookie {
 namespace InputSystem {
 
-void Init(GLFWwindow *window);
-void Update();
-void Shutdown();
+	void Init(GLFWwindow *window);
+	void Update();
+	void Shutdown();
 
 } // namespace InputSystem
 } // namespace Cookie
