@@ -1,6 +1,6 @@
 #include "RenderingSystem.h"
 #include "Core/Application.h"
-#include "Core/RenderingSystem/RenderingAPI.h"
+#include "Core/RenderingAPI/RenderingAPI.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
