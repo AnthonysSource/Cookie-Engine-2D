@@ -9,7 +9,7 @@ namespace RenderingAPI {
 		// Source data ref
 	};
 
-	enum DataType : c32 { UINT_32 = sizeof(u32) };
+	enum DataType { UINT, INT, FLOAT };
 
 	struct IndexBuffer {
 		u32 m_DeviceID;
@@ -18,14 +18,35 @@ namespace RenderingAPI {
 		u32 m_IndexCount; // Amount of indices in the buffer
 	};
 
+	struct LayoutAttribute {
+		u32 m_Pos;
+		DataType m_Type;
+		u32 m_Count;
+		bool m_Normalized;
+
+		u32 m_Size;
+		u32 m_Offset;
+
+		LayoutAttribute(u32 pos, DataType type, u32 count, bool normalized);
+	};
+
+	struct VertexArrayLayout {
+		std::vector<LayoutAttribute> m_Attributes;
+		u32 m_Stride;
+
+		void AddAttribute(LayoutAttribute attr);
+	};
+
 	struct VertexArray {
 		u32 m_DeviceID;
 		VertexBuffer *m_VertexBuffer;
 		IndexBuffer *m_IndexBuffer;
+		VertexArrayLayout *m_Layout;
 		// Layout
 
 		void BindVertexBuffer(VertexBuffer *vb);
 		void BindIndexBuffer(IndexBuffer *ib);
+		void SetLayout(VertexArrayLayout *layout);
 	};
 
 	struct Program {

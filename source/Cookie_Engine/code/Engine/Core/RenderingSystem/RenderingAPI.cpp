@@ -6,6 +6,35 @@
 namespace Cookie {
 namespace RenderingAPI {
 
+	// returns the OpenGL representation of the
+	// provided DataType
+	int GetOpenGLDataType(DataType type) {
+		switch (type) {
+		case UINT:
+			return GL_UNSIGNED_INT;
+		case INT:
+			return GL_INT;
+		case FLOAT:
+			return GL_FLOAT;
+		default:
+			return 0;
+		}
+	};
+
+	// Returns the size of the provided data type
+	int GetDataTypeSize(DataType type) {
+		switch (type) {
+		case UINT:
+			return sizeof(u32);
+		case INT:
+			return sizeof(i32);
+		case FLOAT:
+			return sizeof(f32);
+		default:
+			0;
+		}
+	}
+
 	void VertexArray::BindVertexBuffer(VertexBuffer *vb) {
 		m_VertexBuffer = vb;
 		glBindVertexArray(m_DeviceID);
@@ -16,6 +45,34 @@ namespace RenderingAPI {
 		m_IndexBuffer = ib;
 		glBindVertexArray(m_DeviceID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib->m_DeviceID);
+	};
+
+	void VertexArray::SetLayout(VertexArrayLayout *layout) {
+		m_Layout = layout;
+		u32 count = layout->m_Attributes.size();
+		for (u32 i = 0; i < count; i++) {
+			LayoutAttribute *attr = &layout->m_Attributes[i];
+			glVertexAttribPointer(attr->m_Pos, attr->m_Count, GetOpenGLDataType(attr->m_Type),
+								  attr->m_Normalized, layout->m_Stride,
+								  (void *)(UINT_PTR)attr->m_Offset);
+			glEnableVertexAttribArray(attr->m_Pos);
+		}
+	};
+
+	LayoutAttribute::LayoutAttribute(u32 pos, DataType type, u32 count, bool normalized)
+		: m_Pos(pos), m_Type(type), m_Count(count), m_Normalized(normalized),
+		  m_Size(GetDataTypeSize(type) * count), m_Offset(-1){};
+
+	void VertexArrayLayout::AddAttribute(LayoutAttribute attr) {
+		m_Attributes.push_back(attr);
+		attr.m_Size = GetDataTypeSize(attr.m_Type) * attr.m_Count;
+		m_Stride = 0;
+		u32 offset = 0;
+		for (u32 i = 0; i < m_Attributes.size(); i++) {
+			m_Attributes[i].m_Offset = offset;
+			offset += m_Attributes[i].m_Size;
+			m_Stride += m_Attributes[i].m_Size;
+		};
 	};
 
 	namespace Device {
@@ -39,23 +96,11 @@ namespace RenderingAPI {
 			return vb;
 		};
 
-		int GetOpenGLDataType(DataType type) {
-			switch (type) {
-			case UINT_32:
-				return GL_UNSIGNED_INT;
-				break;
-			default:
-				return 0;
-				break;
-			}
-			return 0;
-		};
-
 		IndexBuffer Device::CreateIndexBuffer(char *data, u32 size, DataType type) {
 			IndexBuffer ib;
 			ib.m_Size = size;
 			ib.m_DataType = type;
-			ib.m_IndexCount = size / type;
+			ib.m_IndexCount = size / GetDataTypeSize(type);
 
 			glGenBuffers(1, &ib.m_DeviceID);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib.m_DeviceID);
@@ -119,7 +164,7 @@ namespace RenderingAPI {
 
 			// We need to store this parameters in the va
 			glDrawElements(GL_TRIANGLES, va->m_IndexBuffer->m_IndexCount,
-						   Device::GetOpenGLDataType(va->m_IndexBuffer->m_DataType), nullptr);
+						   GetOpenGLDataType(va->m_IndexBuffer->m_DataType), nullptr);
 		}
 
 		void Context::BindProgram(Program *p) { glUseProgram(p->m_DeviceID); }

@@ -30,17 +30,18 @@ namespace RenderingSystem {
 
 		// Quad Rendering Test
 		vertexBuffer = Device::CreateVertexBuffer((char *)vertices, sizeof(vertices));
-		indexBuffer = Device::CreateIndexBuffer((char *)indices, sizeof(indices), UINT_32);
-
-		vertexArray = Device::CreateVertexArray();
-		vertexArray.BindIndexBuffer(&indexBuffer);
-		vertexArray.BindVertexBuffer(&vertexBuffer);
+		indexBuffer = Device::CreateIndexBuffer((char *)indices, sizeof(indices), UINT);
 
 		program = Device::CreateProgram("shaders/basic.vert", "shaders/basic.frag");
 
 		// Layout
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-		glEnableVertexAttribArray(0);
+		VertexArrayLayout layout;
+		layout.AddAttribute(LayoutAttribute(0, FLOAT, 3, false));
+
+		vertexArray = Device::CreateVertexArray();
+		vertexArray.BindIndexBuffer(&indexBuffer);
+		vertexArray.BindVertexBuffer(&vertexBuffer);
+		vertexArray.SetLayout(&layout);
 	}
 
 	void RenderingSystem::Render() {
