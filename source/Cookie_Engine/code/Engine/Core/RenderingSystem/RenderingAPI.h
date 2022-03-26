@@ -1,4 +1,5 @@
 #include "Core/BasicTypes.h"
+#include "glm/gtc/quaternion.hpp"
 #include "glm/mat4x4.hpp"
 
 namespace Cookie {
@@ -72,6 +73,12 @@ namespace RenderingAPI {
 	};
 
 	struct MeshData {};
+
+	struct TransformComponent {
+		glm::vec3 m_Position;
+		glm::quat m_Rotation;
+		glm::vec3 m_Scale;
+	};
 
 	struct RenderComponent {
 		u32 m_MeshID;
