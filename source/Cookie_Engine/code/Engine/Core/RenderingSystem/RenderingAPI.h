@@ -1,4 +1,5 @@
 #include "Core/BasicTypes.h"
+#include "glm/mat4x4.hpp"
 
 namespace Cookie {
 namespace RenderingAPI {
@@ -19,11 +20,15 @@ namespace RenderingAPI {
 	};
 
 	struct LayoutAttribute {
+		// These parameters are provided
+		// on creation
 		u32 m_Pos;
 		DataType m_Type;
 		u32 m_Count;
 		bool m_Normalized;
 
+		// These are derivated from the
+		// previous ones
 		u32 m_Size;
 		u32 m_Offset;
 
@@ -33,7 +38,7 @@ namespace RenderingAPI {
 	struct VertexArrayLayout {
 		std::vector<LayoutAttribute> m_Attributes;
 		u32 m_Stride;
-
+		
 		void AddAttribute(LayoutAttribute attr);
 	};
 
@@ -53,6 +58,7 @@ namespace RenderingAPI {
 		u32 m_DeviceID;
 		// Frag Shader
 		// Vert Shader
+		void SetUniformMat4(const char *name, const float *data);
 	};
 
 	struct FragmentShader {

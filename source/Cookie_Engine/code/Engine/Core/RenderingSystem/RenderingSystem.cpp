@@ -1,7 +1,13 @@
 #include "RenderingSystem.h"
 #include "Core/Application.h"
 #include "Core/RenderingSystem/RenderingAPI.h"
-#include "glad/glad.h"
+
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/mat4x4.hpp>
 
 namespace Cookie {
 namespace RenderingSystem {
@@ -32,7 +38,7 @@ namespace RenderingSystem {
 		vertexBuffer = Device::CreateVertexBuffer((char *)vertices, sizeof(vertices));
 		indexBuffer = Device::CreateIndexBuffer((char *)indices, sizeof(indices), UINT);
 
-		program = Device::CreateProgram("shaders/basic.vert", "shaders/basic.frag");
+		program = Device::CreateProgram("shaders/MVP_Basic.vert", "shaders/MVP_Basic.frag");
 
 		// Layout
 		VertexArrayLayout layout;
@@ -45,6 +51,20 @@ namespace RenderingSystem {
 	}
 
 	void RenderingSystem::Render() {
+		glm::mat4 view =
+			glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+		glm::mat4 model = glm::mat4(1.0f);
+
+		float rotRadians = (float)glm::radians(250.0f * glfwGetTime());
+		model = glm::rotate(model, rotRadians, glm::vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rotRadians, glm::vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rotRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		program.SetUniformMat4("model", glm::value_ptr(model));
+		program.SetUniformMat4("view", glm::value_ptr(view));
+		program.SetUniformMat4("projection", glm::value_ptr(proj));
+
 		// Issue Drawcall
 		Context::BindProgram(&program);
 		Context::DrawIndexed(&vertexArray);
