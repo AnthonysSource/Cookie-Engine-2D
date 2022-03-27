@@ -173,6 +173,11 @@ namespace RenderingAPI {
 
 		void Context::BindProgram(Program *p) { glUseProgram(p->m_DeviceID); }
 
+		void Context::ClearColorBuffer(float r, float g, float b, float a) {
+			glClearColor(r, g, b, a);
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
+
 	} // namespace Context
 
 } // namespace RenderingAPI

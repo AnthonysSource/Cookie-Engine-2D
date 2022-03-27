@@ -14,7 +14,6 @@
 namespace Cookie {
 namespace Application {
 
-	// Ptr to the application window
 	AppData appData;
 
 	void Application::Init() {
@@ -46,11 +45,7 @@ namespace Application {
 
 		COOKIE_LOG_INFO("Starting engine loop");
 		while (!glfwWindowShouldClose(appData.m_Window)) {
-			glClearColor(0.95f, 0.6f, 0.05f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
-
 			RenderingSystem::Render();
-			glfwSwapBuffers(appData.m_Window);
 			glfwPollEvents();
 			InputSystem::Update();
 		}

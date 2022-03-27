@@ -51,6 +51,10 @@ namespace RenderingSystem {
 	}
 
 	void RenderingSystem::Render() {
+		// Clear buffer
+		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
+
+		// Set MVP matrix
 		glm::mat4 view =
 			glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glm::mat4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
@@ -68,6 +72,9 @@ namespace RenderingSystem {
 		// Issue Drawcall
 		Context::BindProgram(&program);
 		Context::DrawIndexed(&vertexArray);
+		
+		// Swap Buffers
+		glfwSwapBuffers(Application::appData.m_Window);
 	}
 
 } // namespace RenderingSystem
