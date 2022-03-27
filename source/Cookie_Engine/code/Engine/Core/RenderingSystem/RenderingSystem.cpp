@@ -28,11 +28,7 @@ namespace RenderingSystem {
 	u32 indices[] = {0, 1, 2, 2, 3, 0};
 
 	void RenderingSystem::Init() {
-		// Viewport settings and resize
-		glViewport(0, 0, 1280, 720);
-		glfwSetFramebufferSizeCallback(
-			Application::appData.m_Window,
-			[](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
+		Context::Init();
 
 		// Quad Rendering Test
 		vertexBuffer = Device::CreateVertexBuffer((char *)vertices, sizeof(vertices));
@@ -40,7 +36,6 @@ namespace RenderingSystem {
 
 		program = Device::CreateProgram("shaders/MVP_Basic.vert", "shaders/MVP_Basic.frag");
 
-		// Layout
 		VertexArrayLayout layout;
 		layout.AddAttribute(LayoutAttribute(0, FLOAT, 3, false));
 

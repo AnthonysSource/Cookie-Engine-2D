@@ -1,7 +1,9 @@
 #include "RenderingAPI.h"
 #include "Core/FileSystem/FileSystem.h"
+#include "Core/Application.h"
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace Cookie {
 namespace RenderingAPI {
@@ -172,6 +174,20 @@ namespace RenderingAPI {
 		}
 
 		void Context::BindProgram(Program *p) { glUseProgram(p->m_DeviceID); }
+
+		void Init() {
+			// Set current OpenGL context to the window
+			glfwMakeContextCurrent(Application::appData.m_Window);
+
+			// Setup OpenGL function loading
+			gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+
+			// Viewport settings and resize
+			glViewport(0, 0, 1280, 720);
+			glfwSetFramebufferSizeCallback(
+				Application::appData.m_Window,
+				[](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
+		};
 
 		void Context::ClearColorBuffer(float r, float g, float b, float a) {
 			glClearColor(r, g, b, a);

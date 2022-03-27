@@ -101,6 +101,7 @@ namespace RenderingAPI {
 		void BindIndexBuffer(IndexBuffer *ib);
 		void BindProgram(Program *p);
 
+		void Init();
 		void ClearColorBuffer(float r, float g, float b, float a);
 		void DrawIndexed(VertexArray *va);
 	} // namespace Context

@@ -22,8 +22,8 @@ namespace Application {
 		COOKIE_LOG_INFO("Starting up Cookie Engine");
 		// Init and create window
 		glfwInit();
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		COOKIE_LOG_INFO("Creating window");
@@ -32,15 +32,10 @@ namespace Application {
 			glfwTerminate();
 		}
 
-		COOKIE_LOG_INFO("Setting up graphics context and OpenGL");
-		// Set current OpenGL context to the window
-		glfwMakeContextCurrent(appData.m_Window);
-
-		// Setup OpenGL function loading
-		gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-
-		COOKIE_LOG_INFO("Initializing input system");
+		COOKIE_LOG_INFO("Initializing Input System");
 		InputSystem::Init(appData.m_Window);
+
+		COOKIE_LOG_INFO("Initializing Rendering System");
 		RenderingSystem::Init();
 
 		COOKIE_LOG_INFO("Starting engine loop");
