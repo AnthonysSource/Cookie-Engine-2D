@@ -3,7 +3,10 @@
 #include "Core/RenderingAPI/RenderingAPI.h"
 
 #include <GLFW/glfw3.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 #include <glad/glad.h>
+#include <imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -43,11 +46,24 @@ namespace RenderingSystem {
 		vertexArray.BindIndexBuffer(&indexBuffer);
 		vertexArray.BindVertexBuffer(&vertexBuffer);
 		vertexArray.SetLayout(&layout);
+
+		// IMGUI Init
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO &io = ImGui::GetIO();
+		ImGui::StyleColorsDark();
+		ImGui_ImplGlfw_InitForOpenGL(Application::appData.m_Window, true);
+		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 
 	void RenderingSystem::Render() {
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
+
+		// Prepare IMGUI Frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 		// Set MVP matrix
 		glm::mat4 view =
@@ -67,9 +83,20 @@ namespace RenderingSystem {
 		// Issue Drawcall
 		Context::BindProgram(&program);
 		Context::DrawIndexed(&vertexArray);
-		
+
+		// IMGUI Rendering
+		ImGui::ShowDemoWindow();
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		// Swap Buffers
 		glfwSwapBuffers(Application::appData.m_Window);
+	}
+
+	void RenderingSystem::Shutdown() {
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
 } // namespace RenderingSystem

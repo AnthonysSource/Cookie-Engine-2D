@@ -5,6 +5,7 @@ namespace RenderingSystem {
 
 	void Init();
 	void Render();
+	void Shutdown();
 
 }
 } // namespace Cookie

@@ -48,6 +48,7 @@ namespace Application {
 
 	void Application::Shutdown() {
 		Log::Info("Shutting down");
+		RenderingSystem::Shutdown();
 		glfwTerminate();
 	}
 

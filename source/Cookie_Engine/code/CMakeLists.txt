@@ -4,9 +4,11 @@ set(CookieEngine "Cookie_Engine")
 # Get all source code files
 file(GLOB_RECURSE CookieEngine_Source
 	"Engine/*.cpp"
-	"Engine/*h"
-	"Engine/*hpp"
-	"Engine/.c")
+	"Engine/*.h"
+	"Engine/*.hpp"
+	"Engine/*.c"
+	"3rdParty/imgui/*.cpp"
+	"3rdParty/imgui/*.h")
 
 # Add the Glad source file
 list(APPEND CookieEngine_Source "3rdParty/glad/src/glad.c")
@@ -38,6 +40,7 @@ target_include_directories(${CookieEngine} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glfw/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glad/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glm
+	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/imgui
 	${CMAKE_CURRENT_SOURCE_DIR}/Engine)
 
 # Dependencies

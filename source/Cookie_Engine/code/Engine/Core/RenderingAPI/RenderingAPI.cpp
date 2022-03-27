@@ -33,9 +33,9 @@ namespace RenderingAPI {
 		case FLOAT:
 			return sizeof(f32);
 		default:
-			0;
+			return 0;
 		}
-	}
+	};
 
 	void VertexArray::BindVertexBuffer(VertexBuffer *vb) {
 		m_VertexBuffer = vb;
