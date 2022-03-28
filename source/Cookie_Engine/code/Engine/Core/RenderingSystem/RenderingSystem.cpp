@@ -1,12 +1,10 @@
 #include "RenderingSystem.h"
 #include "Core/Application.h"
+#include "Core/IMGUI/IMGUI_Impl.h"
 #include "Core/RenderingAPI/RenderingAPI.h"
 
 #include <GLFW/glfw3.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
 #include <glad/glad.h>
-#include <imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -49,26 +47,18 @@ namespace RenderingSystem {
 		vertexArray.BindVertexBuffer(&vertexBuffer);
 		vertexArray.SetLayout(&layout);
 
-		// IMGUI Init
-		IMGUI_CHECKVERSION();
-		ImGui::CreateContext();
-		ImGuiIO &io = ImGui::GetIO();
-		ImGui::StyleColorsDark();
-		ImGui_ImplGlfw_InitForOpenGL(Application::appData.m_Window, true);
-		ImGui_ImplOpenGL3_Init("#version 460");
+		IMGUI_Impl::Init();
 	}
 
 	void RenderingSystem::Render() {
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
-		// Prepare IMGUI Frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
+		IMGUI_Impl::NewFrame();
 
 		// Set MVP matrix
-		glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 view =
+			glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		glm::mat4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 		glm::mat4 model = glm::mat4(1.0f);
 
@@ -89,18 +79,13 @@ namespace RenderingSystem {
 		Context::BindProgram(&program);
 		Context::DrawIndexed(&vertexArray);
 
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		IMGUI_Impl::Render();
 
 		// Swap Buffers
 		glfwSwapBuffers(Application::appData.m_Window);
 	}
 
-	void RenderingSystem::Shutdown() {
-		ImGui_ImplOpenGL3_Shutdown();
-		ImGui_ImplGlfw_Shutdown();
-		ImGui::DestroyContext();
-	}
+	void RenderingSystem::Shutdown() { IMGUI_Impl::Shutdown(); }
 
 } // namespace RenderingSystem
 } // namespace Cookie
