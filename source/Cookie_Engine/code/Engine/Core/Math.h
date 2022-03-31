@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Cookie {
-using Vec3 = glm::vec3;
-using Quat = glm::quat;
+using vec3 = glm::vec3;
+using mat4 = glm::mat4;
+using quat = glm::quat;
 } // namespace Cookie

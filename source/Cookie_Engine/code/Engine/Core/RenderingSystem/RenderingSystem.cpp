@@ -21,7 +21,7 @@ namespace RenderingSystem {
 	IndexBuffer indexBuffer;
 	Program program;
 
-	glm::vec3 quadRot = glm::vec3(0.0f);
+	vec3 quadRot = vec3(0.0f);
 
 	float vertices[] = {-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f,  -0.5f, 0.0f, 1.0f, 0.0f,
 						0.5f,  0.5f,  0.0f, 1.0f, 1.0f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f};
@@ -67,14 +67,14 @@ namespace RenderingSystem {
 		IMGUI_Impl::NewFrame();
 
 		// Set MVP matrix
-		glm::mat4 view =
-			glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f), glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::mat4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
-		glm::mat4 model = glm::mat4(1.0f);
+		mat4 view =
+			glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f), vec3(0.0f, 1.0f, 0.0f));
+		mat4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+		mat4 model = mat4(1.0f);
 
-		model = glm::rotate(model, quadRot.x, glm::vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, quadRot.y, glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, quadRot.z, glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, quadRot.x, vec3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, quadRot.y, vec3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, quadRot.z, vec3(0.0f, 0.0f, 1.0f));
 
 		program.SetUniformMat4("model", glm::value_ptr(model));
 		program.SetUniformMat4("view", glm::value_ptr(view));
