@@ -41,6 +41,7 @@ target_include_directories(${CookieEngine} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glad/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glm
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/imgui
+	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/stb_image
 	${CMAKE_CURRENT_SOURCE_DIR}/Engine)
 
 # Dependencies
