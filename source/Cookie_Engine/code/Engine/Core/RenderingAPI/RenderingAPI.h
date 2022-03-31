@@ -39,7 +39,7 @@ namespace RenderingAPI {
 	struct VertexArrayLayout {
 		std::vector<LayoutAttribute> m_Attributes;
 		u32 m_Stride;
-		
+
 		void AddAttribute(LayoutAttribute attr);
 	};
 
@@ -72,23 +72,15 @@ namespace RenderingAPI {
 		// Source Vert Shader
 	};
 
-	struct MeshData {};
-
-	struct TransformComponent {
-		glm::vec3 m_Position;
-		glm::quat m_Rotation;
-		glm::vec3 m_Scale;
-	};
-
-	struct RenderComponent {
-		u32 m_MeshID;
-		u32 m_MaterialID;
+	struct Texture {
+		u32 m_ID;
 	};
 
 	namespace Device {
 		VertexArray CreateVertexArray();
 		VertexBuffer CreateVertexBuffer(char *data, u32 size);
 		IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type);
+		Texture CreateTexture(unsigned char *data, i32 width, i32 height);
 		Program CreateProgram(const char *vertShaderPath, const char *fragShaderPath);
 
 		void DeleteProgram();
