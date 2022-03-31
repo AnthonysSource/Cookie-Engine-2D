@@ -6,9 +6,8 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <glm/mat4x4.hpp>
+#include "Core/Math.h"
+#include "Resources/Resources.h"
 
 namespace Cookie {
 namespace RenderingSystem {
@@ -24,28 +23,39 @@ namespace RenderingSystem {
 
 	glm::vec3 quadRot = glm::vec3(0.0f);
 
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.5f, 0.5f, 0.0f, -0.5f, 0.5f, 0.0f,
-	};
+	float vertices[] = {-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f,  -0.5f, 0.0f, 1.0f, 0.0f,
+						0.5f,  0.5f,  0.0f, 1.0f, 1.0f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f};
 
 	u32 indices[] = {0, 1, 2, 2, 3, 0};
+
+	ImageCPU img;
 
 	void RenderingSystem::Init() {
 		Context::Init();
 
-		// Quad Rendering Test
+		// Vertex & Index Buffer
 		vertexBuffer = Device::CreateVertexBuffer((char *)vertices, sizeof(vertices));
 		indexBuffer = Device::CreateIndexBuffer((char *)indices, sizeof(indices), UINT);
 
-		program = Device::CreateProgram("shaders/MVP_Basic.vert", "shaders/MVP_Basic.frag");
+		// Program
+		program = Device::CreateProgram("shaders/Sprite.vert", "shaders/Sprite.frag");
 
+		// VAO Layout
 		VertexArrayLayout layout;
 		layout.AddAttribute(LayoutAttribute(0, FLOAT, 3, false));
+		layout.AddAttribute(LayoutAttribute(1, FLOAT, 2, false));
 
+		// VAO Init
 		vertexArray = Device::CreateVertexArray();
 		vertexArray.BindIndexBuffer(&indexBuffer);
 		vertexArray.BindVertexBuffer(&vertexBuffer);
 		vertexArray.SetLayout(&layout);
+
+		// Texture
+		img = Image::Load("cookie.png");
+		// Currently creating a texture binds it to the last used
+		// vertex array
+		Device::CreateTexture(img.m_Data, img.m_Width, img.m_Height);
 
 		IMGUI_Impl::Init();
 	}
@@ -85,7 +95,10 @@ namespace RenderingSystem {
 		glfwSwapBuffers(Application::appData.m_Window);
 	}
 
-	void RenderingSystem::Shutdown() { IMGUI_Impl::Shutdown(); }
+	void RenderingSystem::Shutdown() {
+		IMGUI_Impl::Shutdown();
+		Image::Release(&img);
+	}
 
 } // namespace RenderingSystem
 } // namespace Cookie
