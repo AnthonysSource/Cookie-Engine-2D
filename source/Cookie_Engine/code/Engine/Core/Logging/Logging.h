@@ -8,12 +8,17 @@ namespace Log {
 	void Init();
 	void Shutdown();
 
+	namespace Internal {
+		extern std::shared_ptr<spdlog::logger> engineLogger;
+	}
+
 } // namespace Log
+
 } // namespace Cookie
 
 #ifdef COOKIE_LOGGING
-#define CKE_LOG_INFO(...)                                                                       \
-	{ spdlog::info(__VA_ARGS__); }
+#define CKE_LOG_INFO(...)                                                                          \
+	{ Cookie::Log::Internal::engineLogger->info(__VA_ARGS__) ; }
 #else
 #define CKE_LOG_INFO(...)
 #define CKE_LOG_WARNING(...)
