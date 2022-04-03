@@ -34,9 +34,8 @@ namespace Application {
 
 		COOKIE_LOG_INFO("Starting engine loop");
 		while (Platform::IsRunning(appData.m_Window)) {
-			RenderingSystem::Render();
-			glfwPollEvents();
 			InputSystem::Update();
+			RenderingSystem::Render();
 		}
 	}
 

@@ -1,8 +1,9 @@
 #include "InputSystem.h"
+
 #include "Core/Common.h"
 #include "Core/Logging/Logging.h"
+
 #include <GLFW/glfw3.h>
-#include <queue>
 
 namespace Cookie {
 namespace InputSystem {
@@ -70,6 +71,17 @@ namespace InputSystem {
 	void InputSystem::Init(GLFWwindow *window) { glfwSetKeyCallback(window, WindowKeyEventHandle); }
 
 	void InputSystem::Update() {
+		// Reset previous input state
+		for (size_t i = 0; i < 255; i++) {
+			// We dont reset keyheld because that gets
+			// reset in a keyup event
+			s_InputState.m_Keyboard.m_KeyDown[i] = false;
+			s_InputState.m_Keyboard.m_KeyUp[i] = false;
+		}
+
+		// Poll All Window Events
+		glfwPollEvents();
+
 		// Process input events
 		for (i32 i = 0; i < s_InputEventsBuffer.size(); i++) {
 			InputEvent e = s_InputEventsBuffer.front();
@@ -97,14 +109,6 @@ namespace InputSystem {
 			// 		  s_InputState.m_Keyboard.m_KeyHeld[e.m_KeyCode],
 			// 		  s_InputState.m_Keyboard.m_KeyUp[e.m_KeyCode]);
 			s_InputEventsBuffer.pop();
-		}
-
-		// Reset input state
-		for (size_t i = 0; i < 255; i++) {
-			// We dont reset keyheld because that gets
-			// reset in a keyup event
-			s_InputState.m_Keyboard.m_KeyDown[i] = false;
-			s_InputState.m_Keyboard.m_KeyUp[i] = false;
 		}
 	}
 
