@@ -1,12 +1,10 @@
 #include "RenderingSystem.h"
+
+#include "Core/Math.h"
 #include "Core/Application.h"
 #include "Core/IMGUI/IMGUI_Impl.h"
 #include "Core/RenderingAPI/RenderingAPI.h"
 
-#include <GLFW/glfw3.h>
-#include <glad/glad.h>
-
-#include "Core/Math.h"
 #include "Resources/Resources.h"
 
 namespace Cookie {
@@ -64,8 +62,6 @@ namespace RenderingSystem {
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
-		ImGuiRenderer::NewFrame();
-
 		// Set MVP matrix
 		mat4 view =
 			glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f), vec3(0.0f, 1.0f, 0.0f));
@@ -81,6 +77,8 @@ namespace RenderingSystem {
 		program.SetUniformMat4("projection", glm::value_ptr(proj));
 
 		// IMGUI Rendering
+		ImGuiRenderer::NewFrame();
+
 		ImGui::Begin("Quad Parameters");
 		ImGui::SliderFloat3("Rotation", glm::value_ptr(quadRot), -5.0f, 5.0f, "%.3f", 1.0f);
 		ImGui::End();
@@ -89,6 +87,7 @@ namespace RenderingSystem {
 		Context::BindProgram(&program);
 		Context::DrawIndexed(&vertexArray);
 
+		// Render ImGui on top of everything
 		ImGuiRenderer::Render();
 
 		// Swap Buffers
