@@ -12,11 +12,11 @@ namespace Log {
 } // namespace Cookie
 
 #ifdef COOKIE_LOGGING
-#define COOKIE_LOG_INFO(...)                                                                       \
+#define CKE_LOG_INFO(...)                                                                       \
 	{ spdlog::info(__VA_ARGS__); }
 #else
-#define COOKIE_LOG_INFO(...)
-#define COOKIE_LOG_WARNING(...)
-#define COOKIE_LOG_ERROR(...)
-#define COOKIE_LOG_ASSERT(...)
+#define CKE_LOG_INFO(...)
+#define CKE_LOG_WARNING(...)
+#define CKE_LOG_ERROR(...)
+#define CKE_LOG_ASSERT(...)
 #endif

@@ -17,22 +17,22 @@ namespace Application {
 	AppData appData;
 
 	void Application::Init() {
-		COOKIE_LOG_INFO("Starting up Cookie Engine");
+		CKE_LOG_INFO("Starting up Cookie Engine");
 		Platform::Init();
 
-		COOKIE_LOG_INFO("Creating window");
+		CKE_LOG_INFO("Creating window");
 		appData.m_Window = glfwCreateWindow(1280, 720, "Cookie Engine", NULL, NULL);
 		if (!appData.m_Window) {
 			glfwTerminate();
 		}
 
-		COOKIE_LOG_INFO("Initializing Input System");
+		CKE_LOG_INFO("Initializing Input System");
 		InputSystem::Init(appData.m_Window);
 
-		COOKIE_LOG_INFO("Initializing Rendering System");
+		CKE_LOG_INFO("Initializing Rendering System");
 		RenderingSystem::Init();
 
-		COOKIE_LOG_INFO("Starting engine loop");
+		CKE_LOG_INFO("Starting engine loop");
 		while (Platform::IsRunning(appData.m_Window)) {
 			InputSystem::Update();
 			RenderingSystem::Render();
@@ -40,7 +40,7 @@ namespace Application {
 	}
 
 	void Application::Shutdown() {
-		COOKIE_LOG_INFO("Shutting down");
+		CKE_LOG_INFO("Shutting down");
 		RenderingSystem::Shutdown();
 		InputSystem::Shutdown();
 		Platform::Shutdown();

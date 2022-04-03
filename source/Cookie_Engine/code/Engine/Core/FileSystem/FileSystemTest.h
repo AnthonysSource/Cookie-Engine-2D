@@ -21,9 +21,9 @@ namespace FileSystem {
 		FileSystem::ReadFile("test.bin", (char *)dataRead, sizeof(data));
 
 		if (dataRead[0].a == 10 && dataRead[1].a == 25) {
-			COOKIE_LOG_INFO("File System Tests Passed");
+			CKE_LOG_INFO("File System Tests Passed");
 		} else {
-			COOKIE_LOG_INFO("File System Tests FAILED");
+			CKE_LOG_INFO("File System Tests FAILED");
 		}
 	}
 
