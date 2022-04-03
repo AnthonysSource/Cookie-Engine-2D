@@ -1,15 +1,15 @@
 #include "Application.h"
-#include "Common.h"
-#include "InputSystem/InputSystem.h"
-#include "Logging/Logging.h"
+
+#include "Core/Common.h"
+#include "Core/Logging/Logging.h"
+#include "Core/Platform/Platform.h"
+
+#include "Core/FileSystem/FileSystem.h"
+#include "Core/FileSystem/FileSystemTest.h"
+#include "Core/InputSystem/InputSystem.h"
+#include "Core/RenderingSystem/RenderingSystem.h"
 
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
-
-#include "FileSystem/FileSystem.h"
-#include "FileSystem/FileSystemTest.h"
-
-#include "Core/RenderingSystem/RenderingSystem.h"
 
 namespace Cookie {
 namespace Application {
@@ -17,14 +17,8 @@ namespace Application {
 	AppData appData;
 
 	void Application::Init() {
-		FileSystem::RunFileSystemTest();
-
 		COOKIE_LOG_INFO("Starting up Cookie Engine");
-		// Init and create window
-		glfwInit();
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		Platform::Init();
 
 		COOKIE_LOG_INFO("Creating window");
 		appData.m_Window = glfwCreateWindow(1280, 720, "Cookie Engine", NULL, NULL);
@@ -39,7 +33,7 @@ namespace Application {
 		RenderingSystem::Init();
 
 		COOKIE_LOG_INFO("Starting engine loop");
-		while (!glfwWindowShouldClose(appData.m_Window)) {
+		while (Platform::IsRunning(appData.m_Window)) {
 			RenderingSystem::Render();
 			glfwPollEvents();
 			InputSystem::Update();
@@ -49,7 +43,8 @@ namespace Application {
 	void Application::Shutdown() {
 		COOKIE_LOG_INFO("Shutting down");
 		RenderingSystem::Shutdown();
-		glfwTerminate();
+		InputSystem::Shutdown();
+		Platform::Shutdown();
 	}
 
 } // namespace Application
