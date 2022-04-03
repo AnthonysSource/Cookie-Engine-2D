@@ -47,7 +47,7 @@ namespace Application {
 	}
 
 	void Application::Shutdown() {
-		Log::Info("Shutting down");
+		COOKIE_LOG_INFO("Shutting down");
 		RenderingSystem::Shutdown();
 		glfwTerminate();
 	}
