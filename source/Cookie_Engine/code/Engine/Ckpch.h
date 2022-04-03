@@ -17,6 +17,9 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <bitset>
+#include <queue>
+#include <array>
 
 #ifdef COOKIE_PLATFORM_WINDOWS
 #include <Windows.h>

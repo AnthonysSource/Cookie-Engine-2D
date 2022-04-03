@@ -3,8 +3,6 @@
 #include "Core/Common.h"
 #include "Core/Logging/Logging.h"
 
-#include <GLFW/glfw3.h>
-
 namespace Cookie {
 namespace InputSystem {
 

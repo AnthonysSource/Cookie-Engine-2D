@@ -1,5 +1,4 @@
 #pragma once
-#include "Ckpch.h"
 
 namespace Cookie {
 namespace FileSystem {

@@ -57,14 +57,14 @@ namespace RenderingSystem {
 		// vertex array
 		Device::CreateTexture(img.m_Data, img.m_Width, img.m_Height);
 
-		IMGUI_Impl::Init();
+		ImGuiRenderer::Init();
 	}
 
 	void RenderingSystem::Render() {
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
-		IMGUI_Impl::NewFrame();
+		ImGuiRenderer::NewFrame();
 
 		// Set MVP matrix
 		mat4 view =
@@ -89,14 +89,15 @@ namespace RenderingSystem {
 		Context::BindProgram(&program);
 		Context::DrawIndexed(&vertexArray);
 
-		IMGUI_Impl::Render();
+		ImGuiRenderer::Render();
 
 		// Swap Buffers
 		glfwSwapBuffers(Application::appData.m_Window);
 	}
 
 	void RenderingSystem::Shutdown() {
-		IMGUI_Impl::Shutdown();
+		ImGuiRenderer::Shutdown();
+		
 		Image::Release(&img);
 	}
 

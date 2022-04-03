@@ -1,7 +1,8 @@
+#pragma once
 #include <imgui.h>
 
 namespace Cookie {
-namespace IMGUI_Impl {
+namespace ImGuiRenderer {
 
 	void Init();
 	void NewFrame();
