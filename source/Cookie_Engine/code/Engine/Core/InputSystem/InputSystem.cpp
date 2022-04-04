@@ -68,6 +68,25 @@ namespace InputSystem {
 
 	void InputSystem::Init(GLFWwindow *window) { glfwSetKeyCallback(window, WindowKeyEventHandle); }
 
+	void LogInput(InputEvent e) {
+		CKE_LOG_INFO("Event Data -> Key Name: {} / Keycode: {} / Scancode : {} / Action: {} / Mod: {}",
+					 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_KeyCode, e.m_ScanCode,
+					 e.m_Action, e.m_Mods);
+
+		// if (e.m_Action == 0) {
+		// 	CKE_LOG_INFO("[{}] Released", glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
+		// } else if (e.m_Action == 1) {
+		// 	CKE_LOG_INFO("[{}] Pressed", glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
+		// }
+
+		CKE_LOG_INFO("Input State Data -> Key Name: {} / Event Action: {} / Keydown: {} / Keyheld: {} / Keyup: {}",
+					 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action,
+					 s_InputState.m_Keyboard.m_KeyDown[e.m_KeyCode],
+					 s_InputState.m_Keyboard.m_KeyHeld[e.m_KeyCode],
+					 s_InputState.m_Keyboard.m_KeyUp[e.m_KeyCode]);
+		s_InputEventsBuffer.pop();
+	}
+
 	void InputSystem::Update() {
 		// Reset previous input state
 		for (size_t i = 0; i < 255; i++) {
@@ -84,29 +103,8 @@ namespace InputSystem {
 		for (i32 i = 0; i < s_InputEventsBuffer.size(); i++) {
 			InputEvent e = s_InputEventsBuffer.front();
 
+			LogInput(e);
 			// Logging to inspect system state
-
-			// Log::Info(
-			// 	"Key Name: %s / Keycode: %d / Scancode : %d / Action: %d / Mod: %d",
-			// 	glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_KeyCode,
-			// 	e.m_ScanCode, e.m_Action, e.m_Mods);
-
-			// if (e.m_Action == 0) {
-			// 	Log::Info("[%s] Released",
-			// 			  glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
-			// } else if (e.m_Action == 1) {
-			// 	Log::Info("[%s] Pressed",
-			// 			  glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
-			// }
-
-			// Log::Info("Keyname: %s / Event Action: %d / Keydown: %d / Keyheld: %d
-			// "
-			// 		  "/ Keyup: %d",
-			// 		  glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action,
-			// 		  s_InputState.m_Keyboard.m_KeyDown[e.m_KeyCode],
-			// 		  s_InputState.m_Keyboard.m_KeyHeld[e.m_KeyCode],
-			// 		  s_InputState.m_Keyboard.m_KeyUp[e.m_KeyCode]);
-			s_InputEventsBuffer.pop();
 		}
 	}
 
