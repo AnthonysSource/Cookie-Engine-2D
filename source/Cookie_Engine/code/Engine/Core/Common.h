@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cstdint>
 #include <Ckpch.h>
+#include <cstdint>
 
 //
 // Primitive Types
@@ -23,6 +23,8 @@ using f64 = double;
 
 using c16 = char16_t;
 using c32 = char32_t;
+
+using String = std::string;
 
 } // namespace Cookie
 
