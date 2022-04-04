@@ -3,6 +3,7 @@
 #include "Core/Common.h"
 #include "Core/Logging/Logging.h"
 #include "Core/Platform/Platform.h"
+#include "Core/Platform/Window.h"
 
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/FileSystem/FileSystemTest.h"
@@ -14,26 +15,23 @@
 namespace Cookie {
 namespace Application {
 
-	AppData appData;
+	Window window;
 
 	void Application::Init() {
 		CKE_LOG_INFO("Starting up Cookie Engine");
 		Platform::Init();
 
 		CKE_LOG_INFO("Creating window");
-		appData.m_Window = glfwCreateWindow(1280, 720, "Cookie Engine", NULL, NULL);
-		if (!appData.m_Window) {
-			glfwTerminate();
-		}
+		WindowManagement::CreateAppWindow(&window, 1280, 720, "Cookie Engine");
 
 		CKE_LOG_INFO("Initializing Input System");
-		InputSystem::Init(appData.m_Window);
+		InputSystem::Init(window.m_Window);
 
 		CKE_LOG_INFO("Initializing Rendering System");
 		RenderingSystem::Init();
 
 		CKE_LOG_INFO("Starting engine loop");
-		while (Platform::IsRunning(appData.m_Window)) {
+		while (Platform::IsRunning(window.m_Window)) {
 			InputSystem::Update();
 			RenderingSystem::Render();
 		}

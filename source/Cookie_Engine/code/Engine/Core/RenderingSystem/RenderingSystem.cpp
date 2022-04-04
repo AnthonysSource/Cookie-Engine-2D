@@ -91,7 +91,7 @@ namespace RenderingSystem {
 		ImGuiRenderer::Render();
 
 		// Swap Buffers
-		glfwSwapBuffers(Application::appData.m_Window);
+		glfwSwapBuffers(Application::window.m_Window);
 	}
 
 	void RenderingSystem::Shutdown() {
