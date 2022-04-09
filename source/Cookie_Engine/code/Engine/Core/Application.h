@@ -17,8 +17,7 @@ namespace Application {
 
 	extern Window window;
 
-	void Init();
-	void Shutdown();
+	void Run();
 
 } // namespace Application
 } // namespace Cookie

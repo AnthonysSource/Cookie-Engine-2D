@@ -17,7 +17,7 @@ namespace Application {
 
 	Window window;
 
-	void Application::Init() {
+	void Run() {
 		CKE_LOG_INFO("Starting up Cookie Engine");
 		Platform::Init();
 
@@ -35,9 +35,8 @@ namespace Application {
 			InputSystem::Update();
 			RenderingSystem::Render();
 		}
-	}
 
-	void Application::Shutdown() {
+		// Shutdown
 		CKE_LOG_INFO("Shutting down");
 		RenderingSystem::Shutdown();
 		InputSystem::Shutdown();

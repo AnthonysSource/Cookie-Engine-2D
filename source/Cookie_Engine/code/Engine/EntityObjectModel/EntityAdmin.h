@@ -16,7 +16,22 @@ namespace Object {
 		vec3 m_Scale;
 	};
 
-	std::vector<TransformComponent> m_Transforms;
+	struct RenderComponent {
+		u32 m_SpriteID;
+	};
+
+	struct CameraComponent {
+		vec3 m_Position;
+		vec3 m_Forward;
+		vec3 m_Up;
+	};
+
+	struct ScriptComponent{
+		
+	};
+
+	std::vector<TransformComponent>
+		m_Transforms;
 
 	const u32 ENTITIES_AMOUNT = 10;
 

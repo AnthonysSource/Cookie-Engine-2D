@@ -7,7 +7,7 @@
 
 #include "Resources/Resources.h"
 
-#include "EntityObjectModel/CookiesTest.h"
+#include "EntityObjectModel/EntityAdmin.h"
 
 namespace Cookie {
 namespace RenderingSystem {
