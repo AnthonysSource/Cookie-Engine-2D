@@ -1,11 +1,13 @@
 #include "RenderingSystem.h"
 
-#include "Core/Math.h"
 #include "Core/Application.h"
 #include "Core/IMGUI/IMGUI_Impl.h"
+#include "Core/Math.h"
 #include "Core/RenderingAPI/RenderingAPI.h"
 
 #include "Resources/Resources.h"
+
+#include "EntityObjectModel/CookiesTest.h"
 
 namespace Cookie {
 namespace RenderingSystem {
@@ -56,25 +58,39 @@ namespace RenderingSystem {
 		Device::CreateTexture(img.m_Data, img.m_Width, img.m_Height);
 
 		ImGuiRenderer::Init();
+
+		// Object model test
+		Object::GenerateCookies();
 	}
 
 	void RenderingSystem::Render() {
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
-		// Set MVP matrix
-		mat4 view =
-			glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f), vec3(0.0f, 1.0f, 0.0f));
+		// Object model test
+		Object::UpdateCookies();
+
+		// Camera Config
+		mat4 view = glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f), vec3(0.0f, 1.0f, 0.0f));
 		mat4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
-		mat4 model = mat4(1.0f);
-
-		model = glm::rotate(model, quadRot.x, vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, quadRot.y, vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, quadRot.z, vec3(0.0f, 0.0f, 1.0f));
-
-		program.SetUniformMat4("model", glm::value_ptr(model));
 		program.SetUniformMat4("view", glm::value_ptr(view));
 		program.SetUniformMat4("projection", glm::value_ptr(proj));
+
+		using namespace Object;
+		// Render all Objects
+		for (size_t i = 0; i < m_Transforms.size(); i++) {
+			mat4 model = mat4(1.0f);
+			vec3 *rot = &m_Transforms[i].m_Rotation;
+			model = glm::translate(model, m_Transforms[i].m_Position);
+			model = glm::rotate(model, rot->x, vec3(1.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, rot->y, vec3(0.0f, 1.0f, 0.0f));
+			model = glm::rotate(model, rot->z, vec3(0.0f, 0.0f, 1.0f));
+			program.SetUniformMat4("model", glm::value_ptr(model));
+
+			// Issue Drawcall
+			Context::BindProgram(&program);
+			Context::DrawIndexed(&vertexArray);
+		}
 
 		// IMGUI Rendering
 		ImGuiRenderer::NewFrame();
@@ -82,11 +98,6 @@ namespace RenderingSystem {
 		ImGui::Begin("Quad Parameters");
 		ImGui::SliderFloat3("Rotation", glm::value_ptr(quadRot), -5.0f, 5.0f, "%.3f", 1.0f);
 		ImGui::End();
-
-		// Issue Drawcall
-		Context::BindProgram(&program);
-		Context::DrawIndexed(&vertexArray);
-
 		// Render ImGui on top of everything
 		ImGuiRenderer::Render();
 
@@ -96,7 +107,9 @@ namespace RenderingSystem {
 
 	void RenderingSystem::Shutdown() {
 		ImGuiRenderer::Shutdown();
-		
+
+		Object::ClearCookies();
+
 		Image::Release(&img);
 	}
 
