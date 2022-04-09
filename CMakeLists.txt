@@ -31,3 +31,4 @@ else()
 endif()
 
 add_subdirectory(source/Cookie_Engine/code)
+add_subdirectory(source/Test_Game)

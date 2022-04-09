@@ -14,7 +14,7 @@ file(GLOB_RECURSE CookieEngine_Source
 list(APPEND CookieEngine_Source "3rdParty/glad/src/glad.c")
 
 # Generate static library	
-add_executable(${CookieEngine} ${CookieEngine_Source})
+add_library(${CookieEngine} ${CookieEngine_Source})
 
 # Set target directories
 set_target_properties(${CookieEngine} PROPERTIES
@@ -58,7 +58,7 @@ target_compile_definitions(${CookieEngine} PRIVATE
 	$<$<CONFIG:Debug>:COOKIE_LOGGING>)
 	
 # Set precompiled headers
-target_precompile_headers(${CookieEngine} PRIVATE 
+target_precompile_headers(${CookieEngine} PUBLIC 
 	$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/Engine/Ckpch.h>)
 
 # We compile GLFW from source
