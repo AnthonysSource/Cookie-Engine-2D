@@ -3,9 +3,6 @@
 #include <Ckpch.h>
 #include <cstdint>
 
-//
-// Primitive Types
-//
 namespace Cookie {
 
 using i8 = int8_t;
@@ -26,11 +23,13 @@ using c32 = char32_t;
 
 using String = std::string;
 
+template <typename T> using Ref = std::shared_ptr<T>;
+template <typename T> using WeakRef = std::weak_ptr<T>;
+template <typename T> using Func = std::function<T>;
+
 } // namespace Cookie
 
-//
 // Asserts
-//
 #ifdef COOKIE_ASSERTS
 #include <cstdlib>
 #define COOKIE_ASSERT(x, msg)                                                                      \
