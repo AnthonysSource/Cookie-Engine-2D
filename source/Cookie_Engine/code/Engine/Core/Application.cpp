@@ -25,7 +25,7 @@ namespace Application {
 		WindowManagement::CreateAppWindow(&window, 1280, 720, "Cookie Engine");
 
 		CKE_LOG_INFO("Initializing Input System");
-		InputSystem::Init(window.m_Window);
+		InputSystem::Init(&window);
 
 		CKE_LOG_INFO("Initializing Rendering System");
 		RenderingSystem::Init();
