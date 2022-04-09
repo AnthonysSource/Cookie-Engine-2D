@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Core/Common.h"
+#include "Core/Logging/Logging.h"
 #include "Core/Math.h"
+#include "Core/Random/Random.h"
 
 #include <stdlib.h>
 
@@ -28,8 +30,8 @@ namespace Object {
 
 	void UpdateCookies() {
 		for (size_t i = 0; i < m_Transforms.size(); i++) {
-			m_Transforms[i].m_Position += vec3(0.0f, 1.0f, 0.0f) * ((rand() % 100 - 50) / 1000.0f);
-			m_Transforms[i].m_Rotation += vec3(0.0f, 0.01f, 0.0f) * (float)((rand() % 2 - 1)); 
+			m_Transforms[i].m_Position += vec3(0.0f, 1.0f, 0.0f) * Random::Float(-0.015f, 0.015f);
+			m_Transforms[i].m_Rotation += vec3(0.0f, 0.05f, 0.0f) * (float)Random::Int(0, 3);
 		}
 	}
 
