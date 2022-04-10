@@ -19,10 +19,23 @@ namespace Cookie {
 
 EntityAdmin *g_Admin = new EntityAdmin();
 
+class CustomSystem : public System {
+  public:
+	void Init() { m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true); }
+
+	void Update(f32 dt) override {
+		for (auto const &entityID : m_EntitiesCache) {
+			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
+			t->m_Rotation += vec3(0.0f, 5.0f, 0.0f) * dt;
+		}
+	}
+};
+
 namespace Application {
 
 	Window window;
 	RenderingSystem *g_RenderingSystem = new RenderingSystem();
+	CustomSystem *g_CustomSystem = new CustomSystem();
 
 	void Run() {
 		CKE_LOG_INFO("Starting up Cookie Engine");
@@ -34,16 +47,23 @@ namespace Application {
 		CKE_LOG_INFO("Initializing Input System");
 		InputSystem::Init(&window);
 
+		CKE_LOG_INFO("Initializing Entity Admin");
 		g_Admin->Init();
 		g_Admin->RegisterSystem(g_RenderingSystem);
+		g_Admin->RegisterSystem(g_CustomSystem);
 
 		CKE_LOG_INFO("Initializing Rendering System");
 		g_RenderingSystem->Init();
 
+		CKE_LOG_INFO("Initializing Custom System");
+		g_CustomSystem->Init();
+
 		CKE_LOG_INFO("Starting engine loop");
 		while (Platform::IsRunning(window.m_Window)) {
 			InputSystem::Update();
-			g_RenderingSystem->Update(0.001f);
+			f32 deltaTime = 0.001f;
+			g_RenderingSystem->Update(deltaTime);
+			g_CustomSystem->Update(deltaTime);
 		}
 
 		// Shutdown
@@ -54,6 +74,7 @@ namespace Application {
 
 		delete g_Admin;
 		delete g_RenderingSystem;
+		delete g_CustomSystem;
 	}
 
 } // namespace Application
