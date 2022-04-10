@@ -30,5 +30,7 @@ else()
   endif()
 endif()
 
+
 add_subdirectory(source/Cookie_Engine/code)
+add_subdirectory(source/Cookie_Engine/code/3rdParty/glfw)
 add_subdirectory(source/Test_Game)

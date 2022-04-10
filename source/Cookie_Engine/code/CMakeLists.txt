@@ -60,6 +60,3 @@ target_compile_definitions(${CookieEngine} PRIVATE
 # Set precompiled headers
 target_precompile_headers(${CookieEngine} PUBLIC 
 	$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/Engine/Ckpch.h>)
-
-# We compile GLFW from source
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glfw)
