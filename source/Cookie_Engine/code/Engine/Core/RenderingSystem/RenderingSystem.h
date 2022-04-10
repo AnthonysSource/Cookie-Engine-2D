@@ -1,11 +1,14 @@
 #pragma once
 
+#include "EntityObjectModel/EntityAdmin.h"
+
 namespace Cookie {
-namespace RenderingSystem {
 
+class RenderingSystem : public System {
+  public:
 	void Init();
-	void Render();
+	void Update(f32) override;
 	void Shutdown();
+};
 
-}
 } // namespace Cookie
