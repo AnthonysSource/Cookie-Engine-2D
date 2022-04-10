@@ -23,6 +23,11 @@ struct RotatingComponent {
 	f32 m_Speed = 5.0f;
 };
 
+struct FloatComponent {
+	f32 m_Speed = 2.0f;
+	f32 m_Amplitude = 2.0f;
+};
+
 class RotateSystem : public System {
   public:
 	void InitSignature() {
@@ -39,11 +44,28 @@ class RotateSystem : public System {
 	}
 };
 
+class FloatSystem : public System {
+  public:
+	void InitSignature() {
+		m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
+		m_Signature.set(g_Admin->GetComponentSignatureID<FloatComponent>(), true);
+	}
+
+	void Update(f32 dt) override {
+		for (auto const &entityID : m_EntitiesCache) {
+			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
+			FloatComponent *f = g_Admin->GetComponent<FloatComponent>(entityID);
+			t->m_Position.y = f->m_Amplitude * cos(f->m_Speed * glfwGetTime());
+		}
+	}
+};
+
 namespace Application {
 
 	Window window;
 	RenderingSystem *g_RenderingSystem = new RenderingSystem();
-	RotateSystem *g_CustomSystem = new RotateSystem();
+	RotateSystem *g_RotateSystem = new RotateSystem();
+	FloatSystem *g_FloatSystem = new FloatSystem();
 
 	void Run() {
 		CKE_LOG_INFO("Starting up Cookie Engine");
@@ -59,8 +81,10 @@ namespace Application {
 		g_Admin->Init();
 		g_Admin->RegisterComponent<TransformComponent>();
 		g_Admin->RegisterComponent<RotatingComponent>();
+		g_Admin->RegisterComponent<FloatComponent>();
 		g_Admin->RegisterSystem(g_RenderingSystem);
-		g_Admin->RegisterSystem(g_CustomSystem);
+		g_Admin->RegisterSystem(g_RotateSystem);
+		g_Admin->RegisterSystem(g_FloatSystem);
 
 		// Create Entities
 		EntityID e = g_Admin->CreateEntity();
@@ -71,17 +95,21 @@ namespace Application {
 		e = g_Admin->CreateEntity();
 		t = TransformComponent{};
 		t.m_Position = vec3(0.0f, 0.0f, 0.0f);
-		RotatingComponent f{};
-		f.m_Speed = 5.0f;
+		RotatingComponent r{};
+		r.m_Speed = 5.0f;
 		g_Admin->AddComponent(e, t);
-		g_Admin->AddComponent(e, f);
+		g_Admin->AddComponent(e, r);
 
 		e = g_Admin->CreateEntity();
 		t = TransformComponent{};
 		t.m_Position = vec3(2.0f, 0.0f, 0.0f);
-		f = RotatingComponent{};
-		f.m_Speed = 15.0f;
+		r = RotatingComponent{};
+		r.m_Speed = 15.0f;
+		FloatComponent f = FloatComponent{};
+		f.m_Speed = 3.14f;
+		f.m_Amplitude = 0.25f;
 		g_Admin->AddComponent(e, t);
+		g_Admin->AddComponent(e, r);
 		g_Admin->AddComponent(e, f);
 
 		CKE_LOG_INFO("Initializing Rendering System");
@@ -91,7 +119,8 @@ namespace Application {
 		while (Platform::IsRunning(window.m_Window)) {
 			InputSystem::Update();
 			f32 deltaTime = 0.001f;
-			g_CustomSystem->Update(deltaTime);
+			g_RotateSystem->Update(deltaTime);
+			g_FloatSystem->Update(deltaTime);
 			g_RenderingSystem->Update(deltaTime);
 		}
 
@@ -103,7 +132,8 @@ namespace Application {
 
 		delete g_Admin;
 		delete g_RenderingSystem;
-		delete g_CustomSystem;
+		delete g_RotateSystem;
+		delete g_FloatSystem;
 	}
 
 } // namespace Application
