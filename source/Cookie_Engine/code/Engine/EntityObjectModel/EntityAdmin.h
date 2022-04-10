@@ -102,11 +102,12 @@ extern EntityAdmin *g_Admin;
 
 class System {
   public:
+	virtual void InitSignature() = 0;
 	virtual void Update(f32 dt) = 0;
 
   protected:
-	Signature m_Signature;
-	std::set<EntityID> m_EntitiesCache;
+	Signature m_Signature{};
+	std::set<EntityID> m_EntitiesCache{};
 
 	friend class EntityAdmin;
 };
@@ -159,12 +160,13 @@ class EntityAdmin {
 		u32 typeID = typeid(T).hash_code();
 		// System *system = new T();
 		m_Systems.insert({typeID, system});
+		system->InitSignature();
 	};
 
   private:
-	std::queue<EntityID> m_AvailableEntityIDs;
-	std::array<Signature, MAX_ENTITIES> m_Signatures;
-	u32 m_ActiveEntitiesCount;
+	std::queue<EntityID> m_AvailableEntityIDs{};
+	std::array<Signature, MAX_ENTITIES> m_Signatures{};
+	u32 m_ActiveEntitiesCount{};
 
 	std::unordered_map<u32, IComponentArray *> m_ComponentArrays{};
 	std::unordered_map<u32, ComponentSignatureIndex> m_ComponentSignatureIndex{};

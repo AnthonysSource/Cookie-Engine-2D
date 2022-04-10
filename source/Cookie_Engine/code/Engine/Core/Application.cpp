@@ -19,14 +19,22 @@ namespace Cookie {
 
 EntityAdmin *g_Admin = new EntityAdmin();
 
-class CustomSystem : public System {
+struct RotatingComponent {
+	f32 m_Speed = 5.0f;
+};
+
+class RotateSystem : public System {
   public:
-	void Init() { m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true); }
+	void InitSignature() {
+		m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
+		m_Signature.set(g_Admin->GetComponentSignatureID<RotatingComponent>(), true);
+	}
 
 	void Update(f32 dt) override {
 		for (auto const &entityID : m_EntitiesCache) {
 			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-			t->m_Rotation += vec3(0.0f, 5.0f, 0.0f) * dt;
+			RotatingComponent *f = g_Admin->GetComponent<RotatingComponent>(entityID);
+			t->m_Rotation += vec3(0.0f, f->m_Speed, 0.0f) * dt;
 		}
 	}
 };
@@ -35,7 +43,7 @@ namespace Application {
 
 	Window window;
 	RenderingSystem *g_RenderingSystem = new RenderingSystem();
-	CustomSystem *g_CustomSystem = new CustomSystem();
+	RotateSystem *g_CustomSystem = new RotateSystem();
 
 	void Run() {
 		CKE_LOG_INFO("Starting up Cookie Engine");
@@ -49,21 +57,42 @@ namespace Application {
 
 		CKE_LOG_INFO("Initializing Entity Admin");
 		g_Admin->Init();
+		g_Admin->RegisterComponent<TransformComponent>();
+		g_Admin->RegisterComponent<RotatingComponent>();
 		g_Admin->RegisterSystem(g_RenderingSystem);
 		g_Admin->RegisterSystem(g_CustomSystem);
 
+		// Create Entities
+		EntityID e = g_Admin->CreateEntity();
+		TransformComponent t{};
+		t.m_Position = vec3(-2.0f, 0.0f, 0.0f);
+		g_Admin->AddComponent(e, t);
+
+		e = g_Admin->CreateEntity();
+		t = TransformComponent{};
+		t.m_Position = vec3(0.0f, 0.0f, 0.0f);
+		RotatingComponent f{};
+		f.m_Speed = 5.0f;
+		g_Admin->AddComponent(e, t);
+		g_Admin->AddComponent(e, f);
+
+		e = g_Admin->CreateEntity();
+		t = TransformComponent{};
+		t.m_Position = vec3(2.0f, 0.0f, 0.0f);
+		f = RotatingComponent{};
+		f.m_Speed = 15.0f;
+		g_Admin->AddComponent(e, t);
+		g_Admin->AddComponent(e, f);
+
 		CKE_LOG_INFO("Initializing Rendering System");
 		g_RenderingSystem->Init();
-
-		CKE_LOG_INFO("Initializing Custom System");
-		g_CustomSystem->Init();
 
 		CKE_LOG_INFO("Starting engine loop");
 		while (Platform::IsRunning(window.m_Window)) {
 			InputSystem::Update();
 			f32 deltaTime = 0.001f;
-			g_RenderingSystem->Update(deltaTime);
 			g_CustomSystem->Update(deltaTime);
+			g_RenderingSystem->Update(deltaTime);
 		}
 
 		// Shutdown

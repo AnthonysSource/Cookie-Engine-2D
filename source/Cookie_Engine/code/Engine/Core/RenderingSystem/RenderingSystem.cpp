@@ -33,6 +33,10 @@ u32 indices[] = {0, 1, 2, 2, 3, 0};
 ImageCPU img;
 //-------------------------------------------------------------------------
 
+void RenderingSystem::InitSignature() {
+	m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
+}
+
 void RenderingSystem::Init() {
 	Context::Init();
 
@@ -62,17 +66,6 @@ void RenderingSystem::Init() {
 
 	// Init IMGUI
 	ImGuiRenderer::Init();
-
-	//-------------------------------------------------------------------------
-	// TEMPORALY INIT ADMIN COMPONENTS HERE
-	g_Admin->RegisterComponent<TransformComponent>();
-	EntityID e = g_Admin->CreateEntity();
-	g_Admin->AddComponent(e, TransformComponent{});
-
-	// Set system signature
-	m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-
-	//-------------------------------------------------------------------------
 }
 
 void RenderingSystem::Update(f32 dt) {
