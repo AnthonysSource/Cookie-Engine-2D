@@ -104,9 +104,9 @@ namespace Application {
 		t = TransformComponent{};
 		t.m_Position = vec3(2.0f, 0.0f, 0.0f);
 		r = RotatingComponent{};
-		r.m_Speed = 15.0f;
+		r.m_Speed = 3.14f;
 		FloatComponent f = FloatComponent{};
-		f.m_Speed = 3.14f;
+		f.m_Speed = 1.0f;
 		f.m_Amplitude = 0.25f;
 		g_Admin->AddComponent(e, t);
 		g_Admin->AddComponent(e, r);
@@ -116,9 +116,15 @@ namespace Application {
 		g_RenderingSystem->Init();
 
 		CKE_LOG_INFO("Starting engine loop");
+		f32 tLastFrame = glfwGetTime();
+		f32 tCurrentFrame = tLastFrame;
+
 		while (Platform::IsRunning(window.m_Window)) {
+			tCurrentFrame = glfwGetTime();
+			f64 deltaTime = tCurrentFrame - tLastFrame;
+			tLastFrame = tCurrentFrame;
+
 			InputSystem::Update();
-			f32 deltaTime = 0.001f;
 			g_RotateSystem->Update(deltaTime);
 			g_FloatSystem->Update(deltaTime);
 			g_RenderingSystem->Update(deltaTime);
