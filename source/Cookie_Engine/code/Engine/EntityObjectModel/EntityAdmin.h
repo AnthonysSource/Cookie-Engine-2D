@@ -59,19 +59,38 @@ namespace Object {
 	void ClearCookies() { m_Transforms.clear(); }
 
 	// ---------------------------------------------------
+	// We should use generational id's because this approach
+	// could generate problems when destroying and creating a
+	// vast amount of entitites in a short timespan
 	using EntityID = u32;
 	const EntityID MAX_ENTITIES = 5000;
 
-	using ComponentType = u8;
-	const ComponentType MAX_COMPONENTS = 128;
+	using ComponentSignatureIndex = u8;
+	const ComponentSignatureIndex MAX_COMPONENTS = 128;
 
 	using Signature = std::bitset<MAX_COMPONENTS>;
 
 	class IComponentArray {
 	  public:
 		virtual ~IComponentArray() = default;
-		virtual void EntityDestroyed(EntityID entity) = 0;
+		virtual void DestroyEntity(EntityID entity) = 0;
 	};
+
+	template <typename T> class ComponentArray : public IComponentArray {
+	  public:
+		void Insert(EntityID entity, T component);
+		void Remove(EntityID entity, T component);
+		T *Get(EntityID entity);
+
+	  private:
+		T m_Array[MAX_ENTITIES];
+		u64 m_Count;
+
+		std::unordered_map<EntityID, u64> m_EntityToIndex;
+		std::unordered_map<u64, EntityID> m_IndexToEntity;
+	};
+
+	class EntityAdmin;
 
 	class System {
 	  public:
@@ -80,31 +99,123 @@ namespace Object {
 
 	  protected:
 		Signature m_Signature;
+		std::set<EntityID> m_EntitiesCache;
+
+		friend class EntityAdmin;
 	};
 
 	class EntityAdmin {
 	  public:
-		void CreateEntity();
+		EntityID CreateEntity();
 		void DestroyEntity(EntityID entity);
 
-		template <typename T> void AddComponent(EntityID entity, T component);
-		template <typename T> void RemoveComponent(EntityID entity);
-		template <typename T> T *GetComponent(EntityID entitiy);
-		template <typename T> ComponentType GetComponentType();
+		template <typename T> void RegisterComponent() {
+			u32 typeID = typeid(T).hash_code();
+			ComponentArray<T> *array = new ComponentArray<T>();
+			m_ComponentArrays.insert(typeID, array);
+			++m_ComponentSignatureIndex++;
+		};
 
-		template <typename T> void RegisterSystem();
+		template <typename T> void AddComponent(EntityID entity, T component) {
+			GetComponentArray<T>()->Insert(entity, component);
+
+			auto signature = m_Signatures[entity];
+			signature.set(GetComponentSignatureID<T>(), true);
+			m_Signatures[entity] = signature;
+
+			EntitySignatureChanged(entity)
+		}
+
+		template <typename T> void RemoveComponent(EntityID entity) {
+			GetComponentArray<T>()->Remove(entity);
+
+			auto signature = m_Signatures[entity];
+			signature.set(GetComponentSignatureID<T>(), false);
+			m_Signatures[entity] = signature;
+
+			EntitySignatureChanged(entity)
+		}
+
+		template <typename T> T *GetComponent(EntityID entitiy) {
+			return GetComponentArray<T>()->Get(entity);
+		}
+
+		template <typename T> ComponentSignatureIndex GetComponentSignatureID() {
+			u32 typeID = typeid(T).hash_code();
+			return m_ComponentSignatureIndex[typeID];
+		};
+
+		template <typename T> void RegisterSystem() {
+			u32 typeID = typeid(T).hash_code();
+			System *system = new T();
+			m_Systems.insert({typeID, system});
+		};
 
 	  private:
 		std::queue<EntityID> m_AvailableEntityIDs;
 		std::array<Signature, MAX_ENTITIES> m_Signatures;
 		u32 m_ActiveEntitiesCount;
 
-		std::unordered_map<const char *, ComponentType> m_ComponentTypes{};
-		std::unordered_map<const char *, IComponentArray *> m_ComponentArrays{};
-		ComponentType m_NextComponentType{};
+		std::unordered_map<u32, IComponentArray *> m_ComponentArrays{};
+		std::unordered_map<u32, ComponentSignatureIndex> m_ComponentSignatureIndex{};
+		ComponentSignatureIndex m_NextComponentIndex{};
 
-		std::unordered_map<const char *, System *> m_Systems{};
+		std::unordered_map<u32, System *> m_Systems{};
+
+		void EntitySignatureChanged(EntityID entityID) {
+			Signature entitySignature = m_Signatures[entityID];
+
+			for (auto const &pair : m_Systems) {
+				u32 systemTypeID = pair.first;
+				System *system = pair.second;
+
+				if ((entitySignature & system->m_Signature) == system->m_Signature) {
+					// We don't have to check if its already added
+					// because we are using a set
+					system->m_EntitiesCache.insert(entityID);
+				} else {
+					system->m_EntitiesCache.erase(entityID);
+				}
+			}
+		}
+
+		template <typename T> ComponentArray<T> *GetComponentArray() {
+			u32 typeID = typeid(T).hash_code();
+			return std::static_pointer_cast<ComponentArray<T>>(m_ComponentArrays[typeID]);
+		}
 	};
+
+	EntityID EntityAdmin::CreateEntity() {
+		COOKIE_ASSERT(m_ActiveEntitiesCount < MAX_ENTITIES, "Trying to create too many entities");
+
+		// Pop an entity id from the queue
+		EntityID id = m_AvailableEntityIDs.front();
+		m_AvailableEntityIDs.pop();
+		++m_ActiveEntitiesCount;
+
+		return id;
+	}
+
+	void EntityAdmin::DestroyEntity(EntityID entityID) {
+		// Mark the entity id as available
+		m_AvailableEntityIDs.push(entityID);
+		--m_ActiveEntitiesCount;
+
+		// Clear entity signature
+		m_Signatures[entityID].reset();
+
+		// Destroy entity components
+		for (auto const &pair : m_ComponentArrays) {
+			IComponentArray *array = pair.second;
+			array->DestroyEntity(entityID);
+		}
+
+		// Erase entity from systems iteration cache
+		for (auto const &pair : m_Systems) {
+			System *system = pair.second;
+			system->m_EntitiesCache.erase(entityID);
+		}
+	}
 
 } // namespace Object
 } // namespace Cookie
