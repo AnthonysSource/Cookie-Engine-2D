@@ -116,9 +116,6 @@ void RenderingSystem::Update(f32 dt) {
 
 void RenderingSystem::Shutdown() {
 	ImGuiRenderer::Shutdown();
-
-	ClearCookies();
-
 	Image::Release(&img);
 }
 
