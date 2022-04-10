@@ -30,13 +30,10 @@ set_target_properties(${CookieEngine} PROPERTIES
 	
 	ARCHIVE_OUTPUT_DIRECTORY_DIST ${BUILD_DIR_DIST}Cookie_Engine
 	LIBRARY_OUTPUT_DIRECTORY_DIST ${BUILD_DIR_DIST}Cookie_Engine
-	RUNTIME_OUTPUT_DIRECTORY_DIST ${BUILD_DIR_DIST}Cookie_Engine
-	
-	CXX_STANDARD 17
-	CXX_STANDARD_REQUIRED YES)
+	RUNTIME_OUTPUT_DIRECTORY_DIST ${BUILD_DIR_DIST}Cookie_Engine)
 	
 # Includes
-target_include_directories(${CookieEngine} PRIVATE
+target_include_directories(${CookieEngine} PUBLIC
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glfw/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glad/include
 	${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/glm
@@ -46,7 +43,7 @@ target_include_directories(${CookieEngine} PRIVATE
 	${CMAKE_CURRENT_SOURCE_DIR}/Engine)
 
 # Dependencies
-target_link_libraries(${CookieEngine} PRIVATE
+target_link_libraries(${CookieEngine} PUBLIC
 	opengl32.lib
 	glfw)
 
