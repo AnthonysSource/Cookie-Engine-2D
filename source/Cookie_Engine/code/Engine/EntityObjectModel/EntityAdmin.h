@@ -8,11 +8,6 @@
 #include "Core/Math.h"
 #include "Core/Random/Random.h"
 
-// Remove this in the future
-#include "Core/InputSystem/InputSystem.h"
-
-#include <stdlib.h>
-
 namespace Cookie {
 
 struct TransformComponent {
