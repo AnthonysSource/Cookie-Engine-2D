@@ -1,6 +1,8 @@
 #include "RenderingAPI.h"
+
 #include "Core/Application.h"
 #include "Core/FileSystem/FileSystem.h"
+#include "Core/Logging/Log.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -148,7 +150,7 @@ namespace RenderingAPI {
 			glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(vertShader, 512, NULL, infoLog);
-				std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+				CKE_LOG_INFO("Vertex Shader Compilation Error -> {}", infoLog);
 			}
 
 			u32 fragShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -157,7 +159,7 @@ namespace RenderingAPI {
 			glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(fragShader, 512, NULL, infoLog);
-				std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+				CKE_LOG_INFO("Fragment Shader Compilation Error -> {}", infoLog);
 			}
 
 			u32 program = glCreateProgram();

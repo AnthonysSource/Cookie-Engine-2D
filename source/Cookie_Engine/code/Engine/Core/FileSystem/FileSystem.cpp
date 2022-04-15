@@ -2,6 +2,10 @@
 
 #include "Core/Types/PrimitiveTypes.h"
 
+#include <fstream>
+#include <iostream>
+#include <sstream>
+
 namespace Cookie {
 namespace FileSystem {
 
@@ -19,8 +23,8 @@ namespace FileSystem {
 		stream.close();
 	}
 
-	std::string FileSystem::ReadTextFile(const char *path) {
-		std::string fileText;
+	String FileSystem::ReadTextFile(const char *path) {
+		String fileText;
 		std::ifstream fileStream;
 		fileStream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 		try {
