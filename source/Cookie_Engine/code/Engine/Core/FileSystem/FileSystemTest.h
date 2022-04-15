@@ -1,5 +1,5 @@
 #include "FileSystem/FileSystem.h"
-#include "Logging/Logging.h"
+#include "Logging/Log.h"
 
 namespace Cookie {
 namespace FileSystem {

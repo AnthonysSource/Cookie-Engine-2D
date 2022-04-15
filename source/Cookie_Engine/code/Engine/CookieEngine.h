@@ -5,7 +5,7 @@
 #include "Core/InputSystem/InputSystem.h"
 #include "Core/InputSystem/KeyCodes.h"
 
-#include "Core/Logging/Logging.h"
+#include "Core/Logging/Log.h"
 
 #include "Core/Application.h"
 

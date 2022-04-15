@@ -1,7 +1,7 @@
 #include "InputSystem.h"
 
 #include "Core/Common.h"
-#include "Core/Logging/Logging.h"
+#include "Core/Logging/Log.h"
 
 namespace Cookie {
 namespace InputSystem {

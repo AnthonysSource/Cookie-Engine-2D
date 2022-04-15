@@ -1,15 +1,19 @@
 #pragma once
 
+#include "Core/Common.h"
+
 #include <spdlog/spdlog.h>
 
 namespace Cookie {
 namespace Log {
 
-	void Init();
+	void Initialize();
 	void Shutdown();
 
+	void AddLine(int const channel, ...);
+
 	namespace Internal {
-		extern std::shared_ptr<spdlog::logger> engineLogger;
+		extern Ref<spdlog::logger> g_pEngineLogger;
 	}
 
 } // namespace Log
@@ -18,7 +22,7 @@ namespace Log {
 
 #ifdef COOKIE_LOGGING
 #define CKE_LOG_INFO(...)                                                                          \
-	{ Cookie::Log::Internal::engineLogger->info(__VA_ARGS__) ; }
+	{ Cookie::Log::Internal::g_pEngineLogger->info(__VA_ARGS__); }
 #else
 #define CKE_LOG_INFO(...)
 #define CKE_LOG_WARNING(...)

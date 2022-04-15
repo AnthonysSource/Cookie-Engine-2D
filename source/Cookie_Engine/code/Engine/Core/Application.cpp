@@ -1,7 +1,7 @@
 #include "Application.h"
 
 #include "Core/Common.h"
-#include "Core/Logging/Logging.h"
+#include "Core/Logging/Log.h"
 #include "Core/Platform/Platform.h"
 #include "Core/Platform/Window.h"
 

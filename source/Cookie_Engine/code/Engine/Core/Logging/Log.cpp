@@ -1,14 +1,14 @@
-#include "Logging.h"
+#include "Log.h"
 
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/spdlog.h>
 
 namespace Cookie {
 namespace Log {
-
+	
 	namespace Internal {
-		std::shared_ptr<spdlog::logger> engineLogger = spdlog::stdout_color_mt("Engine");
+		Ref<spdlog::logger> g_pEngineLogger = spdlog::stdout_color_mt("Engine");
 	}
-    
+
 } // namespace Log
 } // namespace Cookie

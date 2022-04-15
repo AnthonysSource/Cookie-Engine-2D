@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Common.h"
-#include "Core/Logging/Logging.h"
+#include "Core/Logging/Log.h"
 #include "Core/Math.h"
 #include "Core/Random/Random.h"
 
