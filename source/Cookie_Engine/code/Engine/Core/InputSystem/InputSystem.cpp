@@ -1,6 +1,8 @@
 #include "InputSystem.h"
 
+#include "Core/Types/Containers.h"
 #include "Core/Types/PrimitiveTypes.h"
+
 #include "Core/Logging/Log.h"
 
 namespace Cookie {
@@ -9,10 +11,9 @@ namespace InputSystem {
 	void LogInput(InputEvent e);
 	void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action, int mods);
 
-
 	// Contains a buffer of the input events that have been
 	// registered in the current frame
-	std::queue<InputEvent> s_InputEventsBuffer;
+	TQueue<InputEvent> s_InputEventsBuffer;
 	InputComponent s_InputState;
 
 	void InputSystem::Update() {
@@ -38,7 +39,6 @@ namespace InputSystem {
 
 	void InputSystem::Shutdown() {}
 
-
 	void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action, int mods) {
 		// Push input event into queue
 		InputEvent e;
@@ -58,7 +58,9 @@ namespace InputSystem {
 		}
 	}
 
-	void InputSystem::Init(Window *window) { glfwSetKeyCallback(window->m_Window, WindowKeyEventHandle); }
+	void InputSystem::Init(Window *window) {
+		glfwSetKeyCallback(window->m_Window, WindowKeyEventHandle);
+	}
 
 	void LogInput(InputEvent e) {
 		CKE_LOG_INFO(

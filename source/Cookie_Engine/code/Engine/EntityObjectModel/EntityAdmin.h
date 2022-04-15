@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Core/Types/PrimitiveTypes.h"
 #include "Core/Defines.h"
+#include "Core/Types/Containers.h"
+#include "Core/Types/PrimitiveTypes.h"
 
 #include "Core/Logging/Log.h"
 #include "Core/Math.h"
@@ -47,7 +48,7 @@ using ComponentSignatureIndex = u8;
 const EntityID MAX_ENTITIES = 5000;
 const ComponentSignatureIndex MAX_COMPONENTS = 128;
 
-using Signature = std::bitset<MAX_COMPONENTS>;
+using Signature = Bitset<MAX_COMPONENTS>;
 
 class IComponentArray {
   public:
