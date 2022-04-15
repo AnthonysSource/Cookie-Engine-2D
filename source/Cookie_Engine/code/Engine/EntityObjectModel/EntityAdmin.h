@@ -4,7 +4,6 @@
 #include "Core/Types/Containers.h"
 #include "Core/Types/PrimitiveTypes.h"
 
-#include "Core/Logging/Log.h"
 #include "Core/Math.h"
 #include "Core/Random/Random.h"
 
@@ -54,7 +53,7 @@ class IComponentArray {
 template <typename T> class ComponentArray : public IComponentArray {
   public:
 	void Insert(EntityID entity, T component) {
-		COOKIE_ASSERT(m_EntityToIndex.find(entity) == m_EntityToIndex.end(),
+		CKE_ASSERT(m_EntityToIndex.find(entity) == m_EntityToIndex.end(),
 					  "Component added to same entity more than once");
 
 		u64 newIndex = m_Count;

@@ -9,7 +9,7 @@ void EntityAdmin::Init() {
 }
 
 EntityID EntityAdmin::CreateEntity() {
-	COOKIE_ASSERT(m_ActiveEntitiesCount < MAX_ENTITIES, "Trying to create too many entities");
+	CKE_ASSERT(m_ActiveEntitiesCount < MAX_ENTITIES, "Trying to create too many entities");
 
 	// Pop an entity id from the queue
 	EntityID id = m_AvailableEntityIDs.front();

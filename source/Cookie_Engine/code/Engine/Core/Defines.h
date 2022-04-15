@@ -1,19 +1,21 @@
 #pragma once
 
+#include "Core/Logging/Log.h"
+
 namespace Cookie {
 
 // Asserts
-#ifdef COOKIE_ASSERTS
+#ifdef CKE_ASSERTS
 #include <cstdlib>
-#define COOKIE_ASSERT(x, msg)                                                                      \
+#define CKE_ASSERT(x, msg)                                                                         \
 	do {                                                                                           \
 		if (!(x)) {                                                                                \
-			Cookie::Logging::info("msg");                                                          \
+			CKE_LOG_INFO(msg);                                                              \
 			abort();                                                                               \
 		}                                                                                          \
 	} while (0)
 #else
-#define COOKIE_ASSERT(x, msg)
+#define CKE_ASSERT(x, msg)
 #endif
 
 // MSVC Force inline

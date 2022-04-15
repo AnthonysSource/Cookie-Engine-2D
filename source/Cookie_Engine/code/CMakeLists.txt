@@ -53,6 +53,7 @@ target_compile_definitions(${CookieEngine} PRIVATE
 	COOKIE_PLATFORM_WINDOWS
 	GLFW_INCLUDE_NONE
 	$<$<CONFIG:Debug>:COOKIE_DEBUG>
+	$<$<CONFIG:Debug>:CKE_ASSERTS>
 	$<$<CONFIG:Debug>:COOKIE_LOGGING>)
 	
 # Set precompiled headers
