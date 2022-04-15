@@ -7,7 +7,7 @@ namespace Cookie {
 namespace Log {
 	
 	namespace Internal {
-		Ref<spdlog::logger> g_pEngineLogger = spdlog::stdout_color_mt("Engine");
+		TSharedPtr<spdlog::logger> g_pEngineLogger = spdlog::stdout_color_mt("Engine");
 	}
 
 } // namespace Log

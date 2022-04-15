@@ -14,7 +14,7 @@ namespace Log {
 	void AddLine(int const channel, ...);
 
 	namespace Internal {
-		extern Ref<spdlog::logger> g_pEngineLogger;
+		extern TSharedPtr<spdlog::logger> g_pEngineLogger;
 	}
 
 } // namespace Log
