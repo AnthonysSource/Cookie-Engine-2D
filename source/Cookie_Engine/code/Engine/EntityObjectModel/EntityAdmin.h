@@ -15,9 +15,9 @@
 namespace Cookie {
 
 struct TransformComponent {
-	vec3 m_Position;
-	vec3 m_Rotation;
-	vec3 m_Scale;
+	Float3 m_Position;
+	Float3 m_Rotation;
+	Float3 m_Scale;
 };
 
 struct RenderComponent {
@@ -25,9 +25,9 @@ struct RenderComponent {
 };
 
 struct CameraComponent {
-	vec3 m_Position;
-	vec3 m_Forward;
-	vec3 m_Up;
+	Float3 m_Position;
+	Float3 m_Forward;
+	Float3 m_Up;
 };
 
 struct ScriptComponent {};

@@ -7,8 +7,8 @@
 
 namespace Cookie {
 
-using vec3 = glm::vec3;
-using mat4 = glm::mat4;
-using quat = glm::quat;
+using Float3 = glm::vec3;
+using Matrix4 = glm::mat4;
+using Quaternion = glm::quat;
 
 } // namespace Cookie

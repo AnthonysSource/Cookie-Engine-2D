@@ -23,7 +23,7 @@ VertexBuffer vertexBuffer;
 IndexBuffer indexBuffer;
 Program program;
 
-vec3 quadRot = vec3(0.0f);
+Float3 quadRot = Float3(0.0f);
 
 float vertices[] = {-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 0.5f,  -0.5f, 0.0f, 1.0f, 0.0f,
 					0.5f,  0.5f,  0.0f, 1.0f, 1.0f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f};
@@ -73,8 +73,8 @@ void RenderingSystem::Update(f32 dt) {
 	Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
 	// Camera Config
-	mat4 view = glm::lookAt(vec3(0.0f, 0.0f, 5.0f), vec3(0.0f), vec3(0.0f, 1.0f, 0.0f));
-	mat4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+	Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
+	Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 	program.SetUniformMat4("view", glm::value_ptr(view));
 	program.SetUniformMat4("projection", glm::value_ptr(proj));
 
@@ -82,12 +82,12 @@ void RenderingSystem::Update(f32 dt) {
 	for (auto const &entityID : m_EntitiesCache) {
 		TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 
-		mat4 model = mat4(1.0f);
-		vec3 *rot = &t->m_Rotation;
+		Matrix4 model = Matrix4(1.0f);
+		Float3 *rot = &t->m_Rotation;
 		model = glm::translate(model, t->m_Position);
-		model = glm::rotate(model, rot->x, vec3(1.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, rot->y, vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, rot->z, vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, rot->x, Float3(1.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, rot->y, Float3(0.0f, 1.0f, 0.0f));
+		model = glm::rotate(model, rot->z, Float3(0.0f, 0.0f, 1.0f));
 		program.SetUniformMat4("model", glm::value_ptr(model));
 
 		// Issue Drawcall

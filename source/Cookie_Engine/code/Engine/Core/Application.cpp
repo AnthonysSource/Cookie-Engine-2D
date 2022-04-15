@@ -39,7 +39,7 @@ class RotateSystem : public System {
 		for (auto const &entityID : m_EntitiesCache) {
 			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 			RotatingComponent *f = g_Admin->GetComponent<RotatingComponent>(entityID);
-			t->m_Rotation += vec3(0.0f, f->m_Speed, 0.0f) * dt;
+			t->m_Rotation += Float3(0.0f, f->m_Speed, 0.0f) * dt;
 		}
 	}
 };
@@ -89,12 +89,12 @@ namespace Application {
 		// Create Entities
 		EntityID e = g_Admin->CreateEntity();
 		TransformComponent t{};
-		t.m_Position = vec3(-2.0f, 0.0f, 0.0f);
+		t.m_Position = Float3(-2.0f, 0.0f, 0.0f);
 		g_Admin->AddComponent(e, t);
 
 		e = g_Admin->CreateEntity();
 		t = TransformComponent{};
-		t.m_Position = vec3(0.0f, 0.0f, 0.0f);
+		t.m_Position = Float3(0.0f, 0.0f, 0.0f);
 		RotatingComponent r{};
 		r.m_Speed = 5.0f;
 		g_Admin->AddComponent(e, t);
@@ -102,7 +102,7 @@ namespace Application {
 
 		e = g_Admin->CreateEntity();
 		t = TransformComponent{};
-		t.m_Position = vec3(2.0f, 0.0f, 0.0f);
+		t.m_Position = Float3(2.0f, 0.0f, 0.0f);
 		r = RotatingComponent{};
 		r.m_Speed = 3.14f;
 		FloatComponent f = FloatComponent{};
