@@ -16,4 +16,7 @@ namespace Cookie {
 #define COOKIE_ASSERT(x, msg)
 #endif
 
+// MSVC Force inline
+#define CKE_FORCE_INLINE __forceinline
+
 } // namespace Cookie
