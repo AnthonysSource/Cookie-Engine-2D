@@ -110,7 +110,7 @@ class System {
 
   protected:
 	Signature m_Signature{};
-	std::set<EntityID> m_EntitiesCache{};
+	TSet<EntityID> m_EntitiesCache{};
 
 	friend class EntityAdmin;
 };
@@ -167,15 +167,15 @@ class EntityAdmin {
 	};
 
   private:
-	std::queue<EntityID> m_AvailableEntityIDs{};
-	std::array<Signature, MAX_ENTITIES> m_Signatures{};
+	TQueue<EntityID> m_AvailableEntityIDs{};
+	TArray<Signature, MAX_ENTITIES> m_Signatures{};
 	u32 m_ActiveEntitiesCount{};
 
-	std::unordered_map<u32, IComponentArray *> m_ComponentArrays{};
-	std::unordered_map<u32, ComponentSignatureIndex> m_ComponentSignatureIndex{};
+	TMap<u32, IComponentArray *> m_ComponentArrays{};
+	TMap<u32, ComponentSignatureIndex> m_ComponentSignatureIndex{};
 	ComponentSignatureIndex m_NextComponentIndex{};
 
-	std::unordered_map<u32, System *> m_Systems{};
+	TMap<u32, System *> m_Systems{};
 
 	void EntitySignatureChanged(EntityID entityID) {
 		Signature entitySignature = m_Signatures[entityID];

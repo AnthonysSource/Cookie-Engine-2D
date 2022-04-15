@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Core/Types/Containers.h"
 #include "Core/Types/PrimitiveTypes.h"
+
 #include "Core/Math.h"
 
 namespace Cookie {
@@ -38,7 +40,7 @@ namespace RenderingAPI {
 	};
 
 	struct VertexArrayLayout {
-		std::vector<LayoutAttribute> m_Attributes;
+		TVector<LayoutAttribute> m_Attributes;
 		u32 m_Stride;
 
 		void AddAttribute(LayoutAttribute attr);

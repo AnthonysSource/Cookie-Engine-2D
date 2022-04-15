@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace Cookie {
 
 	template <typename T> using Ref = std::shared_ptr<T>;
