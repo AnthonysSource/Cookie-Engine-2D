@@ -1,6 +1,6 @@
 #include "Application.h"
 
-#include "Core/Common.h"
+#include "Core/Types/PrimitiveTypes.h"
 #include "Core/Logging/Log.h"
 #include "Core/Platform/Platform.h"
 #include "Core/Platform/Window.h"

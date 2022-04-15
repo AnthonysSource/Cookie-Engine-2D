@@ -1,6 +1,6 @@
 #include "FileSystem.h"
 
-#include "Core/Common.h"
+#include "Core/Types/PrimitiveTypes.h"
 
 namespace Cookie {
 namespace FileSystem {

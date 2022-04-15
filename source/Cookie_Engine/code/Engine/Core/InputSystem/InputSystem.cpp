@@ -1,6 +1,6 @@
 #include "InputSystem.h"
 
-#include "Core/Common.h"
+#include "Core/Types/PrimitiveTypes.h"
 #include "Core/Logging/Log.h"
 
 namespace Cookie {

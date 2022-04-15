@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Core/Common.h"
+#include "Core/Types/PrimitiveTypes.h"
+#include "Core/Types/Pointers.h"
 
 #include <spdlog/spdlog.h>
 

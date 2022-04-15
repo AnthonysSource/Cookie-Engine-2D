@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Core/Application.h"
-#include "Core/Common.h"
+#include "Core/Types/PrimitiveTypes.h"
 
 namespace Cookie {
 
