@@ -171,11 +171,11 @@ class EntityAdmin {
 	TArray<Signature, MAX_ENTITIES> m_Signatures{};
 	u32 m_ActiveEntitiesCount{};
 
-	TMap<u32, IComponentArray *> m_ComponentArrays{};
-	TMap<u32, ComponentSignatureIndex> m_ComponentSignatureIndex{};
+	THashMap<u32, IComponentArray *> m_ComponentArrays{};
+	THashMap<u32, ComponentSignatureIndex> m_ComponentSignatureIndex{};
 	ComponentSignatureIndex m_NextComponentIndex{};
 
-	TMap<u32, System *> m_Systems{};
+	THashMap<u32, System *> m_Systems{};
 
 	void EntitySignatureChanged(EntityID entityID) {
 		Signature entitySignature = m_Signatures[entityID];
