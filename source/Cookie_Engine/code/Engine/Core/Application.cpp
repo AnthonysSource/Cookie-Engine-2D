@@ -12,7 +12,7 @@
 #include "Core/InputSystem/InputSystem.h"
 #include "Core/RenderingSystem/RenderingSystem.h"
 
-#include "EntityObjectModel/EntityAdmin.h"
+#include "Entities/EntityAdmin.h"
 
 #include <GLFW/glfw3.h>
 

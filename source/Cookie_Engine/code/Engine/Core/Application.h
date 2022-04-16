@@ -4,7 +4,7 @@
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Types/String.h"
 
-#include "EntityObjectModel/EntityAdmin.h"
+#include "Entities/EntityAdmin.h"
 
 #include "GLFW/glfw3.h"
 

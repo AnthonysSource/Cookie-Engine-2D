@@ -7,7 +7,7 @@
 #include "Core/Math.h"
 #include "Core/Random/Random.h"
 
-#include "EntityObjectModel/BaseComponents.h"
+#include "Entities/BaseComponents.h"
 
 namespace Cookie {
 

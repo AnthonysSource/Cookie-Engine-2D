@@ -9,8 +9,8 @@
 
 #include "Core/Application.h"
 
-#include "EntityObjectModel/BaseComponents.h"
-#include "EntityObjectModel/EntityAdmin.h"
+#include "Entities/BaseComponents.h"
+#include "Entities/EntityAdmin.h"
 
 #include "Core/Math.h"
 #include "Core/Time.h"
