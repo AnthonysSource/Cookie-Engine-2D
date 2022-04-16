@@ -3,7 +3,7 @@
 #include "Core/Application.h"
 #include "Core/IMGUI/IMGUI_Impl.h"
 #include "Core/Math.h"
-#include "Core/RenderingAPI/RenderingAPI.h"
+#include "Core/RenderAPI/RenderAPI.h"
 
 #include "Resources/Resources.h"
 

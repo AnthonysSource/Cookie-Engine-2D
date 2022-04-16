@@ -10,7 +10,7 @@
 #include "Core/FileSystem/FileSystemTest.h"
 
 #include "Core/InputSystem/InputSystem.h"
-#include "Core/RenderingSystem/RenderingSystem.h"
+#include "Render/RenderingSystem.h"
 
 #include "Entities/EntityAdmin.h"
 
