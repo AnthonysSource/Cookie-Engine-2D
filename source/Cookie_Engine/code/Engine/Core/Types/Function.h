@@ -4,6 +4,6 @@
 
 namespace Cookie {
 
-template <typename T> using TFunction = std::function<T>;
+	template <typename T> using TFunction = std::function<T>;
 
 }

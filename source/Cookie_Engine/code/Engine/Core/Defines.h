@@ -6,16 +6,16 @@ namespace Cookie {
 
 // Asserts
 #ifdef CKE_ASSERTS
-#include <cstdlib>
-#define CKE_ASSERT(x, msg)                                                                         \
-	do {                                                                                           \
-		if (!(x)) {                                                                                \
-			CKE_LOG_INFO(msg);                                                              \
-			abort();                                                                               \
-		}                                                                                          \
-	} while (0)
+	#include <cstdlib>
+	#define CKE_ASSERT(x, msg)                                                                                                             \
+		do {                                                                                                                               \
+			if (!(x)) {                                                                                                                    \
+				CKE_LOG_INFO(msg);                                                                                                         \
+				abort();                                                                                                                   \
+			}                                                                                                                              \
+		} while (0)
 #else
-#define CKE_ASSERT(x, msg)
+	#define CKE_ASSERT(x, msg)
 #endif
 
 // MSVC Force inline

@@ -18,55 +18,55 @@
 
 namespace Cookie {
 
-namespace Application {
+	namespace Application {
 
-	Window g_Window;
-	EntityAdmin *g_Admin = new EntityAdmin();
-	RenderingSystem *g_RenderingSystem = new RenderingSystem();
+		Window g_Window;
+		EntityAdmin *g_Admin = new EntityAdmin();
+		RenderingSystem *g_RenderingSystem = new RenderingSystem();
 
-	void Run(TFunction<void()> CreateWorld) {
-		CKE_LOG_INFO("Starting up Cookie Engine");
-		Platform::Init();
+		void Run(TFunction<void()> CreateWorld) {
+			CKE_LOG_INFO("Starting up Cookie Engine");
+			Platform::Init();
 
-		CKE_LOG_INFO("Creating window");
-		WindowManagement::CreateAppWindow(&g_Window, 1280, 720, "Cookie Engine");
+			CKE_LOG_INFO("Creating window");
+			WindowManagement::CreateAppWindow(&g_Window, 1280, 720, "Cookie Engine");
 
-		CKE_LOG_INFO("Initializing Input System");
-		InputSystem::Init(&g_Window);
+			CKE_LOG_INFO("Initializing Input System");
+			InputSystem::Init(&g_Window);
 
-		CKE_LOG_INFO("Initializing Entity Admin");
-		g_Admin->Init();
-		g_Admin->RegisterComponent<TransformComponent>();
-		g_Admin->RegisterComponent<RenderComponent>();
-		g_Admin->RegisterSystem(g_RenderingSystem);
+			CKE_LOG_INFO("Initializing Entity Admin");
+			g_Admin->Init();
+			g_Admin->RegisterComponent<TransformComponent>();
+			g_Admin->RegisterComponent<RenderComponent>();
+			g_Admin->RegisterSystem(g_RenderingSystem);
 
-		CreateWorld();
+			CreateWorld();
 
-		CKE_LOG_INFO("Initializing Rendering System");
-		g_RenderingSystem->Init();
+			CKE_LOG_INFO("Initializing Rendering System");
+			g_RenderingSystem->Init();
 
-		CKE_LOG_INFO("Starting engine loop");
-		f32 tLastFrame = glfwGetTime();
-		f32 tCurrentFrame = tLastFrame;
+			CKE_LOG_INFO("Starting engine loop");
+			f32 tLastFrame = glfwGetTime();
+			f32 tCurrentFrame = tLastFrame;
 
-		while (Platform::IsRunning(g_Window.m_Window)) {
-			tCurrentFrame = glfwGetTime();
-			f64 deltaTime = tCurrentFrame - tLastFrame;
-			tLastFrame = tCurrentFrame;
+			while (Platform::IsRunning(g_Window.m_Window)) {
+				tCurrentFrame = glfwGetTime();
+				f64 deltaTime = tCurrentFrame - tLastFrame;
+				tLastFrame = tCurrentFrame;
 
-			InputSystem::Update();
-			g_RenderingSystem->Update(deltaTime);
+				InputSystem::Update();
+				g_RenderingSystem->Update(deltaTime);
+			}
+
+			// Shutdown
+			CKE_LOG_INFO("Shutting down");
+			g_RenderingSystem->Shutdown();
+			InputSystem::Shutdown();
+			Platform::Shutdown();
+
+			delete g_Admin;
+			delete g_RenderingSystem;
 		}
 
-		// Shutdown
-		CKE_LOG_INFO("Shutting down");
-		g_RenderingSystem->Shutdown();
-		InputSystem::Shutdown();
-		Platform::Shutdown();
-
-		delete g_Admin;
-		delete g_RenderingSystem;
-	}
-
-} // namespace Application
+	} // namespace Application
 } // namespace Cookie

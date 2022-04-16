@@ -12,7 +12,7 @@ namespace Cookie {
 		i32 m_Mods;
 	};
 
-	struct KeyboardInputState { 
+	struct KeyboardInputState {
 		// TODO: replace size with actual real size
 		bool m_KeyDown[255]; // Key Pressed this frame
 		bool m_KeyHeld[255]; // Key being held this frame
@@ -43,11 +43,11 @@ namespace Cookie {
 		inline bool IsKeyHeld(int keyCode) { return m_Keyboard.m_KeyHeld[keyCode]; }
 	};
 
-namespace InputSystem {
+	namespace InputSystem {
 
-	void Init(Window *window);
-	void Update();
-	void Shutdown();
+		void Init(Window *window);
+		void Update();
+		void Shutdown();
 
-} // namespace InputSystem
+	} // namespace InputSystem
 } // namespace Cookie

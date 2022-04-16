@@ -2,12 +2,12 @@
 #include <imgui.h>
 
 namespace Cookie {
-namespace ImGuiRenderer {
+	namespace ImGuiRenderer {
 
-	void Init();
-	void NewFrame();
-	void Render();
-	void Shutdown();
+		void Init();
+		void NewFrame();
+		void Render();
+		void Shutdown();
 
-} // namespace IMGUI
+	} // namespace ImGuiRenderer
 } // namespace Cookie

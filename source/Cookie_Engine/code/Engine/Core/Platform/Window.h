@@ -5,11 +5,11 @@
 
 namespace Cookie {
 
-namespace WindowManagement {
+	namespace WindowManagement {
 
-	void CreateAppWindow(Window *window, u32 width, u32 height, const char *title);
-	void SetWindowSize(Window *w, u32 width, u32 height);
+		void CreateAppWindow(Window *window, u32 width, u32 height, const char *title);
+		void SetWindowSize(Window *w, u32 width, u32 height);
 
-} // namespace WindowManagement
+	} // namespace WindowManagement
 
 } // namespace Cookie

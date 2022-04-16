@@ -10,19 +10,19 @@
 
 namespace Cookie {
 
-struct Window {
-	GLFWwindow *m_Window;
-	u32 m_Height;
-	u32 m_Width;
-	String m_Title;
-};
+	struct Window {
+		GLFWwindow *m_Window;
+		u32 m_Height;
+		u32 m_Width;
+		String m_Title;
+	};
 
-namespace Application {
+	namespace Application {
 
-	extern Window g_Window;
-	extern EntityAdmin *g_Admin;
+		extern Window g_Window;
+		extern EntityAdmin *g_Admin;
 
-	void Run(TFunction<void()> CreateWorld);
+		void Run(TFunction<void()> CreateWorld);
 
-} // namespace Application
+	} // namespace Application
 } // namespace Cookie
