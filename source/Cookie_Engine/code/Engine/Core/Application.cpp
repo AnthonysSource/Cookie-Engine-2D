@@ -1,9 +1,9 @@
 #include "Application.h"
 
-#include "Core/Types/PrimitiveTypes.h"
 #include "Core/Logging/Log.h"
 #include "Core/Platform/Platform.h"
 #include "Core/Platform/Window.h"
+#include "Core/Types/PrimitiveTypes.h"
 
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/FileSystem/FileSystemTest.h"
@@ -82,6 +82,7 @@ namespace Application {
 		g_Admin->RegisterComponent<TransformComponent>();
 		g_Admin->RegisterComponent<RotatingComponent>();
 		g_Admin->RegisterComponent<FloatComponent>();
+		g_Admin->RegisterComponent<RenderComponent>();
 		g_Admin->RegisterSystem(g_RenderingSystem);
 		g_Admin->RegisterSystem(g_RotateSystem);
 		g_Admin->RegisterSystem(g_FloatSystem);
@@ -90,6 +91,7 @@ namespace Application {
 		EntityID e = g_Admin->CreateEntity();
 		TransformComponent t{};
 		t.m_Position = Float3(-2.0f, 0.0f, 0.0f);
+		g_Admin->AddComponent(e, RenderComponent{});
 		g_Admin->AddComponent(e, t);
 
 		e = g_Admin->CreateEntity();
@@ -98,6 +100,7 @@ namespace Application {
 		RotatingComponent r{};
 		r.m_Speed = 5.0f;
 		g_Admin->AddComponent(e, t);
+		g_Admin->AddComponent(e, RenderComponent{});
 		g_Admin->AddComponent(e, r);
 
 		e = g_Admin->CreateEntity();
@@ -110,6 +113,7 @@ namespace Application {
 		f.m_Amplitude = 0.25f;
 		g_Admin->AddComponent(e, t);
 		g_Admin->AddComponent(e, r);
+		g_Admin->AddComponent(e, RenderComponent{});
 		g_Admin->AddComponent(e, f);
 
 		CKE_LOG_INFO("Initializing Rendering System");

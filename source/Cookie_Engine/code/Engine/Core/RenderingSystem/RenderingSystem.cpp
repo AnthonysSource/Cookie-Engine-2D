@@ -35,6 +35,7 @@ ImageCPU img;
 
 void RenderingSystem::InitSignature() {
 	m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
+	m_Signature.set(g_Admin->GetComponentSignatureID<RenderComponent>(), true);
 }
 
 void RenderingSystem::Init() {
