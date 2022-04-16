@@ -1,8 +1,63 @@
+#include "Components.h"
 #include "CookieEngine.h"
+#include "Systems.h"
 
-using namespace Cookie;
+namespace Cookie::Application {
+
+RotateSystem *g_RotateSystem = new RotateSystem();
+FloatSystem *g_FloatSystem = new FloatSystem();
+
+
+void CreateWorld() {
+
+	using namespace Cookie::Application;
+
+	g_Admin->RegisterComponent<RotatingComponent>();
+	g_Admin->RegisterComponent<FloatComponent>();
+
+	g_Admin->RegisterSystem(g_RotateSystem);
+	g_Admin->RegisterSystem(g_FloatSystem);
+
+	EntityID e = g_Admin->CreateEntity();
+	TransformComponent t{};
+	t.m_Position = Float3(-2.0f, 0.0f, 0.0f);
+	g_Admin->AddComponent(e, RenderComponent{});
+	g_Admin->AddComponent(e, t);
+
+	e = g_Admin->CreateEntity();
+	t = TransformComponent{};
+	t.m_Position = Float3(0.0f, 0.0f, 0.0f);
+	RotatingComponent r{};
+	r.m_Speed = 5.0f;
+	g_Admin->AddComponent(e, t);
+	g_Admin->AddComponent(e, RenderComponent{});
+	g_Admin->AddComponent(e, r);
+
+	e = g_Admin->CreateEntity();
+	t = TransformComponent{};
+	t.m_Position = Float3(2.0f, 0.0f, 0.0f);
+	r = RotatingComponent{};
+	r.m_Speed = 3.14f;
+	FloatComponent f = FloatComponent{};
+	f.m_Speed = 1.0f;
+	f.m_Amplitude = 0.25f;
+	g_Admin->AddComponent(e, t);
+	g_Admin->AddComponent(e, r);
+	g_Admin->AddComponent(e, RenderComponent{});
+	g_Admin->AddComponent(e, f);
+}
+
+} // namespace Cookie::Application
 
 int main() {
+
+	Cookie::Application::Run(Cookie::Application::CreateWorld);
+
+	// delete g_RotateSystem;
+	// delete g_FloatSystem;
+
+	return 0;
+
 	// ----
 	// Create the game world, all the following entities will be instantiated in the current world
 	// ----
@@ -57,7 +112,5 @@ int main() {
 	// ----
 	// Systems::Add(FogSystem())
 	// Systems::Add(EffectsSystem())
-	// 
-
-	Application::Run();
+	//
 }

@@ -26,7 +26,7 @@ set_target_properties(${TestGame} PROPERTIES
 	)
 
 # Dependencies
-target_link_libraries(${TestGame} PRIVATE Cookie_Engine)
+target_link_libraries(${TestGame} PRIVATE "Cookie_Engine")
 
 # Defines
 target_compile_definitions(${TestGame} PRIVATE

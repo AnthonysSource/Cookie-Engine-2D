@@ -1,7 +1,10 @@
 #pragma once
 
+#include "Core/Types/Function.h"
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Types/String.h"
+
+#include "EntityObjectModel/EntityAdmin.h"
 
 #include "GLFW/glfw3.h"
 
@@ -16,9 +19,10 @@ struct Window {
 
 namespace Application {
 
-	extern Window window;
+	extern Window g_Window;
+	extern EntityAdmin *g_Admin;
 
-	void Run();
+	void Run(TFunction<void()> CreateWorld);
 
 } // namespace Application
 } // namespace Cookie

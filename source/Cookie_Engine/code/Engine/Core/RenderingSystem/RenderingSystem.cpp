@@ -34,8 +34,8 @@ ImageCPU img;
 //-------------------------------------------------------------------------
 
 void RenderingSystem::InitSignature() {
-	m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-	m_Signature.set(g_Admin->GetComponentSignatureID<RenderComponent>(), true);
+	m_Signature.set(Application::g_Admin->GetComponentSignatureID<TransformComponent>(), true);
+	m_Signature.set(Application::g_Admin->GetComponentSignatureID<RenderComponent>(), true);
 }
 
 void RenderingSystem::Init() {
@@ -81,7 +81,7 @@ void RenderingSystem::Update(f32 dt) {
 
 	// Render all Objects
 	for (auto const &entityID : m_EntitiesCache) {
-		TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
+		TransformComponent *t = Application::g_Admin->GetComponent<TransformComponent>(entityID);
 
 		Matrix4 model = Matrix4(1.0f);
 		Float3 *rot = &t->m_Rotation;
@@ -105,7 +105,7 @@ void RenderingSystem::Update(f32 dt) {
 	ImGuiRenderer::Render();
 
 	// Swap Buffers
-	glfwSwapBuffers(Application::window.m_Window);
+	glfwSwapBuffers(Application::g_Window.m_Window);
 }
 
 void RenderingSystem::Shutdown() {

@@ -13,7 +13,7 @@ namespace ImGuiRenderer {
 		ImGui::CreateContext();
 		ImGuiIO &io = ImGui::GetIO();
 		ImGui::StyleColorsDark();
-		ImGui_ImplGlfw_InitForOpenGL(Application::window.m_Window, true);
+		ImGui_ImplGlfw_InitForOpenGL(Application::g_Window.m_Window, true);
 		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 

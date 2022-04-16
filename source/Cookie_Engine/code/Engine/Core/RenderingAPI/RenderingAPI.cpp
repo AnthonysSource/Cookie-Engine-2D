@@ -196,7 +196,7 @@ namespace RenderingAPI {
 
 		void Init() {
 			// Set current OpenGL context to the window
-			glfwMakeContextCurrent(Application::window.m_Window);
+			glfwMakeContextCurrent(Application::g_Window.m_Window);
 
 			// Setup OpenGL function loading
 			gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -204,7 +204,7 @@ namespace RenderingAPI {
 			// Viewport settings and resize
 			glViewport(0, 0, 1280, 720);
 			glfwSetFramebufferSizeCallback(
-				Application::window.m_Window,
+				Application::g_Window.m_Window,
 				[](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
 		};
 
