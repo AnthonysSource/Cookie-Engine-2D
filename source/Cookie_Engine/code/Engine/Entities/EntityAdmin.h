@@ -3,101 +3,31 @@
 #include "Core/Defines.h"
 #include "Core/Types/Containers.h"
 #include "Core/Types/PrimitiveTypes.h"
-
 #include "Core/Math.h"
 #include "Core/Random/Random.h"
 
+#include "Entities/Common.h"
+#include "Entities/ComponentArray.h"
+#include "Entities/System.h"
 #include "Entities/BaseComponents.h"
 
 namespace Cookie {
 
 	// -----------------------------------------------------------------
 
-	// We should use generational id's because this approach
-	// could generate problems when destroying and creating a
-	// vast amount of entitites in a short timespan
-	using EntityID = u32;
-
-	using ComponentSignatureIndex = u8;
-
-	const EntityID MAX_ENTITIES = 5000;
-	const ComponentSignatureIndex MAX_COMPONENTS = 128;
-
-	using Signature = Bitset<MAX_COMPONENTS>;
-
-	// -----------------------------------------------------------------
-
-	class IComponentArray {
-	  public:
-		virtual ~IComponentArray() = default;
-		virtual void DestroyEntity(EntityID entity) = 0;
-	};
-
-	template <typename T> class ComponentArray : public IComponentArray {
-	  public:
-		void Insert(EntityID entity, T component) {
-			CKE_ASSERT(m_EntityToIndex.find(entity) == m_EntityToIndex.end(), "Component added to same entity more than once");
-
-			u64 newIndex = m_Count;
-			m_EntityToIndex[entity] = newIndex;
-			m_IndexToEntity[newIndex] = entity;
-			m_Array[newIndex] = component;
-			++m_Count;
-		}
-
-		void Remove(EntityID entity) {
-			u64 indexOfRemovedEntity = m_EntityToIndex[entity];
-			u64 indexOfLastElement = m_Count - 1;
-			m_Array[indexOfRemovedEntity] = m_Array[indexOfLastElement];
-
-			EntityID entityOfLastElement = m_IndexToEntity[indexOfLastElement];
-			m_EntityToIndex[entityOfLastElement] = indexOfRemovedEntity;
-			m_IndexToEntity[indexOfRemovedEntity] = entityOfLastElement;
-
-			m_EntityToIndex.erase(entity);
-			m_IndexToEntity.erase(indexOfLastElement);
-
-			--m_Count;
-		}
-
-		T *Get(EntityID entity) { return &m_Array[m_EntityToIndex[entity]]; }
-
-		void DestroyEntity(EntityID entity) override {
-			if (m_EntityToIndex.find(entity) != m_EntityToIndex.end()) {
-				Remove(entity);
-			}
-		}
-
-	  private:
-		T m_Array[MAX_ENTITIES];
-		u64 m_Count;
-
-		std::unordered_map<EntityID, u64> m_EntityToIndex;
-		std::unordered_map<u64, EntityID> m_IndexToEntity;
-	};
-
-	// -----------------------------------------------------------------
-
-	class EntityAdmin;
-
-	class System {
-	  public:
-		virtual void InitSignature() = 0;
-		virtual void Update(f32 dt) = 0;
-
-	  protected:
-		Signature m_Signature{};
-		TSet<EntityID> m_EntitiesCache{};
-
-		friend class EntityAdmin;
-	};
-
 	class EntityAdmin {
-	  public:
+
+	public:
 		void Init();
+
+		// Entities
+		// -----------------------------------------------------------------
 
 		EntityID CreateEntity();
 		void DestroyEntity(EntityID entity);
+
+		// Components
+		// -----------------------------------------------------------------
 
 		template <typename T> void RegisterComponent() {
 			u32 typeID = typeid(T).hash_code();
@@ -134,6 +64,9 @@ namespace Cookie {
 			return m_ComponentSignatureIndex[typeID];
 		};
 
+		// Systems
+		// -----------------------------------------------------------------
+
 		template <typename T> void RegisterSystem(T *system) {
 			u32 typeID = typeid(T).hash_code();
 			// System *system = new T();
@@ -141,7 +74,7 @@ namespace Cookie {
 			system->InitSignature();
 		};
 
-	  private:
+	private:
 		TQueue<EntityID> m_AvailableEntityIDs{};
 		TArray<Signature, MAX_ENTITIES> m_Signatures{};
 		u32 m_ActiveEntitiesCount{};
@@ -151,6 +84,8 @@ namespace Cookie {
 		ComponentSignatureIndex m_NextComponentIndex{};
 
 		THashMap<u32, System *> m_Systems{};
+
+		// -----------------------------------------------------------------
 
 		void EntitySignatureChanged(EntityID entityID) {
 			Signature entitySignature = m_Signatures[entityID];

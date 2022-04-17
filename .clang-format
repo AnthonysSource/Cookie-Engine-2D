@@ -8,4 +8,5 @@
     MaxEmptyLinesToKeep: 3,
     SortIncludes: false,
     IndentPPDirectives: BeforeHash,
+    AccessModifierOffset: -4,
 }
