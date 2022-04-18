@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{DBC7D3B0-C769-FE86-B024-12DB9C6585D7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core">
+      <UniqueIdentifier>{130D9B61-7FC2-1357-08B7-0D2E746B0A5B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\FileSystem">
+      <UniqueIdentifier>{47BD667B-33B7-8FCD-1C24-26DE08BDF539}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\IMGUI">
+      <UniqueIdentifier>{1D347AC8-894A-785E-D2C1-03803E1749E6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\InputSystem">
+      <UniqueIdentifier>{7780A2B6-E3B7-EA4D-ECC1-4E7158781147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Logging">
+      <UniqueIdentifier>{A9506308-15B2-4016-9E1F-87C80A8077D5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Platform">
+      <UniqueIdentifier>{C7AED0D1-B33D-5A9B-5C5C-6E9648CA6A41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Random">
+      <UniqueIdentifier>{63B73EEE-4F9B-FF43-B8FB-F996A4FEE9C5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\RenderAPI">
+      <UniqueIdentifier>{FCDB6342-6848-1F3D-313C-B79A9D6741A5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Types">
+      <UniqueIdentifier>{F7125AC9-6329-585F-ACA0-E38018F628E7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Entities">
+      <UniqueIdentifier>{EFE66E34-5B72-DCF8-6483-5FEDD08D38F9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render">
+      <UniqueIdentifier>{EAE1D856-56A2-548D-1FDD-9D0A8B5C9969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Resources">
+      <UniqueIdentifier>{05BB681F-F1B3-8771-1AE6-6CF6063E677D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{107145F9-FC28-8746-6530-60A251072237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\glad">
+      <UniqueIdentifier>{176E334C-83F9-A010-8C0A-2405F814FD10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\glad\src">
+      <UniqueIdentifier>{AE5FF6F5-1AC1-D303-A32E-1AB60F8F0AC3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\imgui">
+      <UniqueIdentifier>{7A0AC6D2-6603-E524-8F35-CAA97B8DC430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\imgui\backends">
+      <UniqueIdentifier>{E4EDCF95-50B0-0320-9960-92AC0562DCFD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\stb_image">
+      <UniqueIdentifier>{AAB50CD2-9644-969B-3F63-AA962BD1A641}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Ckpch.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\CookieEngine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Application.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Core_API.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Defines.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\FileSystem\FileSystem.h">
+      <Filter>Engine\Core\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\FileSystem\FileSystemTest.h">
+      <Filter>Engine\Core\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Game.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\IMGUI\IMGUI_Impl.h">
+      <Filter>Engine\Core\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\InputSystem\InputSystem.h">
+      <Filter>Engine\Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\InputSystem\KeyCodes.h">
+      <Filter>Engine\Core\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Logging\Log.h">
+      <Filter>Engine\Core\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Math.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Platform\Platform.h">
+      <Filter>Engine\Core\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Platform\Window.h">
+      <Filter>Engine\Core\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Random\Random.h">
+      <Filter>Engine\Core\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\RenderAPI\RenderAPI.h">
+      <Filter>Engine\Core\RenderAPI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Time.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Types\Containers.h">
+      <Filter>Engine\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Types\Function.h">
+      <Filter>Engine\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Types\Pointers.h">
+      <Filter>Engine\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Types\PrimitiveTypes.h">
+      <Filter>Engine\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Types\String.h">
+      <Filter>Engine\Core\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\BaseComponents.h">
+      <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\Common.h">
+      <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\ComponentArray.h">
+      <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\Entities_API.h">
+      <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\EntityAdmin.h">
+      <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\System.h">
+      <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderingSystem.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Resources\Resources.h">
+      <Filter>Engine\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_glfw.h">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_opengl2.h">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_win32.h">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\imconfig.h">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\imgui.h">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\imgui_internal.h">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\imstb_rectpack.h">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\imstb_textedit.h">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\imgui\imstb_truetype.h">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine\Core\Application.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\FileSystem\FileSystem.cpp">
+      <Filter>Engine\Core\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\IMGUI\IMGUI_Impl.cpp">
+      <Filter>Engine\Core\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\InputSystem\InputSystem.cpp">
+      <Filter>Engine\Core\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Logging\Log.cpp">
+      <Filter>Engine\Core\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Platform\Platform.cpp">
+      <Filter>Engine\Core\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Platform\Window.cpp">
+      <Filter>Engine\Core\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Random\Random.cpp">
+      <Filter>Engine\Core\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\RenderAPI\RenderAPI.cpp">
+      <Filter>Engine\Core\RenderAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Entities\EntityAdmin.cpp">
+      <Filter>Engine\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderingSystem.cpp">
+      <Filter>Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Resources\Resources.cpp">
+      <Filter>Engine\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\glad\src\glad.c">
+      <Filter>ThirdParty\glad\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\backends\imgui_impl_glfw.cpp">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\backends\imgui_impl_opengl2.cpp">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\backends\imgui_impl_win32.cpp">
+      <Filter>ThirdParty\imgui\backends</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_demo.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_tables.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp">
+      <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\stb_image\cke_stb.cpp">
+      <Filter>ThirdParty\stb_image</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

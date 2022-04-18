@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Types/PrimitiveTypes.h"
+#include <stdlib.h>
 
 namespace Cookie {
 

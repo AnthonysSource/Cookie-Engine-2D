@@ -4,6 +4,7 @@
 
 # Generated Binaries
 /bin/
+/bin-obj/
 
 # CMake Build Files
 /build/

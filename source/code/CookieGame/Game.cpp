@@ -52,7 +52,7 @@ void CreateWorld() {
 int main() {
 
 	Cookie::Application::Run(Cookie::Application::CreateWorld);
-
+	
 	// delete g_RotateSystem;
 	// delete g_FloatSystem;
 
