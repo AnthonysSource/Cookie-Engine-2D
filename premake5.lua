@@ -9,10 +9,13 @@ workspace "Cookie"
         system "Windows"
         architecture "x86_64"
 
+    -- Output Directories
     outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
     targetdir ("%{wks.location}/bin/%{prj.name}/" .. outputDir)
     objdir ("%{wks.location}/bin-obj/%{prj.name}/" .. outputDir)
 
+-- Configurations
+---------------------------------------------------------------------
 filter "configurations:Debug"
     defines {
         "COOKIE_PLATFORM_WINDOWS",
@@ -43,5 +46,7 @@ filter "configurations:Shipping"
     symbols "Off"
     optimize "On"
 
+-- Project Includes
+---------------------------------------------------------------------
 include("source/code/CookieEngine")
 include("source/code/CookieGame")
