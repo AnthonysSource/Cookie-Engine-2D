@@ -36,7 +36,7 @@ namespace Cookie {
 				// Logging to inspect system state
 			}
 		}
-
+		
 		void InputSystem::Shutdown() {}
 
 		void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action, int mods) {
@@ -52,7 +52,7 @@ namespace Cookie {
 			if (action == 1) {
 				g_InputComponent.m_Keyboard.m_KeyDown[key] = true;
 				g_InputComponent.m_Keyboard.m_KeyHeld[key] = true;
-			} else {
+			} else if (action == 0) {
 				g_InputComponent.m_Keyboard.m_KeyHeld[key] = false;
 				g_InputComponent.m_Keyboard.m_KeyUp[key] = true;
 			}

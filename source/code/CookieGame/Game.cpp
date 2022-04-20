@@ -10,7 +10,7 @@ namespace Cookie::Application {
 		EntitiesAdmin->RegisterComponent<RotatingComponent>();
 		EntitiesAdmin->RegisterComponent<FloatComponent>();
 		EntitiesAdmin->RegisterComponent<MoveComponent>();
-		
+
 		// Register Systems in order of execution
 		EntitiesAdmin->RegisterSystem<RotateSystem>();
 		EntitiesAdmin->RegisterSystem<FloatSystem>();
@@ -29,6 +29,7 @@ namespace Cookie::Application {
 		RotatingComponent r{};
 		r.m_Speed = 5.0f;
 		MoveComponent m = MoveComponent{};
+		m.m_Speed = 4.0f;
 		EntitiesAdmin->AddComponent(e, t);
 		EntitiesAdmin->AddComponent(e, RenderComponent{});
 		EntitiesAdmin->AddComponent(e, r);

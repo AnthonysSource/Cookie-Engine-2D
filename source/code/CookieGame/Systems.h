@@ -39,6 +39,12 @@ namespace Cookie::Application {
 				} else if (input->IsKeyHeld(COOKIE_KEY_S)) {
 					t->m_Position.y -= m->m_Speed * dt;
 				}
+
+				if (input->IsKeyHeld(COOKIE_KEY_D)) {
+					t->m_Position.x += m->m_Speed * dt;
+				} else if (input->IsKeyHeld(COOKIE_KEY_A)) {
+					t->m_Position.x -= m->m_Speed * dt;
+				}
 			}
 		}
 	};
