@@ -46,7 +46,9 @@ namespace Cookie {
 
 	namespace InputSystem {
 
-		void Init(Window *window);
+		extern InputComponent g_InputComponent;
+
+		void Init(WindowData *window);
 		void Update();
 		void Shutdown();
 

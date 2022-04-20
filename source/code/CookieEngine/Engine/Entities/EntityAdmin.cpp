@@ -8,6 +8,12 @@ namespace Cookie {
 		}
 	}
 
+	void EntityAdmin::Update(f32 deltaTime) {
+		for (auto const pair : m_Systems) {
+			pair.second->Update(deltaTime);
+		}
+	}
+
 	void EntityAdmin::Shutdown() {
 		for (auto const pair : m_Systems) {
 			delete pair.second;

@@ -4,32 +4,37 @@
 
 namespace Cookie::Application {
 
-	void CreateWorld() {
+	void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 
-		using namespace Cookie::Application;
+		// Register Components
+		EntitiesAdmin->RegisterComponent<RotatingComponent>();
+		EntitiesAdmin->RegisterComponent<FloatComponent>();
+		EntitiesAdmin->RegisterComponent<MoveComponent>();
+		
+		// Register Systems in order of execution
+		EntitiesAdmin->RegisterSystem<RotateSystem>();
+		EntitiesAdmin->RegisterSystem<FloatSystem>();
+		EntitiesAdmin->RegisterSystem<MoveSystem>();
 
-		g_Admin->RegisterComponent<RotatingComponent>();
-		g_Admin->RegisterComponent<FloatComponent>();
-
-		g_Admin->RegisterSystem<RotateSystem>();
-		g_Admin->RegisterSystem<FloatSystem>();
-
-		EntityID e = g_Admin->CreateEntity();
+		// Create World Entities
+		EntityID e = EntitiesAdmin->CreateEntity();
 		TransformComponent t{};
 		t.m_Position = Float3(-2.0f, 0.0f, 0.0f);
-		g_Admin->AddComponent(e, RenderComponent{});
-		g_Admin->AddComponent(e, t);
+		EntitiesAdmin->AddComponent(e, RenderComponent{});
+		EntitiesAdmin->AddComponent(e, t);
 
-		e = g_Admin->CreateEntity();
+		e = EntitiesAdmin->CreateEntity();
 		t = TransformComponent{};
 		t.m_Position = Float3(0.0f, 0.0f, 0.0f);
 		RotatingComponent r{};
 		r.m_Speed = 5.0f;
-		g_Admin->AddComponent(e, t);
-		g_Admin->AddComponent(e, RenderComponent{});
-		g_Admin->AddComponent(e, r);
+		MoveComponent m = MoveComponent{};
+		EntitiesAdmin->AddComponent(e, t);
+		EntitiesAdmin->AddComponent(e, RenderComponent{});
+		EntitiesAdmin->AddComponent(e, r);
+		EntitiesAdmin->AddComponent(e, m);
 
-		e = g_Admin->CreateEntity();
+		e = EntitiesAdmin->CreateEntity();
 		t = TransformComponent{};
 		t.m_Position = Float3(2.0f, 0.0f, 0.0f);
 		r = RotatingComponent{};
@@ -37,10 +42,10 @@ namespace Cookie::Application {
 		FloatComponent f = FloatComponent{};
 		f.m_Speed = 1.0f;
 		f.m_Amplitude = 0.25f;
-		g_Admin->AddComponent(e, t);
-		g_Admin->AddComponent(e, r);
-		g_Admin->AddComponent(e, RenderComponent{});
-		g_Admin->AddComponent(e, f);
+		EntitiesAdmin->AddComponent(e, t);
+		EntitiesAdmin->AddComponent(e, r);
+		EntitiesAdmin->AddComponent(e, RenderComponent{});
+		EntitiesAdmin->AddComponent(e, f);
 	}
 
 } // namespace Cookie::Application

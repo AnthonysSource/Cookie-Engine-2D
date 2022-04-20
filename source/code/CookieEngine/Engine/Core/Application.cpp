@@ -18,21 +18,22 @@
 
 namespace Cookie {
 
+	AppData g_AppData;
+	EntityAdmin *g_Admin = new EntityAdmin();
+	TimeData g_TimeData;
+	RenderingSystem *g_RenderingSystem = new RenderingSystem();
+
 	namespace Application {
 
-		Window g_Window;
-		EntityAdmin *g_Admin = new EntityAdmin();
-		RenderingSystem *g_RenderingSystem = new RenderingSystem();
-
-		void Run(TFunction<void()> CreateWorld) {
+		void Run(TFunction<void(EntityAdmin *const EntitiesAdmin)> CreateWorld) {
 			CKE_LOG_INFO("Starting up Cookie Engine");
 			Platform::Init();
 
 			CKE_LOG_INFO("Creating window");
-			WindowManagement::CreateAppWindow(&g_Window, 1280, 720, "Cookie Engine");
+			WindowManagement::CreateAppWindow(&g_AppData.m_Window, 1280, 720, "Cookie Engine");
 
 			CKE_LOG_INFO("Initializing Input System");
-			InputSystem::Init(&g_Window);
+			InputSystem::Init(&g_AppData.m_Window);
 
 			CKE_LOG_INFO("Initializing Entity Admin");
 			g_Admin->Init();
@@ -40,22 +41,24 @@ namespace Cookie {
 			g_Admin->RegisterComponent<RenderComponent>();
 			g_Admin->RegisterSystem(g_RenderingSystem);
 
-			CreateWorld();
+			CreateWorld(g_Admin);
 
 			CKE_LOG_INFO("Initializing Rendering System");
 			g_RenderingSystem->Init();
 
 			CKE_LOG_INFO("Starting engine loop");
-			f32 tLastFrame = (f32)glfwGetTime();
-			f32 tCurrentFrame = tLastFrame;
 
-			while (Platform::IsRunning(g_Window.m_Window)) {
-				tCurrentFrame = (f32)glfwGetTime();
-				f32 deltaTime = tCurrentFrame - tLastFrame;
-				tLastFrame = tCurrentFrame;
+			g_TimeData.m_SecondsUpTimeLastUpdate = glfwGetTime();
+			g_TimeData.m_SecondsUpTime = g_TimeData.m_SecondsUpTimeLastUpdate;
+
+			while (Platform::IsRunning(g_AppData.m_Window.m_Handle)) {
+				g_TimeData.m_SecondsUpTime = glfwGetTime();
+				g_TimeData.m_DeltaTime = g_TimeData.m_SecondsUpTime - g_TimeData.m_SecondsUpTimeLastUpdate;
+				g_TimeData.m_SecondsUpTimeLastUpdate = g_TimeData.m_SecondsUpTime;
 
 				InputSystem::Update();
-				g_RenderingSystem->Update(deltaTime);
+				g_Admin->Update(g_TimeData.m_DeltaTime);
+				g_RenderingSystem->Update(g_TimeData.m_DeltaTime);
 			}
 
 			// Shutdown

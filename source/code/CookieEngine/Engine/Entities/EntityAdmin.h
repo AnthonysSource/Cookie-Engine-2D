@@ -19,7 +19,7 @@ namespace Cookie {
 
 	public:
 		void Init();
-		void Update();
+		void Update(f32 deltaTime);
 		void Shutdown();
 
 		// Entities
@@ -63,6 +63,8 @@ namespace Cookie {
 
 		template <typename T> ComponentSignatureIndex GetComponentSignatureID() {
 			u32 typeID = typeid(T).hash_code();
+			CKE_ASSERT(m_ComponentSignatureIndex.find(typeID) != m_ComponentSignatureIndex.end(),
+					   "A system is trying to acess a component that is not registered");
 			return m_ComponentSignatureIndex[typeID];
 		};
 
@@ -114,6 +116,7 @@ namespace Cookie {
 
 		template <typename T> ComponentArray<T> *GetComponentArray() {
 			u32 typeID = typeid(T).hash_code();
+			CKE_ASSERT(m_ComponentArrays.find(typeID) != m_ComponentArrays.end(), "Trying to add an unregistered component to an entity");
 			return dynamic_cast<ComponentArray<T> *>(m_ComponentArrays[typeID]);
 		}
 	};

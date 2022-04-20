@@ -192,14 +192,14 @@ namespace Cookie {
 
 			void Init() {
 				// Set current OpenGL context to the window
-				glfwMakeContextCurrent(Application::g_Window.m_Window);
+				glfwMakeContextCurrent(g_AppData.m_Window.m_Handle);
 
 				// Setup OpenGL function loading
 				gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 				// Viewport settings and resize
 				glViewport(0, 0, 1280, 720);
-				glfwSetFramebufferSizeCallback(Application::g_Window.m_Window,
+				glfwSetFramebufferSizeCallback(g_AppData.m_Window.m_Handle,
 											   [](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
 			};
 

@@ -34,8 +34,8 @@ namespace Cookie {
 	//-------------------------------------------------------------------------
 
 	void RenderingSystem::InitSignature() {
-		m_Signature.set(Application::g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-		m_Signature.set(Application::g_Admin->GetComponentSignatureID<RenderComponent>(), true);
+		m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
+		m_Signature.set(g_Admin->GetComponentSignatureID<RenderComponent>(), true);
 	}
 
 	void RenderingSystem::Init() {
@@ -81,7 +81,7 @@ namespace Cookie {
 
 		// Render all Objects
 		for (auto const &entityID : m_EntitiesCache) {
-			TransformComponent *t = Application::g_Admin->GetComponent<TransformComponent>(entityID);
+			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 
 			Matrix4 model = Matrix4(1.0f);
 			Float3 *rot = &t->m_Rotation;
@@ -105,9 +105,9 @@ namespace Cookie {
 		ImGuiRenderer::Render();
 
 		// Swap Buffers
-		glfwSwapBuffers(Application::g_Window.m_Window);
+		glfwSwapBuffers(g_AppData.m_Window.m_Handle);
 	}
-
+	
 	void RenderingSystem::Shutdown() {
 		ImGuiRenderer::Shutdown();
 		Image::Release(&img);

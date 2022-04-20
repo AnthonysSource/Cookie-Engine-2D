@@ -14,15 +14,15 @@ namespace Cookie {
 		// Contains a buffer of the input events that have been
 		// registered in the current frame
 		TQueue<InputEvent> s_InputEventsBuffer;
-		InputComponent s_InputState;
+		InputComponent g_InputComponent;
 
 		void InputSystem::Update() {
 			// Reset previous input state
 			for (size_t i = 0; i < 255; i++) {
 				// We dont reset keyheld because that gets
 				// reset in a keyup event
-				s_InputState.m_Keyboard.m_KeyDown[i] = false;
-				s_InputState.m_Keyboard.m_KeyUp[i] = false;
+				g_InputComponent.m_Keyboard.m_KeyDown[i] = false;
+				g_InputComponent.m_Keyboard.m_KeyUp[i] = false;
 			}
 
 			// Poll All Window Events
@@ -50,15 +50,15 @@ namespace Cookie {
 
 			// Save input data
 			if (action == 1) {
-				s_InputState.m_Keyboard.m_KeyDown[key] = true;
-				s_InputState.m_Keyboard.m_KeyHeld[key] = true;
+				g_InputComponent.m_Keyboard.m_KeyDown[key] = true;
+				g_InputComponent.m_Keyboard.m_KeyHeld[key] = true;
 			} else {
-				s_InputState.m_Keyboard.m_KeyHeld[key] = false;
-				s_InputState.m_Keyboard.m_KeyUp[key] = true;
+				g_InputComponent.m_Keyboard.m_KeyHeld[key] = false;
+				g_InputComponent.m_Keyboard.m_KeyUp[key] = true;
 			}
 		}
 
-		void InputSystem::Init(Window *window) { glfwSetKeyCallback(window->m_Window, WindowKeyEventHandle); }
+		void InputSystem::Init(WindowData *window) { glfwSetKeyCallback(window->m_Handle, WindowKeyEventHandle); }
 
 		void LogInput(InputEvent e) {
 			CKE_LOG_INFO("Event Data -> Key Name: {} / Keycode: {} / Scancode : {} / Action: {} / Mod: {}",
@@ -72,8 +72,8 @@ namespace Cookie {
 
 			CKE_LOG_INFO("Input State Data -> Key Name: {} / Event Action: {} / Keydown: {} / Keyheld: "
 						 "{} / Keyup: {}",
-						 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action, s_InputState.m_Keyboard.m_KeyDown[e.m_KeyCode],
-						 s_InputState.m_Keyboard.m_KeyHeld[e.m_KeyCode], s_InputState.m_Keyboard.m_KeyUp[e.m_KeyCode]);
+						 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action, g_InputComponent.m_Keyboard.m_KeyDown[e.m_KeyCode],
+						 g_InputComponent.m_Keyboard.m_KeyHeld[e.m_KeyCode], g_InputComponent.m_Keyboard.m_KeyUp[e.m_KeyCode]);
 			s_InputEventsBuffer.pop();
 		}
 

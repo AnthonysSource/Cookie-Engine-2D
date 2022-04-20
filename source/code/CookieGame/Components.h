@@ -4,13 +4,17 @@
 
 namespace Cookie {
 
-struct RotatingComponent {
-	f32 m_Speed = 5.0f;
-};
+	struct RotatingComponent {
+		f32 m_Speed = 5.0f;
+	};
 
-struct FloatComponent {
-	f32 m_Speed = 2.0f;
-	f32 m_Amplitude = 2.0f;
-};
+	struct FloatComponent {
+		f32 m_Speed = 2.0f;
+		f32 m_Amplitude = 2.0f;
+	};
 
-}
+	struct MoveComponent {
+		f32 m_Speed = 1.0f;
+	};
+
+} // namespace Cookie
