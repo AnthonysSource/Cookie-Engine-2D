@@ -8,6 +8,12 @@ namespace Cookie {
 		}
 	}
 
+	void EntityAdmin::Shutdown() {
+		for (auto const pair : m_Systems) {
+			delete pair.second;
+		}
+	}
+
 	EntityID EntityAdmin::CreateEntity() {
 		CKE_ASSERT(m_ActiveEntitiesCount < MAX_ENTITIES, "Trying to create too many entities");
 

@@ -46,12 +46,12 @@ namespace Cookie {
 			g_RenderingSystem->Init();
 
 			CKE_LOG_INFO("Starting engine loop");
-			f32 tLastFrame = glfwGetTime();
+			f32 tLastFrame = (f32)glfwGetTime();
 			f32 tCurrentFrame = tLastFrame;
 
 			while (Platform::IsRunning(g_Window.m_Window)) {
-				tCurrentFrame = glfwGetTime();
-				f64 deltaTime = tCurrentFrame - tLastFrame;
+				tCurrentFrame = (f32)glfwGetTime();
+				f32 deltaTime = tCurrentFrame - tLastFrame;
 				tLastFrame = tCurrentFrame;
 
 				InputSystem::Update();

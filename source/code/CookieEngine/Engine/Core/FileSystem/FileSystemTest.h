@@ -12,9 +12,9 @@ namespace Cookie {
 		void RunFileSystemTest() {
 			Dt data[2];
 			data[0].a = 10;
-			data[0].b = 3.1415;
+			data[0].b = 3.1415f;
 			data[1].a = 25;
-			data[1].b = 7.4754;
+			data[1].b = 7.4754f;
 			FileSystem::WriteToFile("test.bin", (char *)data, sizeof(data));
 
 			Dt *dataRead = new Dt[2];

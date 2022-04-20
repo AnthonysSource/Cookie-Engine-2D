@@ -19,6 +19,8 @@ namespace Cookie {
 
 	public:
 		void Init();
+		void Update();
+		void Shutdown();
 
 		// Entities
 		// -----------------------------------------------------------------
@@ -67,9 +69,15 @@ namespace Cookie {
 		// Systems
 		// -----------------------------------------------------------------
 
+		template <typename T> void RegisterSystem() {
+			u32 typeID = typeid(T).hash_code();
+			System *system = new T();
+			m_Systems.insert({typeID, system});
+			system->InitSignature();
+		};
+
 		template <typename T> void RegisterSystem(T *system) {
 			u32 typeID = typeid(T).hash_code();
-			// System *system = new T();
 			m_Systems.insert({typeID, system});
 			system->InitSignature();
 		};
