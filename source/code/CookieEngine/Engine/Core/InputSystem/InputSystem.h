@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Core/Defines.h"
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Platform/Window.h"
 
@@ -38,9 +39,9 @@ namespace Cookie {
 		KeyboardInputState m_Keyboard;
 		MouseInputState m_Mouse;
 
-		inline bool IsKeyDown(int keyCode) { return m_Keyboard.m_KeyDown[keyCode]; }
-		inline bool IsKeyUp(int keyCode) { return m_Keyboard.m_KeyUp[keyCode]; }
-		inline bool IsKeyHeld(int keyCode) { return m_Keyboard.m_KeyHeld[keyCode]; }
+		CKE_FORCE_INLINE bool IsKeyDown(int keyCode) { return m_Keyboard.m_KeyDown[keyCode]; }
+		CKE_FORCE_INLINE bool IsKeyUp(int keyCode) { return m_Keyboard.m_KeyUp[keyCode]; }
+		CKE_FORCE_INLINE bool IsKeyHeld(int keyCode) { return m_Keyboard.m_KeyHeld[keyCode]; }
 	};
 
 	namespace InputSystem {
