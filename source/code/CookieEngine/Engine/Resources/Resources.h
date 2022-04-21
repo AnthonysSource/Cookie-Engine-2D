@@ -7,6 +7,8 @@
 namespace Cookie {
 
 	// --------------------------------------------------------------------------
+	using ImageHandle = u32;
+	using SpriteHandle = u32;
 
 	struct ImageCPU {
 		i32 m_Width;
@@ -27,11 +29,17 @@ namespace Cookie {
 	};
 
 	struct ResourcesDatabase {
-		THashMap<u32, SpriteRenderData *> m_Sprites;
+		THashMap<SpriteHandle, SpriteRenderData *> m_Sprites;
+		THashMap<ImageHandle, ImageCPU *> m_Images;
 
 		CKE_FORCE_INLINE SpriteRenderData *GetSpriteData(u32 spriteID) {
 			CKE_ASSERT(m_Sprites.count(spriteID) != 0, "Acessing a sprite that doesn't exist");
 			return m_Sprites[spriteID];
+		}
+
+		CKE_FORCE_INLINE ImageCPU *GetImage(u32 imageID) {
+			CKE_ASSERT(m_Images.count(imageID) != 0, "Acessing an image that doesn't exist");
+			return m_Images[imageID];
 		}
 	};
 
@@ -47,17 +55,17 @@ namespace Cookie {
 		void Shutdown();
 
 		// Sprites
-		u32 GenerateSprite(ImageCPU image, f32 pixelsPerUnit);
-		void DeleteSprite(u32 spriteID);
+		SpriteHandle GenerateSprite(ImageHandle imgHandle, f32 pixelsPerUnit);
+		void DeleteSprite(SpriteHandle handle);
 
 		// Images
 		//
 		// Load a image on the CPU, the data
 		// is stored as unsigned char
 		// This internally allocates memory for the data
-		ImageCPU Load(const char *path);
+		ImageHandle Load(const char *path);
 		// Release the memory of the cpu image
-		void Release(ImageCPU *image);
+		void Release(ImageHandle handle);
 
 
 	} // namespace ResourcesSystem

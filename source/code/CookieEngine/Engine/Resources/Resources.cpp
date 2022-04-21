@@ -31,17 +31,31 @@ namespace Cookie {
 
 		// Images
 		// --------------------------------------------------------------------------
-		ImageCPU Load(const char *path) {
-			ImageCPU i;
-			i.m_Data = stbi_load(path, &i.m_Width, &i.m_Height, &i.m_NrChannels, 0);
-			return i;
+		ImageHandle Load(const char *path) {
+			ImageCPU *i = new ImageCPU();
+			stbi_set_flip_vertically_on_load(true);
+			i->m_Data = stbi_load(path, &i->m_Width, &i->m_Height, &i->m_NrChannels, 0);
+
+			ImageHandle handle = m_AvailableIDs.front();
+			m_AvailableIDs.pop();
+			g_ResourcesDatabase.m_Images[handle] = i;
+			return handle;
 		}
 
-		void Release(ImageCPU *image) { stbi_image_free(image->m_Data); }
+		void Release(ImageHandle handle) {
+			// Delete the image from the database
+			// and free the image data
+			auto img = g_ResourcesDatabase.m_Images[handle];
+			stbi_image_free(g_ResourcesDatabase.m_Images[handle]->m_Data);
+			delete img;
+			g_ResourcesDatabase.m_Images.erase(handle);
+		}
 
 		// Sprites
 		// --------------------------------------------------------------------------
-		u32 GenerateSprite(ImageCPU image, f32 pixelsPerUnit) {
+		SpriteHandle GenerateSprite(ImageHandle imgHandle, f32 pixelsPerUnit) {
+
+			auto image = g_ResourcesDatabase.GetImage(imgHandle);
 
 			SpriteRenderData *sp = new SpriteRenderData();
 
@@ -51,10 +65,10 @@ namespace Cookie {
 
 			// Quad
 			// clang-format off
-			sp->m_Vertices = { -image.m_Width / (2.0f * pixelsPerUnit), -image.m_Height / (2.0f * pixelsPerUnit), 0.0f,   0.0f, 0.0f, 
-								image.m_Width / (2.0f * pixelsPerUnit), -image.m_Height / (2.0f * pixelsPerUnit), 0.0f,   1.0f, 0.0f,
-							    image.m_Width / (2.0f * pixelsPerUnit),  image.m_Height / (2.0f * pixelsPerUnit), 0.0f,   1.0f, 1.0f, 
-							   -image.m_Width / (2.0f * pixelsPerUnit),  image.m_Height / (2.0f * pixelsPerUnit), 0.0f,   0.0f, 1.0f};
+			sp->m_Vertices = { -image->m_Width / (2.0f * pixelsPerUnit), -image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   0.0f, 0.0f, 
+								image->m_Width / (2.0f * pixelsPerUnit), -image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   1.0f, 0.0f,
+							    image->m_Width / (2.0f * pixelsPerUnit),  image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   1.0f, 1.0f, 
+							   -image->m_Width / (2.0f * pixelsPerUnit),  image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   0.0f, 1.0f};
 			sp->m_Indices = {0, 1, 2,
 							 2, 3, 0};
 			// clang-format on
@@ -76,7 +90,7 @@ namespace Cookie {
 			sp->m_VertexArray.BindVertexBuffer(&sp->m_VertexBuffer);
 			sp->m_VertexArray.SetLayout(&layout);
 
-			sp->m_Texture = Device::CreateTexture(image.m_Data, image.m_Width, image.m_Height);
+			sp->m_Texture = Device::CreateTexture(image->m_Data, image->m_Width, image->m_Height);
 
 			// Currently creating a texture binds it to the last used
 			// vertex array
@@ -87,10 +101,10 @@ namespace Cookie {
 			return handle;
 		}
 
-		void DeleteSprite(u32 spriteID) {
-			SpriteRenderData *sp = g_ResourcesDatabase.m_Sprites[spriteID];
+		void DeleteSprite(SpriteHandle handle) {
+			SpriteRenderData *sp = g_ResourcesDatabase.m_Sprites[handle];
 			delete sp;
-			g_ResourcesDatabase.m_Sprites.erase(spriteID);
+			g_ResourcesDatabase.m_Sprites.erase(handle);
 		}
 
 	} // namespace ResourcesSystem

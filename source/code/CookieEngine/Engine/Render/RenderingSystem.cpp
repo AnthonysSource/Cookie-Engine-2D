@@ -18,12 +18,12 @@ namespace Cookie {
 	// -----------------
 	// Temporal variables stored in the stack
 	// for rendering tests
-	u32 cookieID;
-	u32 butterID;
-	u32 sugarID;
-	ImageCPU cookieImg;
-	ImageCPU butterImg;
-	ImageCPU sugarImg;
+	SpriteHandle cookieID;
+	SpriteHandle butterID;
+	SpriteHandle sugarID;
+	ImageHandle cookieImg;
+	ImageHandle butterImg;
+	ImageHandle sugarImg;
 	// --------------------------------------------------------------------------
 
 	void RenderingSystem::InitSignature() {
@@ -90,7 +90,7 @@ namespace Cookie {
 
 	void RenderingSystem::Shutdown() {
 		ImGuiRenderer::Shutdown();
-		ResourcesSystem::Release(&cookieImg);
+		ResourcesSystem::Release(cookieImg);
 	}
 
 } // namespace Cookie
