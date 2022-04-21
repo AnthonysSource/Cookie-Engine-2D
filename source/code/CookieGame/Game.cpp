@@ -12,18 +12,15 @@ namespace Cookie::Application {
 		EntityID e = EntitiesAdmin->CreateEntity();
 
 		TransformComponent transform = TransformComponent{};
-		RotatingComponent rotating{};
 		MoveComponent move = MoveComponent{};
 		RenderComponent render = RenderComponent{};
 
 		transform.m_Position = pos;
-		rotating.m_Speed = 5.0f;
 		move.m_Speed = 4.0f;
-		render.m_SpriteID = 4;
+		render.m_SpriteID = 3;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
-		EntitiesAdmin->AddComponent(e, rotating);
 		EntitiesAdmin->AddComponent(e, move);
 	};
 
@@ -39,7 +36,7 @@ namespace Cookie::Application {
 		rotating.m_Speed = 3.14f;
 		floating.m_Speed = 1.0f;
 		floating.m_Amplitude = 0.25f;
-		render.m_SpriteID = 5;
+		render.m_SpriteID = 4;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
@@ -54,7 +51,7 @@ namespace Cookie::Application {
 		RenderComponent render = RenderComponent{};
 
 		transform.m_Position = pos;
-		render.m_SpriteID = 3;
+		render.m_SpriteID = 5;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
@@ -73,9 +70,13 @@ namespace Cookie::Application {
 		EntitiesAdmin->RegisterSystem<MoveSystem>();
 
 		// Create World Entities
-		CreateSugarCube(EntitiesAdmin, Float3(-2.0f, 0.0f, 0.0f));
+		CreateFloatingButterStick(EntitiesAdmin, Float3(-2.0f, 0.0f, 0.0f));
 		CreateControllableCookie(EntitiesAdmin, Float3(0.0f, 0.0f, 0.0f));
-		CreateFloatingButterStick(EntitiesAdmin, Float3(2.0f, 0.0f, 0.0f));
+		CreateControllableCookie(EntitiesAdmin, Float3(2.0f, 2.0f, 0.0f));
+		CreateControllableCookie(EntitiesAdmin, Float3(2.0f, -2.0f, 0.0f));
+		CreateControllableCookie(EntitiesAdmin, Float3(-2.0f, 2.0f, 0.0f));
+		CreateControllableCookie(EntitiesAdmin, Float3(-2.0f, -2.0f, 0.0f));
+		CreateSugarCube(EntitiesAdmin, Float3(2.0f, 0.0f, 0.0f));
 	}
 
 } // namespace Cookie::Application

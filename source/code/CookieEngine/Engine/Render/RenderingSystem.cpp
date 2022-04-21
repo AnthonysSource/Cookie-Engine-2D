@@ -57,6 +57,8 @@ namespace Cookie {
 
 			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteID);
 
+			Context::BindProgram(&sp->m_Program);
+
 			// Camera Config
 			Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
 			Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
@@ -73,7 +75,7 @@ namespace Cookie {
 			sp->m_Program.SetUniformMat4("model", glm::value_ptr(model));
 
 			// Issue Drawcall
-			Context::BindProgram(&sp->m_Program);
+			Context::BindVertexArray(&sp->m_VertexArray);
 			Context::BindTexture(&sp->m_Texture);
 			Context::DrawIndexed(&sp->m_VertexArray);
 		}

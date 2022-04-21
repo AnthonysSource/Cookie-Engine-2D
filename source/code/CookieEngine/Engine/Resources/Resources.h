@@ -24,8 +24,8 @@ namespace Cookie {
 		RenderingAPI::Program m_Program;
 		RenderingAPI::Texture m_Texture;
 
-		TVector<float> m_Vertices;
-		TVector<u32> m_Indices;
+		TVector<float> m_Vertices{};
+		TVector<u32> m_Indices{};
 	};
 
 	struct ResourcesDatabase {

@@ -105,8 +105,6 @@ namespace Cookie::RenderingAPI {
 			glBindBuffer(GL_ARRAY_BUFFER, vb.m_DeviceID);
 			// TODO: Add options to change gl_static_draw
 			glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-			// This might not be necessary
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			return vb;
 		};
 
@@ -119,8 +117,6 @@ namespace Cookie::RenderingAPI {
 			glGenBuffers(1, &ib.m_DeviceID);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib.m_DeviceID);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
-			// This might not be necessary
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			return ib;
 		};
 
@@ -193,11 +189,12 @@ namespace Cookie::RenderingAPI {
 
 		void BindVertexArray(VertexArray *va) { glBindVertexArray(va->m_DeviceID); };
 
-		void BindTexture(Texture *t) { glBindTexture(GL_TEXTURE_2D, t->m_ID); }
+		void BindTexture(Texture *t) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, t->m_ID);
+		}
 
 		void DrawIndexed(VertexArray *va) {
-			glBindVertexArray(va->m_DeviceID);
-
 			// We need to store this parameters in the va
 			glDrawElements(GL_TRIANGLES, va->m_IndexBuffer->m_IndexCount, GetOpenGLDataType(va->m_IndexBuffer->m_DataType), nullptr);
 		}
