@@ -150,11 +150,11 @@
     <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CookieEngine\CookieEngine.vcxproj">
-      <Project>{5500CE5A-4163-5DFF-EAE8-95B5D62A2982}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\CookieEngine\ThirdParty\glfw\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\CookieEngine\CookieEngine.vcxproj">
+      <Project>{5500CE5A-4163-5DFF-EAE8-95B5D62A2982}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
