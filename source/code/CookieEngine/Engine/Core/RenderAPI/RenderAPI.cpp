@@ -86,6 +86,7 @@ namespace Cookie {
 			VertexArray Device::CreateVertexArray() {
 				VertexArray va;
 				glGenVertexArrays(1, &va.m_DeviceID);
+				glBindVertexArray(va.m_DeviceID);
 				return va;
 			};
 
@@ -180,6 +181,8 @@ namespace Cookie {
 		} // namespace Device
 
 		namespace Context {
+
+			void BindTexture(Texture *t) { glBindTexture(GL_TEXTURE_2D, t->m_ID); }
 
 			void DrawIndexed(VertexArray *va) {
 				glBindVertexArray(va->m_DeviceID);

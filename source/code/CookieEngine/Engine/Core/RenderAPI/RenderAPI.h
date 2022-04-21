@@ -95,6 +95,7 @@ namespace Cookie {
 			void BindVertexBuffer(VertexBuffer *vb);
 			void BindIndexBuffer(IndexBuffer *ib);
 			void BindProgram(Program *p);
+			void BindTexture(Texture *t);
 
 			void Init();
 			void ClearColorBuffer(float r, float g, float b, float a);
