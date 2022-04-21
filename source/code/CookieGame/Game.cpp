@@ -2,7 +2,63 @@
 #include "CookieEngine.h"
 #include "Systems.h"
 
+
+
 namespace Cookie::Application {
+
+	using namespace Cookie;
+
+	void CreateControllableCookie(EntityAdmin *const EntitiesAdmin, Float3 pos) {
+		EntityID e = EntitiesAdmin->CreateEntity();
+
+		TransformComponent transform = TransformComponent{};
+		RotatingComponent rotating{};
+		MoveComponent move = MoveComponent{};
+		RenderComponent render = RenderComponent{};
+
+		transform.m_Position = pos;
+		rotating.m_Speed = 5.0f;
+		move.m_Speed = 4.0f;
+		render.m_SpriteID = 4;
+
+		EntitiesAdmin->AddComponent(e, transform);
+		EntitiesAdmin->AddComponent(e, render);
+		EntitiesAdmin->AddComponent(e, rotating);
+		EntitiesAdmin->AddComponent(e, move);
+	};
+
+	void CreateFloatingButterStick(EntityAdmin *const EntitiesAdmin, Float3 pos) {
+		EntityID e = EntitiesAdmin->CreateEntity();
+
+		TransformComponent transform = TransformComponent{};
+		RotatingComponent rotating = RotatingComponent{};
+		FloatComponent floating = FloatComponent{};
+		RenderComponent render = RenderComponent{};
+
+		transform.m_Position = pos;
+		rotating.m_Speed = 3.14f;
+		floating.m_Speed = 1.0f;
+		floating.m_Amplitude = 0.25f;
+		render.m_SpriteID = 5;
+
+		EntitiesAdmin->AddComponent(e, transform);
+		EntitiesAdmin->AddComponent(e, render);
+		EntitiesAdmin->AddComponent(e, rotating);
+		EntitiesAdmin->AddComponent(e, floating);
+	}
+
+	void CreateSugarCube(EntityAdmin *const EntitiesAdmin, Float3 pos) {
+		EntityID e = EntitiesAdmin->CreateEntity();
+
+		TransformComponent transform = TransformComponent{};
+		RenderComponent render = RenderComponent{};
+
+		transform.m_Position = pos;
+		render.m_SpriteID = 3;
+
+		EntitiesAdmin->AddComponent(e, transform);
+		EntitiesAdmin->AddComponent(e, render);
+	}
 
 	void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 
@@ -17,42 +73,9 @@ namespace Cookie::Application {
 		EntitiesAdmin->RegisterSystem<MoveSystem>();
 
 		// Create World Entities
-		EntityID e = EntitiesAdmin->CreateEntity();
-		TransformComponent t{};
-		t.m_Position = Float3(-2.0f, 0.0f, 0.0f);
-		RenderComponent renderComp = RenderComponent{};
-		renderComp.m_SpriteID = 3;
-		EntitiesAdmin->AddComponent(e, renderComp);
-		EntitiesAdmin->AddComponent(e, t);
-
-		e = EntitiesAdmin->CreateEntity();
-		t = TransformComponent{};
-		t.m_Position = Float3(0.0f, 0.0f, 0.0f);
-		RotatingComponent r{};
-		r.m_Speed = 5.0f;
-		MoveComponent m = MoveComponent{};
-		m.m_Speed = 4.0f;
-		renderComp = RenderComponent{};
-		renderComp.m_SpriteID = 4;
-		EntitiesAdmin->AddComponent(e, t);
-		EntitiesAdmin->AddComponent(e, renderComp);
-		EntitiesAdmin->AddComponent(e, r);
-		EntitiesAdmin->AddComponent(e, m);
-		
-		e = EntitiesAdmin->CreateEntity();
-		t = TransformComponent{};
-		t.m_Position = Float3(2.0f, 0.0f, 0.0f);
-		r = RotatingComponent{};
-		r.m_Speed = 3.14f;
-		FloatComponent f = FloatComponent{};
-		f.m_Speed = 1.0f;
-		f.m_Amplitude = 0.25f;
-		renderComp = RenderComponent{};
-		renderComp.m_SpriteID = 5;
-		EntitiesAdmin->AddComponent(e, t);
-		EntitiesAdmin->AddComponent(e, r);
-		EntitiesAdmin->AddComponent(e, renderComp);
-		EntitiesAdmin->AddComponent(e, f);
+		CreateSugarCube(EntitiesAdmin, Float3(-2.0f, 0.0f, 0.0f));
+		CreateControllableCookie(EntitiesAdmin, Float3(0.0f, 0.0f, 0.0f));
+		CreateFloatingButterStick(EntitiesAdmin, Float3(2.0f, 0.0f, 0.0f));
 	}
 
 } // namespace Cookie::Application
