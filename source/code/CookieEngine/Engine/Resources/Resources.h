@@ -29,7 +29,10 @@ namespace Cookie {
 	struct ResourcesDatabase {
 		THashMap<u32, SpriteRenderData *> m_Sprites;
 
-		CKE_FORCE_INLINE SpriteRenderData *GetSpriteData(u32 spriteID) { return m_Sprites[spriteID]; }
+		CKE_FORCE_INLINE SpriteRenderData *GetSpriteData(u32 spriteID) {
+			CKE_ASSERT(m_Sprites.count(spriteID) != 0, "Acessing a sprite that doesn't exist");
+			return m_Sprites[spriteID];
+		}
 	};
 
 	// --------------------------------------------------------------------------
@@ -40,12 +43,15 @@ namespace Cookie {
 
 	namespace ResourcesSystem {
 
+		void Init();
+		void Shutdown();
+
 		// Sprites
 		u32 GenerateSprite(ImageCPU image, f32 pixelsPerUnit);
 		void DeleteSprite(u32 spriteID);
 
 		// Images
-		// 
+		//
 		// Load a image on the CPU, the data
 		// is stored as unsigned char
 		// This internally allocates memory for the data

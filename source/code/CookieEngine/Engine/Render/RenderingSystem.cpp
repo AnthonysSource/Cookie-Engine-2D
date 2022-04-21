@@ -18,8 +18,12 @@ namespace Cookie {
 	// -----------------
 	// Temporal variables stored in the stack
 	// for rendering tests
-	u32 spriteID;
-	ImageCPU img;
+	u32 cookieID;
+	u32 butterID;
+	u32 sugarID;
+	ImageCPU cookieImg;
+	ImageCPU butterImg;
+	ImageCPU sugarImg;
 	// --------------------------------------------------------------------------
 
 	void RenderingSystem::InitSignature() {
@@ -31,8 +35,12 @@ namespace Cookie {
 		Context::Init();
 
 		// Texture
-		img = ResourcesSystem::Load("cookie.png");
-		spriteID = ResourcesSystem::GenerateSprite(img, 32.0f);
+		cookieImg = ResourcesSystem::Load("cookie.png");
+		butterImg = ResourcesSystem::Load("butter_stick.png");
+		sugarImg = ResourcesSystem::Load("sugar_cube.png");
+		cookieID = ResourcesSystem::GenerateSprite(cookieImg, 32.0f);
+		butterID = ResourcesSystem::GenerateSprite(butterImg, 32.0f);
+		sugarID = ResourcesSystem::GenerateSprite(sugarImg, 32.0f);
 
 		// Init IMGUI
 		ImGuiRenderer::Init();
@@ -47,7 +55,7 @@ namespace Cookie {
 			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 			RenderComponent *r = g_Admin->GetComponent<RenderComponent>(entityID);
 
-			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(0);
+			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteID);
 
 			// Camera Config
 			Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
@@ -66,6 +74,7 @@ namespace Cookie {
 
 			// Issue Drawcall
 			Context::BindProgram(&sp->m_Program);
+			Context::BindTexture(&sp->m_Texture);
 			Context::DrawIndexed(&sp->m_VertexArray);
 		}
 
@@ -81,7 +90,7 @@ namespace Cookie {
 
 	void RenderingSystem::Shutdown() {
 		ImGuiRenderer::Shutdown();
-		ResourcesSystem::Release(&img);
+		ResourcesSystem::Release(&cookieImg);
 	}
 
 } // namespace Cookie

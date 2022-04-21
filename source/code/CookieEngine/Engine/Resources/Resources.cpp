@@ -12,6 +12,24 @@ namespace Cookie {
 
 	namespace ResourcesSystem {
 
+		TQueue<u32> m_AvailableIDs{};
+
+		void Init() {
+			//	Initialize all the resource IDs
+			for (size_t i = 0; i < 1000; i++) {
+				m_AvailableIDs.push(i);
+			}
+		}
+
+		void Shutdown() {
+			// Release all the Sprites
+			for (auto pair : g_ResourcesDatabase.m_Sprites) {
+				delete pair.second;
+			}
+			g_ResourcesDatabase.m_Sprites.clear();
+		}
+
+		// Images
 		// --------------------------------------------------------------------------
 		ImageCPU Load(const char *path) {
 			ImageCPU i;
@@ -20,16 +38,16 @@ namespace Cookie {
 		}
 
 		void Release(ImageCPU *image) { stbi_image_free(image->m_Data); }
-		// --------------------------------------------------------------------------
 
-		TQueue<u32> m_AvailableIDs;
-
+		// Sprites
 		// --------------------------------------------------------------------------
 		u32 GenerateSprite(ImageCPU image, f32 pixelsPerUnit) {
 
 			SpriteRenderData *sp = new SpriteRenderData();
 
 			using namespace RenderingAPI;
+
+			sp->m_VertexArray = Device::CreateVertexArray();
 
 			// Quad
 			// clang-format off
@@ -54,7 +72,6 @@ namespace Cookie {
 			layout.AddAttribute(LayoutAttribute(1, FLOAT, 2, false));
 
 			// VAO Init
-			sp->m_VertexArray = Device::CreateVertexArray();
 			sp->m_VertexArray.BindIndexBuffer(&sp->m_IndexBuffer);
 			sp->m_VertexArray.BindVertexBuffer(&sp->m_VertexBuffer);
 			sp->m_VertexArray.SetLayout(&layout);
@@ -63,8 +80,11 @@ namespace Cookie {
 
 			// Currently creating a texture binds it to the last used
 			// vertex array
-			g_ResourcesDatabase.m_Sprites[0] = sp;
-			return 0;
+			u32 handle = m_AvailableIDs.front();
+			m_AvailableIDs.pop();
+			g_ResourcesDatabase.m_Sprites[handle] = sp;
+
+			return handle;
 		}
 
 		void DeleteSprite(u32 spriteID) {
@@ -72,7 +92,6 @@ namespace Cookie {
 			delete sp;
 			g_ResourcesDatabase.m_Sprites.erase(spriteID);
 		}
-		// --------------------------------------------------------------------------
 
 	} // namespace ResourcesSystem
 

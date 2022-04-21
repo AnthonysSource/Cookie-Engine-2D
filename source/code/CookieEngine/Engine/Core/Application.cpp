@@ -9,6 +9,8 @@
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/FileSystem/FileSystemTest.h"
 
+#include "Resources/Resources.h"
+
 #include "Core/InputSystem/InputSystem.h"
 #include "Render/RenderingSystem.h"
 
@@ -34,6 +36,9 @@ namespace Cookie {
 
 			CKE_LOG_INFO("Initializing Input System");
 			InputSystem::Init(&g_AppData.m_Window);
+
+			CKE_LOG_INFO("Initializing Resources System");
+			ResourcesSystem::Init();
 
 			CKE_LOG_INFO("Initializing Entity Admin");
 			g_Admin->Init();
@@ -66,6 +71,7 @@ namespace Cookie {
 			g_RenderingSystem->Shutdown();
 			InputSystem::Shutdown();
 			Platform::Shutdown();
+			ResourcesSystem::Shutdown();
 
 			delete g_Admin;
 			delete g_RenderingSystem;
