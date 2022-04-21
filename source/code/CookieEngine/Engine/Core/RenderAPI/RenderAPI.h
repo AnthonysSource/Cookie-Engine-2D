@@ -5,102 +5,110 @@
 
 #include "Core/Math.h"
 
-namespace Cookie {
-	namespace RenderingAPI {
+namespace Cookie::RenderingAPI {
 
-		struct VertexBuffer {
-			u32 m_DeviceID;
-			u32 m_Size;
-			// Source data ref
-		};
+	//-------------------------------------------------------------------------
 
-		enum DataType { UINT, INT, FLOAT };
+	enum DataType { UINT, INT, FLOAT };
 
-		struct IndexBuffer {
-			u32 m_DeviceID;
-			u32 m_Size;
-			DataType m_DataType;
-			u32 m_IndexCount; // Amount of indices in the buffer
-		};
+	struct VertexBuffer {
+		u32 m_DeviceID;
+		u32 m_Size;
+		// Source data ref
+	};
 
-		struct LayoutAttribute {
-			// These parameters are provided
-			// on creation
-			u32 m_Pos;
-			DataType m_Type;
-			u32 m_Count;
-			bool m_Normalized;
+	struct IndexBuffer {
+		u32 m_DeviceID;
+		u32 m_Size;
+		DataType m_DataType;
+		u32 m_IndexCount; // Amount of indices in the buffer
+	};
 
-			// These are derivated from the
-			// previous ones
-			u32 m_Size;
-			u32 m_Offset;
+	struct LayoutAttribute {
+		// These parameters are provided
+		// on creation
+		u32 m_Pos;
+		DataType m_Type;
+		u32 m_Count;
+		bool m_Normalized;
 
-			LayoutAttribute(u32 pos, DataType type, u32 count, bool normalized);
-		};
+		// These are derivated from the
+		// previous ones
+		u32 m_Size;
+		u32 m_Offset;
 
-		struct VertexArrayLayout {
-			TVector<LayoutAttribute> m_Attributes;
-			u32 m_Stride;
+		LayoutAttribute(u32 pos, DataType type, u32 count, bool normalized);
+	};
 
-			void AddAttribute(LayoutAttribute attr);
-		};
+	struct VertexArrayLayout {
+		TVector<LayoutAttribute> m_Attributes;
+		u32 m_Stride;
 
-		struct VertexArray {
-			u32 m_DeviceID;
-			VertexBuffer *m_VertexBuffer;
-			IndexBuffer *m_IndexBuffer;
-			VertexArrayLayout *m_Layout;
-			// Layout
+		void AddAttribute(LayoutAttribute attr);
+	};
 
-			void BindVertexBuffer(VertexBuffer *vb);
-			void BindIndexBuffer(IndexBuffer *ib);
-			void SetLayout(VertexArrayLayout *layout);
-		};
+	struct VertexArray {
+		u32 m_DeviceID;
+		VertexBuffer *m_VertexBuffer;
+		IndexBuffer *m_IndexBuffer;
+		VertexArrayLayout *m_Layout;
+		// Layout
 
-		struct Program {
-			u32 m_DeviceID;
-			// Frag Shader
-			// Vert Shader
-			void SetUniformMat4(const char *name, const float *data);
-		};
+		void BindVertexBuffer(VertexBuffer *vb);
+		void BindIndexBuffer(IndexBuffer *ib);
+		void SetLayout(VertexArrayLayout *layout);
+	};
 
-		struct FragmentShader {
-			u32 m_DeviceID;
-			// Source Frag Shader
-		};
+	//-------------------------------------------------------------------------
 
-		struct VertexShader {
-			u32 m_DeviceID;
-			// Source Vert Shader
-		};
+	struct Program {
+		u32 m_DeviceID;
+		// Frag Shader
+		// Vert Shader
+		void SetUniformMat4(const char *name, const float *data);
+	};
 
-		struct Texture {
-			u32 m_ID;
-		};
+	struct FragmentShader {
+		u32 m_DeviceID;
+		// Source Frag Shader
+	};
 
-		namespace Device {
-			VertexArray CreateVertexArray();
-			VertexBuffer CreateVertexBuffer(char *data, u32 size);
-			IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type);
-			Texture CreateTexture(unsigned char *data, i32 width, i32 height);
-			Program CreateProgram(const char *vertShaderPath, const char *fragShaderPath);
+	struct VertexShader {
+		u32 m_DeviceID;
+		// Source Vert Shader
+	};
 
-			void DeleteProgram();
+	//-------------------------------------------------------------------------
 
-		} // namespace Device
+	struct Texture {
+		u32 m_ID;
+	};
 
-		namespace Context {
-			void BindVertexArray(VertexArray *va);
-			void BindVertexBuffer(VertexBuffer *vb);
-			void BindIndexBuffer(IndexBuffer *ib);
-			void BindProgram(Program *p);
-			void BindTexture(Texture *t);
+	//-------------------------------------------------------------------------
 
-			void Init();
-			void ClearColorBuffer(float r, float g, float b, float a);
-			void DrawIndexed(VertexArray *va);
-		} // namespace Context
+	namespace Device {
+		VertexArray CreateVertexArray();
+		VertexBuffer CreateVertexBuffer(char *data, u32 size);
+		IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type);
+		Texture CreateTexture(unsigned char *data, i32 width, i32 height);
+		Program CreateProgram(const char *vertShaderPath, const char *fragShaderPath);
 
-	} // namespace RenderingAPI
-} // namespace Cookie
+		void DeleteProgram();
+
+	} // namespace Device
+
+	//-------------------------------------------------------------------------
+
+	namespace Context {
+		void BindVertexArray(VertexArray *va);
+		void BindVertexBuffer(VertexBuffer *vb);
+		void BindIndexBuffer(IndexBuffer *ib);
+		void BindProgram(Program *p);
+		void BindTexture(Texture *t);
+
+		void Init();
+		void ClearColorBuffer(float r, float g, float b, float a);
+		void DrawIndexed(VertexArray *va);
+	} // namespace Context
+
+} // namespace Cookie::RenderingAPI
