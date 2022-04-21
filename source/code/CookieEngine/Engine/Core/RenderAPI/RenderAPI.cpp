@@ -191,6 +191,8 @@ namespace Cookie::RenderingAPI {
 
 	namespace Context {
 
+		void BindVertexArray(VertexArray *va) { glBindVertexArray(va->m_DeviceID); };
+
 		void BindTexture(Texture *t) { glBindTexture(GL_TEXTURE_2D, t->m_ID); }
 
 		void DrawIndexed(VertexArray *va) {
