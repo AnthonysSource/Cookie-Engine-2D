@@ -83,6 +83,7 @@ namespace Cookie::RenderingAPI {
 	};
 
 	void Program::SetUniformMat4(const char *name, const float *data) {
+		glUseProgram(m_DeviceID);
 		glUniformMatrix4fv(glGetUniformLocation(m_DeviceID, name), 1, GL_FALSE, data);
 	};
 
