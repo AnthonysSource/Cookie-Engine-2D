@@ -34,14 +34,6 @@ namespace Cookie {
 	void RenderingSystem::Init() {
 		Context::Init();
 
-		// Texture
-		cookieImg = ResourcesSystem::Load("cookie.png");
-		butterImg = ResourcesSystem::Load("butter_stick.png");
-		sugarImg = ResourcesSystem::Load("sugar_cube.png");
-		cookieID = ResourcesSystem::GenerateSprite(cookieImg, 32.0f);
-		butterID = ResourcesSystem::GenerateSprite(butterImg, 32.0f);
-		sugarID = ResourcesSystem::GenerateSprite(sugarImg, 32.0f);
-
 		// Init IMGUI
 		ImGuiRenderer::Init();
 	}
@@ -57,14 +49,13 @@ namespace Cookie {
 
 			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteID);
 
-			Context::BindProgram(&sp->m_Program);
 
 			// Camera Config
 			Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
 			Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 			sp->m_Program.SetUniformMat4("view", glm::value_ptr(view));
 			sp->m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
-
+			
 			// Model
 			Matrix4 model = Matrix4(1.0f);
 			Float3 *rot = &t->m_Rotation;
@@ -75,6 +66,7 @@ namespace Cookie {
 			sp->m_Program.SetUniformMat4("model", glm::value_ptr(model));
 
 			// Issue Drawcall
+			Context::BindProgram(&sp->m_Program);
 			Context::BindVertexArray(&sp->m_VertexArray);
 			Context::BindTexture(&sp->m_Texture);
 			Context::DrawIndexed(&sp->m_VertexArray);

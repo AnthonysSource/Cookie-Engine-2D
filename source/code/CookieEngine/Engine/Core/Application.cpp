@@ -40,6 +40,9 @@ namespace Cookie {
 			CKE_LOG_INFO("Initializing Resources System");
 			ResourcesSystem::Init();
 
+			CKE_LOG_INFO("Initializing Rendering System");
+			g_RenderingSystem->Init();
+
 			CKE_LOG_INFO("Initializing Entity Admin");
 			g_Admin->Init();
 			g_Admin->RegisterComponent<TransformComponent>();
@@ -47,9 +50,6 @@ namespace Cookie {
 			g_Admin->RegisterSystem(g_RenderingSystem);
 
 			CreateWorld(g_Admin);
-
-			CKE_LOG_INFO("Initializing Rendering System");
-			g_RenderingSystem->Init();
 
 			CKE_LOG_INFO("Starting engine loop");
 

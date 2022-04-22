@@ -2,25 +2,32 @@
 #include "CookieEngine.h"
 #include "Systems.h"
 
-
-
 namespace Cookie::Application {
 
 	using namespace Cookie;
 
+	// Sprites
+	SpriteHandle cookieSprite;
+	SpriteHandle butterSprite;
+	SpriteHandle sugarSprite;
+
+	// Entities Templates
 	void CreateControllableCookie(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 		EntityID e = EntitiesAdmin->CreateEntity();
 
 		TransformComponent transform = TransformComponent{};
 		MoveComponent move = MoveComponent{};
+		RotatingComponent rotating = RotatingComponent{};
 		RenderComponent render = RenderComponent{};
 
 		transform.m_Position = pos;
+		rotating.m_Speed = 3.14f;
 		move.m_Speed = 4.0f;
-		render.m_SpriteID = 3;
+		render.m_SpriteID = cookieSprite;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
+		EntitiesAdmin->AddComponent(e, rotating);
 		EntitiesAdmin->AddComponent(e, move);
 	};
 
@@ -36,7 +43,7 @@ namespace Cookie::Application {
 		rotating.m_Speed = 3.14f;
 		floating.m_Speed = 1.0f;
 		floating.m_Amplitude = 0.25f;
-		render.m_SpriteID = 4;
+		render.m_SpriteID = butterSprite;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
@@ -51,13 +58,23 @@ namespace Cookie::Application {
 		RenderComponent render = RenderComponent{};
 
 		transform.m_Position = pos;
-		render.m_SpriteID = 5;
+		render.m_SpriteID = sugarSprite;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
 	}
 
+	// Game World Init
 	void CreateWorld(EntityAdmin *const EntitiesAdmin) {
+
+		// Resources
+		ImageHandle cookieImg = ResourcesSystem::Load("cookie.png");
+		ImageHandle butterImg = ResourcesSystem::Load("butter_stick.png");
+		ImageHandle sugarImg = ResourcesSystem::Load("sugar_cube.png");
+
+		cookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f);
+		butterSprite = ResourcesSystem::GenerateSprite(butterImg, 32.0f);
+		sugarSprite = ResourcesSystem::GenerateSprite(sugarImg, 32.0f);
 
 		// Register Components
 		EntitiesAdmin->RegisterComponent<RotatingComponent>();

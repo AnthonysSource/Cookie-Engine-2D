@@ -16,3 +16,5 @@
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Types/Containers.h"
 #include "Core/Types/String.h"
+
+#include "Resources/Resources.h"
