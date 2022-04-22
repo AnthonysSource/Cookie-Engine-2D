@@ -1,5 +1,7 @@
 #include "Log.h"
 
+#include "Core/FileSystem/FileSystem.h"
+
 #include <stdio.h>
 #include <cstdarg>
 #include <iostream>
@@ -8,11 +10,16 @@ namespace Cookie::Log {
 
 	// The minimum severity log entries need to have
 	// to be outputted to the console
-	Verbosity g_MinVerbosity = Verbosity::Error;
+	namespace {
 
-	void Initialize() {}
+		Verbosity g_MinVerbosity = Verbosity::Error;
+		FileSystem::OutputFileStream g_GlobalLogFile;
 
-	void Shutdown() {}
+	} // namespace
+
+	void Initialize() { g_GlobalLogFile.open("GlobalLog.txt"); }
+
+	void Shutdown() { g_GlobalLogFile.close(); }
 
 	i32 VFormat(char *buffer, u32 bufferSize, char const *format, va_list argsList) {
 		return vsnprintf(buffer, bufferSize, format, argsList);
@@ -53,6 +60,8 @@ namespace Cookie::Log {
 		Format(s_LogBuffer, MAX_CHARS, "[%s] [%s] %s", channel, fileName, msg.c_str());
 
 		printf("%s\n", s_LogBuffer);
+
+		g_GlobalLogFile << s_LogBuffer << std::endl;
 	}
 
 	void BasicEntry(char const *format, ...) {
