@@ -47,7 +47,7 @@ namespace Cookie {
 			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 			RenderComponent *r = g_Admin->GetComponent<RenderComponent>(entityID);
 
-			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteID);
+			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
 
 
 			// Camera Config

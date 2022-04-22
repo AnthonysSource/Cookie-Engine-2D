@@ -23,7 +23,7 @@ namespace Cookie::Application {
 		transform.m_Position = pos;
 		rotating.m_Speed = 3.14f;
 		move.m_Speed = 4.0f;
-		render.m_SpriteID = cookieSprite;
+		render.m_SpriteHandle = cookieSprite;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
@@ -43,7 +43,7 @@ namespace Cookie::Application {
 		rotating.m_Speed = 3.14f;
 		floating.m_Speed = 1.0f;
 		floating.m_Amplitude = 0.25f;
-		render.m_SpriteID = butterSprite;
+		render.m_SpriteHandle = butterSprite;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);
@@ -58,7 +58,7 @@ namespace Cookie::Application {
 		RenderComponent render = RenderComponent{};
 
 		transform.m_Position = pos;
-		render.m_SpriteID = sugarSprite;
+		render.m_SpriteHandle = sugarSprite;
 
 		EntitiesAdmin->AddComponent(e, transform);
 		EntitiesAdmin->AddComponent(e, render);

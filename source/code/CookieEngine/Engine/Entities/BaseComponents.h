@@ -12,7 +12,7 @@ namespace Cookie {
 	};
 
 	struct RenderComponent {
-		u32 m_SpriteID;
+		u32 m_SpriteHandle;
 	};
 
 	struct CameraComponent {
