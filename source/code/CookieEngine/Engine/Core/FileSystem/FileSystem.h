@@ -2,6 +2,9 @@
 
 #include "Core/Types/String.h"
 
+#include <iostream>
+#include <fstream>
+
 namespace Cookie {
 	namespace FileSystem {
 
