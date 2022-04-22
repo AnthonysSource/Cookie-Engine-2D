@@ -5,6 +5,10 @@
 namespace Cookie {
 	namespace FileSystem {
 
+		using InputFileStream = std::ifstream;
+		using OutputFileStream = std::ofstream;
+		using IOFileStream = std::fstream;
+
 		// bool IsFile(const char *path);
 		// bool IsDirectory(const char *path);
 
