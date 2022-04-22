@@ -6,6 +6,7 @@
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <basetsd.h>
 
 namespace Cookie::RenderingAPI {
 

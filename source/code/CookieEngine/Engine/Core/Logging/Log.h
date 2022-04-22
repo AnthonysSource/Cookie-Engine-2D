@@ -2,28 +2,45 @@
 
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Types/Pointers.h"
+#include "Core/Types/String.h"
 
-#include <spdlog/spdlog.h>
+namespace Cookie::Log {
 
-namespace Cookie {
-	namespace Log {
+	enum class Verbosity {
+		Trace = 0,
+		Message,
+		Error,
+		CriticalError,
+	};
 
-		void Initialize();
-		void Shutdown();
+	struct LogEntry {
+		String m_TimeStamp;
+		String m_Message;
+		String m_Channel;
 
-		void AddLine(int const channel, ...);
+		String m_FileName;
+		String m_FunctionName;
+		u32 m_LineNumber;
 
-		namespace Internal {
-			extern TSharedPtr<spdlog::logger> g_pEngineLogger;
-		}
+		Verbosity m_Verbosity;
+	};
 
-	} // namespace Log
 
-} // namespace Cookie
+	void Initialize();
+	void Shutdown();
+
+
+	void AddEntry(Verbosity severity, char const *channel, char const *fileName, int lineNumber, char const *format, ...);
+	void VAddEntry(Verbosity severity, char const *channel, char const *fileName, int lineNumber, char const *format, va_list argsList);
+
+	void BasicEntry(char const *format, ...);
+	void BasicEntry(char const *format, va_list argsList);
+
+} // namespace Cookie::Log
 
 #ifdef COOKIE_LOGGING
 	#define CKE_LOG_INFO(...)                                                                                                              \
-		{ Cookie::Log::Internal::g_pEngineLogger->info(__VA_ARGS__); }
+		{ Cookie::Log::BasicEntry(__VA_ARGS__); }
 #else
 	#define CKE_LOG_INFO(...)
 	#define CKE_LOG_WARNING(...)
