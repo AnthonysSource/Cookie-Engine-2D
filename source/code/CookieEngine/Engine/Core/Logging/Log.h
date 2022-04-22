@@ -7,8 +7,9 @@
 namespace Cookie::Log {
 
 	enum class Verbosity {
-		Trace = 0,
-		Message,
+		Detail = 0,
+		Normal,
+		Warning,
 		Error,
 		CriticalError,
 	};
@@ -30,11 +31,11 @@ namespace Cookie::Log {
 	void Shutdown();
 
 
-	void AddEntry(Verbosity severity, char const *channel, char const *fileName, int lineNumber, char const *format, ...);
-	void VAddEntry(Verbosity severity, char const *channel, char const *fileName, int lineNumber, char const *format, va_list argsList);
+	void AddEntry(Verbosity verbosity, char const *channel, char const *fileName, int lineNumber, char const *format, ...);
+	void VAddEntry(Verbosity verbosity, char const *channel, char const *fileName, int lineNumber, char const *format, va_list argsList);
 
 	void BasicEntry(char const *format, ...);
-	void BasicEntry(char const *format, va_list argsList);
+	void VBasicEntry(char const *format, va_list argsList);
 
 } // namespace Cookie::Log
 
