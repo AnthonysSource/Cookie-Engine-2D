@@ -2,10 +2,10 @@
 
 #include "Core/Application.h"
 
-namespace Cookie {
-	namespace Platform {
-		void Init();
-		bool IsRunning(GLFWwindow *appData);
-		void Shutdown();
-	} // namespace Platform
-} // namespace Cookie
+namespace Cookie::Platform {
+
+	void Init();
+	bool IsRunning(GLFWwindow *appData);
+	void Shutdown();
+
+} // namespace Cookie::Platform
