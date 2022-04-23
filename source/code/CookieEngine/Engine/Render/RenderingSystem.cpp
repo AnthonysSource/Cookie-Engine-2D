@@ -49,13 +49,12 @@ namespace Cookie {
 
 			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
 
-
 			// Camera Config
 			Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
 			Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 			sp->m_Program.SetUniformMat4("view", glm::value_ptr(view));
 			sp->m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
-			
+
 			// Model
 			Matrix4 model = Matrix4(1.0f);
 			Float3 *rot = &t->m_Rotation;
@@ -74,6 +73,9 @@ namespace Cookie {
 
 		// IMGUI Rendering
 		ImGuiRenderer::NewFrame();
+
+		// Very Crude FPS Counter
+		ImGui::LabelText("FPS", "%f", 1.0f / dt);
 
 		// Render ImGui on top of everything
 		ImGuiRenderer::Render();
