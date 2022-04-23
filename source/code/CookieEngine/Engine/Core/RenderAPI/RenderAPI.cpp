@@ -153,7 +153,7 @@ namespace Cookie::RenderingAPI {
 			glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(vertShader, 512, NULL, infoLog);
-				CKE_LOG_INFO("Vertex Shader Compilation Error -> {}", infoLog);
+				CKE_LOG_INFO(Log::Channel::Rendering, "Vertex Shader Compilation Error -> {}", infoLog);
 			}
 
 			u32 fragShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -162,13 +162,25 @@ namespace Cookie::RenderingAPI {
 			glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
 			if (!success) {
 				glGetShaderInfoLog(fragShader, 512, NULL, infoLog);
-				CKE_LOG_INFO("Fragment Shader Compilation Error -> {}", infoLog);
+				CKE_LOG_INFO(Log::Channel::Rendering, "Fragment Shader Compilation Error -> {}", infoLog);
 			}
 
 			u32 program = glCreateProgram();
 			glAttachShader(program, vertShader);
 			glAttachShader(program, fragShader);
 			glLinkProgram(program);
+
+			// Check if there are errors in program linking
+			i32 isLinked = 0;
+			glGetProgramiv(program, GL_LINK_STATUS, &isLinked);
+			if (isLinked == GL_FALSE) {
+				char logMsg[1024];
+				glGetProgramInfoLog(program, 1024, NULL, logMsg);
+
+				glDeleteProgram(program);
+
+				CKE_LOG_ERROR(Log::Channel::Rendering, logMsg);
+			}
 
 			glDetachShader(program, vertShader);
 			glDetachShader(program, fragShader);
@@ -203,6 +215,13 @@ namespace Cookie::RenderingAPI {
 
 		void Context::BindProgram(Program *p) { glUseProgram(p->m_DeviceID); }
 
+		void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message,
+										const void *userParam) {
+			if (type == GL_DEBUG_TYPE_ERROR) {
+				CKE_LOG_ERROR(Log::Channel::Rendering, "[OpenGL] %s", message);
+			}
+		}
+
 		void Init() {
 			// Set current OpenGL context to the window
 			glfwMakeContextCurrent(g_AppData.m_Window.m_Handle);
@@ -214,6 +233,10 @@ namespace Cookie::RenderingAPI {
 			glViewport(0, 0, 1280, 720);
 			glfwSetFramebufferSizeCallback(g_AppData.m_Window.m_Handle,
 										   [](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
+
+			// Enable Debug Logging Callback
+			glEnable(GL_DEBUG_OUTPUT);
+			glDebugMessageCallback(MessageCallback, 0);
 		};
 
 		void Context::ClearColorBuffer(float r, float g, float b, float a) {
