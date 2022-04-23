@@ -21,7 +21,10 @@ namespace Cookie::Log {
 	F(Core)                                                                                                                                \
 	F(Rendering)                                                                                                                           \
 	F(Input)                                                                                                                               \
-	F(FileSystem)
+	F(FileSystem)                                                                                                                          \
+	F(Entities)                                                                                                                            \
+	F(Resources)                                                                                                                           \
+	F(Game)
 
 #define DEFINE_ENUM(def) def,
 	enum class Verbosity : u8 { CKE_LOG_VERBOSITY_DEFINITIONS(DEFINE_ENUM) };
