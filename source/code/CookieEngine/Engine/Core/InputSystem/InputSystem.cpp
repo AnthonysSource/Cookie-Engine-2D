@@ -72,7 +72,7 @@ namespace Cookie {
 			// 	CKE_LOG_INFO("[{}] Pressed", glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
 			// }
 
-			CKE_LOG_MSG(Log::Channel::Input, "KeyName: %s / Event: %d / Down: %d / Held: %d / Up: %d",
+			CKE_LOG_INFO(Log::Channel::Input, "KeyName: %s / Event: %d / Down: %d / Held: %d / Up: %d",
 						glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action, g_InputComponent.m_Keyboard.m_KeyDown[e.m_KeyCode],
 						g_InputComponent.m_Keyboard.m_KeyHeld[e.m_KeyCode], g_InputComponent.m_Keyboard.m_KeyUp[e.m_KeyCode]);
 		}

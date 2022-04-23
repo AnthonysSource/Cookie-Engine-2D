@@ -31,22 +31,22 @@ namespace Cookie {
 
 			Log::Initialize();
 
-			CKE_LOG_MSG(Log::Channel::Core, "Starting up Cookie Engine");
+			CKE_LOG_INFO(Log::Channel::Core, "Starting up Cookie Engine");
 			Platform::Init();
 
-			CKE_LOG_MSG(Log::Channel::Core, "Creating window");
+			CKE_LOG_INFO(Log::Channel::Core, "Creating window");
 			WindowManagement::CreateAppWindow(&g_AppData.m_Window, 1280, 720, "Cookie Engine");
 
-			CKE_LOG_MSG(Log::Channel::Core, "Initializing Input System");
+			CKE_LOG_INFO(Log::Channel::Core, "Initializing Input System");
 			InputSystem::Init(&g_AppData.m_Window);
 
-			CKE_LOG_MSG(Log::Channel::Core, "Initializing Resources System");
+			CKE_LOG_INFO(Log::Channel::Core, "Initializing Resources System");
 			ResourcesSystem::Init();
 
-			CKE_LOG_MSG(Log::Channel::Core, "Initializing Rendering System");
+			CKE_LOG_INFO(Log::Channel::Core, "Initializing Rendering System");
 			g_RenderingSystem->Init();
 
-			CKE_LOG_MSG(Log::Channel::Core, "Initializing Entity Admin");
+			CKE_LOG_INFO(Log::Channel::Core, "Initializing Entity Admin");
 			g_Admin->Init();
 			g_Admin->RegisterComponent<TransformComponent>();
 			g_Admin->RegisterComponent<RenderComponent>();
@@ -54,7 +54,7 @@ namespace Cookie {
 
 			CreateWorld(g_Admin);
 
-			CKE_LOG_MSG(Log::Channel::Core, "Starting engine loop");
+			CKE_LOG_INFO(Log::Channel::Core, "Starting engine loop");
 
 			g_TimeData.m_SecondsUpTimeLastUpdate = glfwGetTime();
 			g_TimeData.m_SecondsUpTime = g_TimeData.m_SecondsUpTimeLastUpdate;
@@ -70,7 +70,7 @@ namespace Cookie {
 			}
 
 			// Shutdown
-			CKE_LOG_MSG(Log::Channel::Core, "Shutting down");
+			CKE_LOG_INFO(Log::Channel::Core, "Shutting down");
 			g_RenderingSystem->Shutdown();
 			InputSystem::Shutdown();
 			Platform::Shutdown();

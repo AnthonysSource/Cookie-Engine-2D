@@ -65,18 +65,14 @@ namespace Cookie::Log {
 #define CKE_LOG_FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
 #ifdef COOKIE_LOGGING
-	#define CKE_LOG_INFO(...) { Cookie::Log::BasicEntry(__VA_ARGS__); }
-
 	#define CKE_LOG_COMMENT(CHANNEL, ...)	Cookie::Log::AddEntry(Cookie::Log::Verbosity::Comment, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
-	#define CKE_LOG_MSG(CHANNEL, ...)		Cookie::Log::AddEntry(Cookie::Log::Verbosity::Message, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
-	#define CKE_LOG_WARNING(CHANNEL, ...)	Cookie::Log::AddEntry(Cookie::Log::Verbosity::Warning, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
+	#define CKE_LOG_INFO(CHANNEL, ...)		Cookie::Log::AddEntry(Cookie::Log::Verbosity::Message, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
+	#define CKE_LOG_WARN(CHANNEL, ...)	Cookie::Log::AddEntry(Cookie::Log::Verbosity::Warning, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
 	#define CKE_LOG_ERROR(CHANNEL, ...)		Cookie::Log::AddEntry(Cookie::Log::Verbosity::Error, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
 	#define CKE_LOG_CRITICAL(CHANNEL, ...)	Cookie::Log::AddEntry(Cookie::Log::Verbosity::CriticalError, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
 #else
-	#define CKE_LOG_INFO(...)
-
-	#define CKE_LOG_DETAIL(CHANNEL, ...)
-	#define CKE_LOG_NORMAL(CHANNEL, ...)
+	#define CKE_LOG_COMMENT(CHANNEL, ...)
+	#define CKE_LOG_INFO(CHANNEL, ...)
 	#define CKE_LOG_WARNING(CHANNEL, ...)
 	#define CKE_LOG_ERROR(CHANNEL, ...)
 	#define CKE_LOG_CRITICAL(CHANNEL, ...)
