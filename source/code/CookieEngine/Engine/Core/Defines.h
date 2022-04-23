@@ -10,7 +10,7 @@ namespace Cookie {
 	#define CKE_ASSERT(x, msg)                                                                                                             \
 		do {                                                                                                                               \
 			if (!(x)) {                                                                                                                    \
-				CKE_LOG_INFO(msg);                                                                                                         \
+				CKE_LOG_INFO(Log::Channel::Core, msg);                                                                                     \
 				abort();                                                                                                                   \
 			}                                                                                                                              \
 		} while (0)
