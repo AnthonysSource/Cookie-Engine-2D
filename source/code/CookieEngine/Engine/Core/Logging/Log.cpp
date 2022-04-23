@@ -12,12 +12,17 @@ namespace Cookie::Log {
 	// to be outputted to the console
 	namespace {
 
-		Verbosity g_MinVerbosity = Verbosity::Error;
+#define DEFINE_CHARS(def) #def,
+		static char const *const g_VerbosityLabels[] = {CKE_LOG_VERBOSITY_DEFINITIONS(DEFINE_CHARS)};
+		static char const *const g_ChannelLabels[] = {CKE_LOG_CHANNEL_DEFINITIONS(DEFINE_CHARS)};
+#undef DEFINE_CHARS
+
+		Verbosity g_MinVerbosity = Verbosity::Normal;
 		FileSystem::OutputFileStream g_GlobalLogFile;
 
 	} // namespace
 
-	void Initialize() { g_GlobalLogFile.open("GlobalLog.txt"); }
+	void Initialize() { g_GlobalLogFile.open("EngineLog.txt"); }
 
 	void Shutdown() { g_GlobalLogFile.close(); }
 
@@ -34,7 +39,7 @@ namespace Cookie::Log {
 		return charsCount;
 	}
 
-	void AddEntry(Verbosity verbosity, char const *channel, char const *fileName, int lineNumber, char const *format, ...) {
+	void AddEntry(Verbosity verbosity, Channel channel, char const *fileName, u32 lineNumber, char const *format, ...) {
 
 		if (verbosity >= g_MinVerbosity) {
 			va_list argsList;
@@ -46,7 +51,7 @@ namespace Cookie::Log {
 		}
 	}
 
-	void VAddEntry(Verbosity verbosity, char const *channel, char const *fileName, int lineNumber, char const *format, va_list argsList) {
+	void VAddEntry(Verbosity verbosity, Channel channel, char const *fileName, u32 lineNumber, char const *format, va_list argsList) {
 		const u32 MAX_CHARS = 1024;
 		static char s_LogBuffer[MAX_CHARS];
 
@@ -57,7 +62,8 @@ namespace Cookie::Log {
 		String msg = s_LogBuffer;
 
 		// We create the final message
-		Format(s_LogBuffer, MAX_CHARS, "[%s] [%s] %s", channel, fileName, msg.c_str());
+		Format(s_LogBuffer, MAX_CHARS, "[%s] [%s : %u] [%s] %s", g_ChannelLabels[channel], fileName, lineNumber,
+			   g_VerbosityLabels[verbosity], msg.c_str());
 
 		printf("%s\n", s_LogBuffer);
 
