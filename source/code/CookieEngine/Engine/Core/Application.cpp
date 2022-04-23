@@ -22,7 +22,6 @@ namespace Cookie {
 
 	AppData g_AppData;
 	EntityAdmin *g_Admin = new EntityAdmin();
-	TimeData g_TimeData;
 	RenderingSystem *g_RenderingSystem = new RenderingSystem();
 
 	namespace Application {
@@ -55,18 +54,16 @@ namespace Cookie {
 			CreateWorld(g_Admin);
 
 			CKE_LOG_INFO(Log::Channel::Core, "Starting engine loop");
-
-			g_TimeData.m_SecondsUpTimeLastUpdate = glfwGetTime();
-			g_TimeData.m_SecondsUpTime = g_TimeData.m_SecondsUpTimeLastUpdate;
+			g_EngineClock.Init();
 
 			while (Platform::IsRunning(g_AppData.m_Window.m_Handle)) {
-				g_TimeData.m_SecondsUpTime = glfwGetTime();
-				g_TimeData.m_DeltaTime = g_TimeData.m_SecondsUpTime - g_TimeData.m_SecondsUpTimeLastUpdate;
-				g_TimeData.m_SecondsUpTimeLastUpdate = g_TimeData.m_SecondsUpTime;
+
+				// Tick the engine clock
+				g_EngineClock.Update();
 
 				InputSystem::Update();
-				g_Admin->Update(g_TimeData.m_DeltaTime);
-				g_RenderingSystem->Update(g_TimeData.m_DeltaTime);
+				g_Admin->Update(g_EngineClock.m_TimeData.m_DeltaTime);
+				g_RenderingSystem->Update(g_EngineClock.m_TimeData.m_DeltaTime);
 			}
 
 			// Shutdown

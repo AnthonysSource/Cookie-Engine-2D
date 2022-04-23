@@ -19,6 +19,12 @@
     <Filter Include="Engine\Core\Logging">
       <UniqueIdentifier>{A9506308-15B2-4016-9E1F-87C80A8077D5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Math">
+      <UniqueIdentifier>{CC955B1D-B88E-7A6F-E1C0-5FF4CD185A7B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Memory">
+      <UniqueIdentifier>{1BF1DCE2-07D5-9D38-7035-988B5C3888BA}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Core\Platform">
       <UniqueIdentifier>{C7AED0D1-B33D-5A9B-5C5C-6E9648CA6A41}</UniqueIdentifier>
     </Filter>
@@ -27,6 +33,9 @@
     </Filter>
     <Filter Include="Engine\Core\RenderAPI">
       <UniqueIdentifier>{FCDB6342-6848-1F3D-313C-B79A9D6741A5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Core\Time">
+      <UniqueIdentifier>{918D5F1D-7D86-7E6F-A6B8-63F492105E7B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Core\Types">
       <UniqueIdentifier>{F7125AC9-6329-585F-ACA0-E38018F628E7}</UniqueIdentifier>
@@ -81,9 +90,6 @@
     <ClInclude Include="Engine\Core\FileSystem\FileSystemTest.h">
       <Filter>Engine\Core\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Game.h">
-      <Filter>Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Core\IMGUI\IMGUI_Impl.h">
       <Filter>Engine\Core\IMGUI</Filter>
     </ClInclude>
@@ -96,8 +102,11 @@
     <ClInclude Include="Engine\Core\Logging\Log.h">
       <Filter>Engine\Core\Logging</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Math.h">
-      <Filter>Engine\Core</Filter>
+    <ClInclude Include="Engine\Core\Math\Math.h">
+      <Filter>Engine\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Memory\Memory.h">
+      <Filter>Engine\Core\Memory</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Platform\Platform.h">
       <Filter>Engine\Core\Platform</Filter>
@@ -111,8 +120,8 @@
     <ClInclude Include="Engine\Core\RenderAPI\RenderAPI.h">
       <Filter>Engine\Core\RenderAPI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Time.h">
-      <Filter>Engine\Core</Filter>
+    <ClInclude Include="Engine\Core\Time\Time.h">
+      <Filter>Engine\Core\Time</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Types\Containers.h">
       <Filter>Engine\Core\Types</Filter>
@@ -203,6 +212,9 @@
     <ClCompile Include="Engine\Core\Logging\Log.cpp">
       <Filter>Engine\Core\Logging</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Core\Memory\Memory.cpp">
+      <Filter>Engine\Core\Memory</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Core\Platform\Platform.cpp">
       <Filter>Engine\Core\Platform</Filter>
     </ClCompile>
@@ -214,6 +226,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Core\RenderAPI\RenderAPI.cpp">
       <Filter>Engine\Core\RenderAPI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Time\Time.cpp">
+      <Filter>Engine\Core\Time</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Entities\EntityAdmin.cpp">
       <Filter>Engine\Entities</Filter>

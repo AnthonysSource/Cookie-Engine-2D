@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Math.h"
+#include "Core/Math/Math.h"
 #include "Core/Types/PrimitiveTypes.h"
 
 namespace Cookie {

@@ -4,7 +4,7 @@
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Types/String.h"
 
-#include "Core/Time.h"
+#include "Core/Time/Time.h"
 
 #include "Entities/EntityAdmin.h"
 
@@ -25,7 +25,6 @@ namespace Cookie {
 
 	extern AppData g_AppData;
 	extern EntityAdmin *g_Admin;
-	extern TimeData g_TimeData;
 
 	namespace Application {
 

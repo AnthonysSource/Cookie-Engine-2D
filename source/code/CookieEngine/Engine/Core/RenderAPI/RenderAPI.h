@@ -3,7 +3,7 @@
 #include "Core/Types/Containers.h"
 #include "Core/Types/PrimitiveTypes.h"
 
-#include "Core/Math.h"
+#include "Core/Math/Math.h"
 
 namespace Cookie::RenderingAPI {
 

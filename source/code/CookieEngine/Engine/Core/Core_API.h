@@ -9,8 +9,8 @@
 
 #include "Core/Application.h"
 
-#include "Core/Math.h"
-#include "Core/Time.h"
+#include "Core/Math/Math.h"
+#include "Core/Time/Time.h"
 
 #include "Core/Types/Function.h"
 #include "Core/Types/PrimitiveTypes.h"
