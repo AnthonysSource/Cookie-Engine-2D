@@ -4,13 +4,15 @@
 
 namespace Cookie {
 
+//-------------------------------------------------------------------------
+
 // Asserts
 #ifdef CKE_ASSERTS
 	#include <cstdlib>
-	#define CKE_ASSERT(x, msg)                                                                                                             \
+	#define CKE_ASSERT(condition, ...)                                                                                                     \
 		do {                                                                                                                               \
-			if (!(x)) {                                                                                                                    \
-				CKE_LOG_INFO(Log::Channel::Core, msg);                                                                                     \
+			if (!(condition)) {                                                                                                            \
+				CKE_LOG_INFO(Log::Channel::Core, __VA_ARGS__);                                                                             \
 				abort();                                                                                                                   \
 			}                                                                                                                              \
 		} while (0)
@@ -18,7 +20,9 @@ namespace Cookie {
 	#define CKE_ASSERT(x, msg)
 #endif
 
-// MSVC Force inline
-#define CKE_FORCE_INLINE __forceinline
+	//-------------------------------------------------------------------------
+
+#define CKE_FORCE_INLINE __forceinline // MSVC Force inline
+#define CKE_BREAK() abort()
 
 } // namespace Cookie
