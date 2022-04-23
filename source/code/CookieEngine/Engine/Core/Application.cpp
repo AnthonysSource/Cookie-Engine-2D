@@ -30,7 +30,7 @@ namespace Cookie {
 		void Run(TFunction<void(EntityAdmin *const EntitiesAdmin)> CreateWorld) {
 
 			Log::Initialize();
-			CKE_LOG_NORMAL(Log::Channel::Core, "Formatted Log Entry [%s]", "String2");
+			CKE_LOG_MSG(Log::Channel::Core, "Formatted Log Entry [%s]", "String2");
 			// Log::AddEntry(Log::Verbosity::Error, Log::Channel::Core, "Random.cpp", 23, "Formatted Log Entry [%s]", "String2");
 
 			CKE_LOG_INFO("Starting up Cookie Engine");

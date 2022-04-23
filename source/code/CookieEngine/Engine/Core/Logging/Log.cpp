@@ -17,7 +17,11 @@ namespace Cookie::Log {
 		static char const *const g_ChannelLabels[] = {CKE_LOG_CHANNEL_DEFINITIONS(DEFINE_CHARS)};
 #undef DEFINE_CHARS
 
-		Verbosity g_MinVerbosity = Verbosity::Normal;
+
+		Verbosity g_MinVerbosity = Verbosity::Message;
+		bool g_LogOriginCodeFile = false;
+
+
 		FileSystem::OutputFileStream g_GlobalLogFile;
 
 	} // namespace
@@ -62,8 +66,13 @@ namespace Cookie::Log {
 		String msg = s_LogBuffer;
 
 		// We create the final message
-		Format(s_LogBuffer, MAX_CHARS, "[%s] [%s : %u] [%s] %s", g_ChannelLabels[channel], fileName, lineNumber,
-			   g_VerbosityLabels[verbosity], msg.c_str());
+		// LogFile Workaround
+		if (g_LogOriginCodeFile) {
+			Format(s_LogBuffer, MAX_CHARS, "[%s] [%s : %u] [%s] %s", g_ChannelLabels[(u32)channel], fileName, lineNumber,
+				   g_VerbosityLabels[(u32)verbosity], msg.c_str());
+		} else {
+			Format(s_LogBuffer, MAX_CHARS, "[%s] [%s] %s", g_ChannelLabels[(u32)channel], g_VerbosityLabels[(u32)verbosity], msg.c_str());
+		}
 
 		printf("%s\n", s_LogBuffer);
 

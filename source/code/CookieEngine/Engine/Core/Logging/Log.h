@@ -11,8 +11,8 @@ namespace Cookie::Log {
 	//-------------------------------------------------------------------------
 
 #define CKE_LOG_VERBOSITY_DEFINITIONS(F)                                                                                                   \
-	F(Detail)                                                                                                                              \
-	F(Normal)                                                                                                                              \
+	F(Comment)                                                                                                                             \
+	F(Message)                                                                                                                             \
 	F(Warning)                                                                                                                             \
 	F(Error)                                                                                                                               \
 	F(CriticalError)
@@ -24,8 +24,8 @@ namespace Cookie::Log {
 	F(FileSystem)
 
 #define DEFINE_ENUM(def) def,
-	enum Verbosity : u8 { CKE_LOG_VERBOSITY_DEFINITIONS(DEFINE_ENUM) };
-	enum Channel : u8 { CKE_LOG_CHANNEL_DEFINITIONS(DEFINE_ENUM) };
+	enum class Verbosity : u8 { CKE_LOG_VERBOSITY_DEFINITIONS(DEFINE_ENUM) };
+	enum class Channel : u8 { CKE_LOG_CHANNEL_DEFINITIONS(DEFINE_ENUM) };
 #undef DEFINE_ENUM
 
 	//-------------------------------------------------------------------------
@@ -60,17 +60,28 @@ namespace Cookie::Log {
 // Macros
 //-------------------------------------------------------------------------
 
-#define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
+// clang-format off
+// Returns only the file name and not the complete path
+#define CKE_LOG_FILENAME (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
 #ifdef COOKIE_LOGGING
-	#define CKE_LOG_INFO(...)                                                                                                              \
-		{ Cookie::Log::BasicEntry(__VA_ARGS__); }
-	#define CKE_LOG_NORMAL(CHANNEL, ...) Cookie::Log::AddEntry(Cookie::Log::Verbosity::Normal, CHANNEL, __FILENAME__, __LINE__, __VA_ARGS__)
+	#define CKE_LOG_INFO(...) { Cookie::Log::BasicEntry(__VA_ARGS__); }
+
+	#define CKE_LOG_COMMENT(CHANNEL, ...)	Cookie::Log::AddEntry(Cookie::Log::Verbosity::Comment, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
+	#define CKE_LOG_MSG(CHANNEL, ...)		Cookie::Log::AddEntry(Cookie::Log::Verbosity::Message, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
+	#define CKE_LOG_WARNING(CHANNEL, ...)	Cookie::Log::AddEntry(Cookie::Log::Verbosity::Warning, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
+	#define CKE_LOG_ERROR(CHANNEL, ...)		Cookie::Log::AddEntry(Cookie::Log::Verbosity::Error, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
+	#define CKE_LOG_CRITICAL(CHANNEL, ...)	Cookie::Log::AddEntry(Cookie::Log::Verbosity::CriticalError, CHANNEL, CKE_LOG_FILENAME, __LINE__, __VA_ARGS__)
 #else
 	#define CKE_LOG_INFO(...)
-	#define CKE_LOG_WARNING(...)
-	#define CKE_LOG_ERROR(...)
-	#define CKE_LOG_ASSERT(...)
+
+	#define CKE_LOG_DETAIL(CHANNEL, ...)
+	#define CKE_LOG_NORMAL(CHANNEL, ...)
+	#define CKE_LOG_WARNING(CHANNEL, ...)
+	#define CKE_LOG_ERROR(CHANNEL, ...)
+	#define CKE_LOG_CRITICAL(CHANNEL, ...)
 #endif
+
+// clang-format on
 
 //-------------------------------------------------------------------------
