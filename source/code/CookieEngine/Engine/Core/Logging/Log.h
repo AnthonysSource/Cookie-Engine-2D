@@ -33,7 +33,7 @@ namespace Cookie::Log {
 	struct LogEntry {
 		String m_TimeStamp;
 		String m_Message;
-		Bitset<32> m_Channels;
+		Channel m_Channels;
 
 		String m_FileName;
 		String m_FunctionName;
@@ -48,6 +48,8 @@ namespace Cookie::Log {
 	void Shutdown();
 
 	//-------------------------------------------------------------------------
+
+	TVector<LogEntry> const *GetLogEntries();
 
 	void AddEntry(Verbosity verbosity, Channel channel, char const *fileName, u32 lineNumber, char const *format, ...);
 	void VAddEntry(Verbosity verbosity, Channel channel, char const *fileName, u32 lineNumber, char const *format, va_list argsList);

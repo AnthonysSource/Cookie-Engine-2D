@@ -8,8 +8,8 @@
 
 namespace Cookie::Log {
 
-	// The minimum severity log entries need to have
-	// to be outputted to the console
+	//-------------------------------------------------------------------------
+
 	namespace {
 
 #define DEFINE_CHARS(def) #def,
@@ -17,18 +17,29 @@ namespace Cookie::Log {
 		static char const *const g_ChannelLabels[] = {CKE_LOG_CHANNEL_DEFINITIONS(DEFINE_CHARS)};
 #undef DEFINE_CHARS
 
+		struct LogData {
+			TVector<LogEntry> m_LogEntries;
+		};
 
-		Verbosity g_MinVerbosity = Verbosity::Message;
-		bool g_LogOriginCodeFile = false;
+		struct LogConfig {
+			Verbosity m_MinVerbosity = Verbosity::Message;
+			bool m_LogOriginCodeFile = false;
+		};
 
+		LogData g_LogData;
+		LogConfig g_Config;
 
 		FileSystem::OutputFileStream g_GlobalLogFile;
 
 	} // namespace
 
+	//-------------------------------------------------------------------------
+
 	void Initialize() { g_GlobalLogFile.open("EngineLog.txt"); }
 
 	void Shutdown() { g_GlobalLogFile.close(); }
+
+	//-------------------------------------------------------------------------
 
 	i32 VFormat(char *buffer, u32 bufferSize, char const *format, va_list argsList) {
 		return vsnprintf(buffer, bufferSize, format, argsList);
@@ -43,9 +54,13 @@ namespace Cookie::Log {
 		return charsCount;
 	}
 
+	//-------------------------------------------------------------------------
+
+	TVector<LogEntry> const *GetLogEntries() { return &g_LogData.m_LogEntries; }
+
 	void AddEntry(Verbosity verbosity, Channel channel, char const *fileName, u32 lineNumber, char const *format, ...) {
 
-		if (verbosity >= g_MinVerbosity) {
+		if (verbosity >= g_Config.m_MinVerbosity) {
 			va_list argsList;
 			va_start(argsList, format);
 
@@ -59,15 +74,15 @@ namespace Cookie::Log {
 		const u32 MAX_CHARS = 1024;
 		static char s_LogBuffer[MAX_CHARS];
 
-		// We first format the message with the arguments provided
+		// Format the base message with the arguments provided
 		VFormat(s_LogBuffer, MAX_CHARS, format, argsList);
 
-		// We need to make a copy of the formatted message
+		// Copy of the formatted message to reuse
+		// the buffer
 		String msg = s_LogBuffer;
 
-		// We create the final message
-		// LogFile Workaround
-		if (g_LogOriginCodeFile) {
+		// Create the final message
+		if (g_Config.m_LogOriginCodeFile) {
 			Format(s_LogBuffer, MAX_CHARS, "[%s][%s : %u][%s] %s", g_ChannelLabels[(u32)channel], fileName, lineNumber,
 				   g_VerbosityLabels[(u32)verbosity], msg.c_str());
 		} else {
@@ -76,6 +91,17 @@ namespace Cookie::Log {
 
 		printf("%s\n", s_LogBuffer);
 
+		// Create an In-Memory Log Entry
+		LogEntry entry;
+		entry.m_Verbosity = verbosity;
+		entry.m_Channels = channel;
+		entry.m_FileName = fileName;
+		entry.m_LineNumber = lineNumber;
+		entry.m_Message = s_LogBuffer;
+
+		g_LogData.m_LogEntries.push_back(entry);
+
+		// Log to file
 		g_GlobalLogFile << s_LogBuffer << std::endl;
 	}
 
@@ -93,6 +119,11 @@ namespace Cookie::Log {
 		vsnprintf(s_LogBuffer, MAX_CHARS, format, argsList);
 
 		printf("%s\n", s_LogBuffer);
+
+		// Log to file
+		g_GlobalLogFile << s_LogBuffer << std::endl;
 	}
+
+	//-------------------------------------------------------------------------
 
 } // namespace Cookie::Log
