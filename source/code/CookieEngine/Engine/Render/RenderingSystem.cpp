@@ -14,17 +14,6 @@ namespace Cookie {
 	using namespace RenderingAPI;
 
 	// --------------------------------------------------------------------------
-	// Temporal data to render cookies
-	// -----------------
-	// Temporal variables stored in the stack
-	// for rendering tests
-	SpriteHandle cookieID;
-	SpriteHandle butterID;
-	SpriteHandle sugarID;
-	ImageHandle cookieImg;
-	ImageHandle butterImg;
-	ImageHandle sugarImg;
-	// --------------------------------------------------------------------------
 
 	void RenderingSystem::InitSignature() {
 		m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
@@ -73,11 +62,7 @@ namespace Cookie {
 
 		// IMGUI Rendering
 		ImGuiRenderer::NewFrame();
-
-		// Very Crude FPS Counter
 		ImGui::LabelText("FPS", "%f", 1.0f / dt);
-
-		// Render ImGui on top of everything
 		ImGuiRenderer::Render();
 
 		// Swap Buffers
@@ -86,7 +71,6 @@ namespace Cookie {
 
 	void RenderingSystem::Shutdown() {
 		ImGuiRenderer::Shutdown();
-		ResourcesSystem::Release(cookieImg);
 	}
 
 } // namespace Cookie

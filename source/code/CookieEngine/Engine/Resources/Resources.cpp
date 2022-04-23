@@ -2,11 +2,18 @@
 
 #include <stb_image.h>
 
+using namespace Cookie::RenderingAPI;
+
 namespace Cookie {
 
 	// --------------------------------------------------------------------------
 
 	ResourcesDatabase g_ResourcesDatabase;
+
+	// --------------------------------------------------------------------------
+
+	// Core Engine Resources That will always be loaded
+	Program spriteProgram;
 
 	// --------------------------------------------------------------------------
 
@@ -19,6 +26,9 @@ namespace Cookie {
 			for (size_t i = 0; i < 1000; i++) {
 				m_AvailableIDs.push(i);
 			}
+
+			// Init Core Engine Resources
+			spriteProgram = Device::CreateProgram("shaders/Sprite.vert", "shaders/Sprite.frag");
 		}
 
 		void Shutdown() {
@@ -78,7 +88,7 @@ namespace Cookie {
 			sp->m_IndexBuffer = Device::CreateIndexBuffer((char *)sp->m_Indices.data(), sizeof(u32) * sp->m_Indices.size(), UINT);
 
 			// Program
-			sp->m_Program = Device::CreateProgram("shaders/Sprite.vert", "shaders/Sprite.frag");
+			sp->m_Program = spriteProgram;
 
 			// VAO Layout
 			VertexArrayLayout layout;

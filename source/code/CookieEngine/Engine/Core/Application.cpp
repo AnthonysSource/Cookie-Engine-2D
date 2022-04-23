@@ -40,11 +40,11 @@ namespace Cookie {
 			CKE_LOG_INFO(Log::Channel::Core, "Initializing Input System");
 			InputSystem::Init(&g_AppData.m_Window);
 
-			CKE_LOG_INFO(Log::Channel::Core, "Initializing Resources System");
-			ResourcesSystem::Init();
-
 			CKE_LOG_INFO(Log::Channel::Core, "Initializing Rendering System");
 			g_RenderingSystem->Init();
+
+			CKE_LOG_INFO(Log::Channel::Core, "Initializing Resources System");
+			ResourcesSystem::Init();
 
 			CKE_LOG_INFO(Log::Channel::Core, "Initializing Entity Admin");
 			g_Admin->Init();
