@@ -68,10 +68,10 @@ namespace Cookie::Log {
 		// We create the final message
 		// LogFile Workaround
 		if (g_LogOriginCodeFile) {
-			Format(s_LogBuffer, MAX_CHARS, "[%s] [%s : %u] [%s] %s", g_ChannelLabels[(u32)channel], fileName, lineNumber,
+			Format(s_LogBuffer, MAX_CHARS, "[%s][%s : %u][%s] %s", g_ChannelLabels[(u32)channel], fileName, lineNumber,
 				   g_VerbosityLabels[(u32)verbosity], msg.c_str());
 		} else {
-			Format(s_LogBuffer, MAX_CHARS, "[%s] [%s] %s", g_ChannelLabels[(u32)channel], g_VerbosityLabels[(u32)verbosity], msg.c_str());
+			Format(s_LogBuffer, MAX_CHARS, "[%s][%s] %s", g_ChannelLabels[(u32)channel], g_VerbosityLabels[(u32)verbosity], msg.c_str());
 		}
 
 		printf("%s\n", s_LogBuffer);
