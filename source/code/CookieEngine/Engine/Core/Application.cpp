@@ -25,12 +25,12 @@ namespace Cookie {
 
 	namespace Application {
 
-		void Run(TFunction<void(EntityAdmin *const EntitiesAdmin)> CreateWorld) {
+		void Run(GameInitData *gameInitData) {
 
 			Log::Initialize();
 
 			CKE_LOG_INFO(Log::Channel::Core, "Starting up Cookie Engine");
-			Platform::Init();
+			Platform::Init(&gameInitData->m_WindowDesc);
 
 			CKE_LOG_INFO(Log::Channel::Core, "Initializing Input System");
 			InputSystem::Init(&g_AppData.m_Window);
@@ -47,7 +47,11 @@ namespace Cookie {
 			g_Admin->RegisterComponent<RenderComponent>();
 			g_Admin->RegisterSystem(g_RenderingSystem);
 
-			CreateWorld(g_Admin);
+			CKE_LOG_INFO(Log::Channel::Core, "Loading Game Resources");
+			gameInitData->m_LoadResourcesFunc();
+
+			CKE_LOG_INFO(Log::Channel::Core, "Creating Game World");
+			gameInitData->m_CreateWorldFunc(g_Admin);
 
 			CKE_LOG_INFO(Log::Channel::Core, "Starting engine loop");
 			g_EngineClock.Init();

@@ -4,7 +4,7 @@
 
 namespace Cookie::Platform {
 
-	void Init();
+	void Init(WindowDescription *wd);
 	bool IsRunning(GLFWwindow *appData);
 	void Shutdown();
 

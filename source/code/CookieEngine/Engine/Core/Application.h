@@ -19,8 +19,20 @@ namespace Cookie {
 		String m_Title;
 	};
 
+	struct WindowDescription {
+		u32 m_Height;
+		u32 m_Width;
+		String m_Title;
+	};
+
 	struct AppData {
 		WindowData m_Window;
+	};
+
+	struct GameInitData {
+		WindowDescription m_WindowDesc;
+		TFunction<void(EntityAdmin *const EntitiesAdmin)> m_CreateWorldFunc;
+		TFunction<void()> m_LoadResourcesFunc;
 	};
 
 	extern AppData g_AppData;
@@ -28,7 +40,7 @@ namespace Cookie {
 
 	namespace Application {
 
-		void Run(TFunction<void(EntityAdmin *const EntitiesAdmin)> CreateWorld);
+		void Run(GameInitData *gameInitData);
 
 	} // namespace Application
 } // namespace Cookie

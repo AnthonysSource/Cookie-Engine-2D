@@ -41,7 +41,7 @@ namespace Cookie {
 
 		// Images
 		// --------------------------------------------------------------------------
-		ImageHandle Load(const char *path) {
+		ImageHandle LoadImage(const char *path) {
 			ImageCPU *i = new ImageCPU();
 			stbi_set_flip_vertically_on_load(true);
 			i->m_Data = stbi_load(path, &i->m_Width, &i->m_Height, &i->m_NrChannels, 0);
@@ -52,7 +52,7 @@ namespace Cookie {
 			return handle;
 		}
 
-		void Release(ImageHandle handle) {
+		void ReleaseImage(ImageHandle handle) {
 			// Delete the image from the database
 			// and free the image data
 			auto img = g_ResourcesDatabase.m_Images[handle];

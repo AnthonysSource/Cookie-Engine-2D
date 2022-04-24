@@ -14,12 +14,12 @@ namespace Cookie::Platform {
 		}
 	};
 
-	void Init() {
+	void Init(WindowDescription *wd) {
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		CreateAppWindow(&g_AppData.m_Window, 1280, 720, "Cookie Engine");
+		CreateAppWindow(&g_AppData.m_Window, wd->m_Width, wd->m_Height, wd->m_Title.c_str());
 	}
 
 	void CreateAppWindow(WindowData *window, u32 width, u32 height, const char *title);

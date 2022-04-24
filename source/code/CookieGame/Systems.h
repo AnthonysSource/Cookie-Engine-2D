@@ -3,7 +3,7 @@
 #include "Components.h"
 #include "CookieEngine.h"
 
-namespace Cookie::Application {
+namespace Cookie {
 
 	class RotateSystem : public System {
 	public:
@@ -65,4 +65,4 @@ namespace Cookie::Application {
 		}
 	};
 
-} // namespace Cookie::Application
+} // namespace Cookie

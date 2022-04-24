@@ -10,6 +10,7 @@ namespace Cookie {
 	using ImageHandle = u32;
 	using SpriteHandle = u32;
 
+	// Image loaded in the CPU
 	struct ImageCPU {
 		i32 m_Width;
 		i32 m_Height;
@@ -17,6 +18,8 @@ namespace Cookie {
 		unsigned char *m_Data;
 	};
 
+	// All the data used by the render API to
+	// render this sprite
 	struct SpriteRenderData {
 		RenderingAPI::VertexArray m_VertexArray;
 		RenderingAPI::VertexBuffer m_VertexBuffer;
@@ -59,14 +62,8 @@ namespace Cookie {
 		void DeleteSprite(SpriteHandle handle);
 
 		// Images
-		//
-		// Load a image on the CPU, the data
-		// is stored as unsigned char
-		// This internally allocates memory for the data
-		ImageHandle Load(const char *path);
-		// Release the memory of the cpu image
-		void Release(ImageHandle handle);
-
+		ImageHandle LoadImage(const char *path);
+		void ReleaseImage(ImageHandle handle);
 
 	} // namespace ResourcesSystem
 
