@@ -2,7 +2,6 @@
 
 #include "Core/Logging/Log.h"
 #include "Core/Platform/Platform.h"
-#include "Core/Platform/Window.h"
 #include "Core/Types/Function.h"
 #include "Core/Types/PrimitiveTypes.h"
 
@@ -32,9 +31,6 @@ namespace Cookie {
 
 			CKE_LOG_INFO(Log::Channel::Core, "Starting up Cookie Engine");
 			Platform::Init();
-
-			CKE_LOG_INFO(Log::Channel::Core, "Creating window");
-			WindowManagement::CreateAppWindow(&g_AppData.m_Window, 1280, 720, "Cookie Engine");
 
 			CKE_LOG_INFO(Log::Channel::Core, "Initializing Input System");
 			InputSystem::Init(&g_AppData.m_Window);

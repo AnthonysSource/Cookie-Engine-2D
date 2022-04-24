@@ -2,6 +2,7 @@
 
 #include "Core/Types/Containers.h"
 #include "Core/Types/PrimitiveTypes.h"
+#include "Core/Platform/Platform.h"
 
 #include "Core/Logging/Log.h"
 

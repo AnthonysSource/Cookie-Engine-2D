@@ -111,9 +111,6 @@
     <ClInclude Include="Engine\Core\Platform\Platform.h">
       <Filter>Engine\Core\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\Platform\Window.h">
-      <Filter>Engine\Core\Platform</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Core\Random\Random.h">
       <Filter>Engine\Core\Random</Filter>
     </ClInclude>
@@ -216,9 +213,6 @@
       <Filter>Engine\Core\Memory</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Platform\Platform.cpp">
-      <Filter>Engine\Core\Platform</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Core\Platform\Window.cpp">
       <Filter>Engine\Core\Platform</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Random\Random.cpp">

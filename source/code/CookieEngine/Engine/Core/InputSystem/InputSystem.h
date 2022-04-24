@@ -2,7 +2,7 @@
 
 #include "Core/Defines.h"
 #include "Core/Types/PrimitiveTypes.h"
-#include "Core/Platform/Window.h"
+#include "Core/Platform/Platform.h"
 
 namespace Cookie {
 

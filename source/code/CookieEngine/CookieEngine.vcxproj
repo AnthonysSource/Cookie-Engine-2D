@@ -151,7 +151,6 @@
     <ClInclude Include="Engine\Core\Math\Math.h" />
     <ClInclude Include="Engine\Core\Memory\Memory.h" />
     <ClInclude Include="Engine\Core\Platform\Platform.h" />
-    <ClInclude Include="Engine\Core\Platform\Window.h" />
     <ClInclude Include="Engine\Core\Random\Random.h" />
     <ClInclude Include="Engine\Core\RenderAPI\RenderAPI.h" />
     <ClInclude Include="Engine\Core\Time\Time.h" />
@@ -188,7 +187,6 @@
     <ClCompile Include="Engine\Core\Logging\Log.cpp" />
     <ClCompile Include="Engine\Core\Memory\Memory.cpp" />
     <ClCompile Include="Engine\Core\Platform\Platform.cpp" />
-    <ClCompile Include="Engine\Core\Platform\Window.cpp" />
     <ClCompile Include="Engine\Core\Random\Random.cpp" />
     <ClCompile Include="Engine\Core\RenderAPI\RenderAPI.cpp" />
     <ClCompile Include="Engine\Core\Time\Time.cpp" />
