@@ -16,6 +16,7 @@
 #include "Entities/EntityAdmin.h"
 
 #include <GLFW/glfw3.h>
+#include "optick.h"
 
 namespace Cookie {
 
@@ -26,6 +27,7 @@ namespace Cookie {
 	namespace Application {
 
 		void Run(GameInitData *gameInitData) {
+
 
 			Log::Initialize();
 
@@ -58,12 +60,13 @@ namespace Cookie {
 
 			while (Platform::IsRunning(g_AppData.m_Window.m_Handle)) {
 
+				OPTICK_FRAME("MainThread");
+
 				// Tick the engine clock
 				g_EngineClock.Update();
 
 				InputSystem::Update();
 				g_Admin->Update(g_EngineClock.m_TimeData.m_DeltaTime);
-				g_RenderingSystem->Update(g_EngineClock.m_TimeData.m_DeltaTime);
 			}
 
 			// Shutdown

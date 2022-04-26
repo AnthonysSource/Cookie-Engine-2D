@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <chrono>
+#include "optick.h"
 
 namespace Cookie {
 
@@ -27,6 +28,8 @@ namespace Cookie {
 	}
 
 	void EngineClock::Update() {
+		OPTICK_EVENT();
+
 		m_TimeData.m_SecondsUpTime = glfwGetTime();
 		m_TimeData.m_DeltaTime = m_TimeData.m_SecondsUpTime - m_TimeData.m_SecondsUpTimeLastUpdate;
 		m_TimeData.m_SecondsUpTimeLastUpdate = m_TimeData.m_SecondsUpTime;

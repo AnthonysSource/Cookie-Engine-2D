@@ -75,7 +75,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COOKIE_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;COOKIE_DEBUG;CKE_ASSERTS;COOKIE_LOGGING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>ThirdParty\glfw\include;ThirdParty\glad\include;ThirdParty\glm;ThirdParty\imgui;ThirdParty\stb_image;ThirdParty\spdlog\include;Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ThirdParty\glfw\include;ThirdParty\glad\include;ThirdParty\glm;ThirdParty\imgui;ThirdParty\stb_image;ThirdParty\spdlog\include;ThirdParty\optick\src;Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -93,7 +93,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COOKIE_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;COOKIE_DEBUG;CKE_ASSERTS;COOKIE_LOGGING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>ThirdParty\glfw\include;ThirdParty\glad\include;ThirdParty\glm;ThirdParty\imgui;ThirdParty\stb_image;ThirdParty\spdlog\include;Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ThirdParty\glfw\include;ThirdParty\glad\include;ThirdParty\glm;ThirdParty\imgui;ThirdParty\stb_image;ThirdParty\spdlog\include;ThirdParty\optick\src;Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -117,7 +117,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COOKIE_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>ThirdParty\glfw\include;ThirdParty\glad\include;ThirdParty\glm;ThirdParty\imgui;ThirdParty\stb_image;ThirdParty\spdlog\include;Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>ThirdParty\glfw\include;ThirdParty\glad\include;ThirdParty\glm;ThirdParty\imgui;ThirdParty\stb_image;ThirdParty\spdlog\include;ThirdParty\optick\src;Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -178,6 +178,22 @@
     <ClInclude Include="ThirdParty\imgui\imstb_rectpack.h" />
     <ClInclude Include="ThirdParty\imgui\imstb_textedit.h" />
     <ClInclude Include="ThirdParty\imgui\imstb_truetype.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick.config.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_capi.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_common.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_core.freebsd.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_core.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_core.linux.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_core.macos.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_core.platform.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_core.win.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_gpu.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_memory.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_message.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_miniz.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_serialization.h" />
+    <ClInclude Include="ThirdParty\optick\src\optick_server.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\Application.cpp" />
@@ -203,6 +219,15 @@
     <ClCompile Include="ThirdParty\imgui\imgui_draw.cpp" />
     <ClCompile Include="ThirdParty\imgui\imgui_tables.cpp" />
     <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_capi.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_core.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_gpu.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_gpu.d3d12.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_gpu.vulkan.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_message.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_miniz.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_serialization.cpp" />
+    <ClCompile Include="ThirdParty\optick\src\optick_server.cpp" />
     <ClCompile Include="ThirdParty\stb_image\cke_stb.cpp" />
   </ItemGroup>
   <ItemGroup>

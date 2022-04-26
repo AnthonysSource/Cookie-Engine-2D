@@ -8,6 +8,8 @@ project "CookieEngine"
         "ThirdParty/imgui/**.cpp",
         "ThirdParty/imgui/**.h",
         "ThirdParty/stb_image/*.cpp",
+        "ThirdParty/optick/src/*.cpp",
+        "ThirdParty/optick/src/*.h",
         "ThirdParty/glad/src/glad.c"
     }
     includedirs {
@@ -17,6 +19,7 @@ project "CookieEngine"
         "ThirdParty/imgui",
         "ThirdParty/stb_image",
         "ThirdParty/spdlog/include",
+        "ThirdParty/optick/src",
         "Engine"
     }
     links {
@@ -39,6 +42,7 @@ function UseCookieEngine()
         "%{wks.location}/source/code/CookieEngine/ThirdParty/imgui",
         "%{wks.location}/source/code/CookieEngine/ThirdParty/stb_image",
         "%{wks.location}/source/code/CookieEngine/ThirdParty/spdlog/include",
+        "%{wks.location}/source/code/CookieEngine/ThirdParty/optick/src",
         "%{wks.location}/source/code/CookieEngine/Engine"
     }
     links { "CookieEngine" }

@@ -8,6 +8,7 @@
 #include "Resources/Resources.h"
 
 #include "Entities/EntityAdmin.h"
+#include "optick.h"
 
 namespace Cookie {
 
@@ -28,6 +29,7 @@ namespace Cookie {
 	}
 
 	void RenderingSystem::Update(f32 dt) {
+		OPTICK_EVENT();
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 

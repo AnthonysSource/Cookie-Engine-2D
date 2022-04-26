@@ -1,4 +1,5 @@
 #include "EntityAdmin.h"
+#include "optick.h"
 
 namespace Cookie {
 
@@ -9,6 +10,7 @@ namespace Cookie {
 	}
 
 	void EntityAdmin::Update(f32 deltaTime) {
+		OPTICK_EVENT();
 		for (auto const pair : m_Systems) {
 			pair.second->Update(deltaTime);
 		}

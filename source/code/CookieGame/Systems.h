@@ -3,6 +3,8 @@
 #include "Components.h"
 #include "CookieEngine.h"
 
+#include "optick.h"
+
 namespace Cookie {
 
 	class RotateSystem : public System {
@@ -13,6 +15,7 @@ namespace Cookie {
 		}
 
 		void Update(f32 dt) override {
+			OPTICK_EVENT();
 			for (auto const &entityID : m_EntitiesCache) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				RotatingComponent *f = g_Admin->GetComponent<RotatingComponent>(entityID);
@@ -29,6 +32,7 @@ namespace Cookie {
 		}
 
 		void Update(f32 dt) override {
+			OPTICK_EVENT();
 			for (auto const &entityID : m_EntitiesCache) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				MoveComponent *m = g_Admin->GetComponent<MoveComponent>(entityID);
@@ -57,6 +61,7 @@ namespace Cookie {
 		}
 
 		void Update(f32 dt) override {
+			OPTICK_EVENT();
 			for (auto const &entityID : m_EntitiesCache) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				FloatComponent *f = g_Admin->GetComponent<FloatComponent>(entityID);

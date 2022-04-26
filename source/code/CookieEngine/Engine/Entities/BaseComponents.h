@@ -2,7 +2,6 @@
 
 #include "Core/Math/Math.h"
 #include "Core/Types/PrimitiveTypes.h"
-#include "Core/Types/Function.h"
 
 namespace Cookie {
 
@@ -24,10 +23,6 @@ namespace Cookie {
 		Float3 m_Up;
 	};
 
-	struct ScriptComponent {
-		TFunction<void> m_OnCreate;
-		TFunction<void> m_OnUpdate;
-		TFunction<void> m_OnDestroy;
-	};
+	struct ScriptComponent {};
 
 } // namespace Cookie

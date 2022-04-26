@@ -5,6 +5,7 @@
 #include "Core/Platform/Platform.h"
 
 #include "Core/Logging/Log.h"
+#include "optick.h"
 
 namespace Cookie {
 	namespace InputSystem {
@@ -18,6 +19,8 @@ namespace Cookie {
 		InputComponent g_InputComponent;
 
 		void InputSystem::Update() {
+			OPTICK_EVENT();
+
 			// Reset previous input state
 			for (size_t i = 0; i < 255; i++) {
 				// We dont reset keyheld because that gets

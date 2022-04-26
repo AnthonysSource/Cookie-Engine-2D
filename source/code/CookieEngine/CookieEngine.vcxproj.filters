@@ -64,6 +64,12 @@
     <Filter Include="ThirdParty\imgui\backends">
       <UniqueIdentifier>{E4EDCF95-50B0-0320-9960-92AC0562DCFD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ThirdParty\optick">
+      <UniqueIdentifier>{8984C339-F59A-C1CF-3E12-4DF1AA679257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\optick\src">
+      <UniqueIdentifier>{205FB0C1-8CCB-6BBC-55BF-031AC1EA8D24}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ThirdParty\stb_image">
       <UniqueIdentifier>{AAB50CD2-9644-969B-3F63-AA962BD1A641}</UniqueIdentifier>
     </Filter>
@@ -192,6 +198,54 @@
     <ClInclude Include="ThirdParty\imgui\imstb_truetype.h">
       <Filter>ThirdParty\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick.config.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_capi.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_common.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_core.freebsd.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_core.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_core.linux.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_core.macos.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_core.platform.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_core.win.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_gpu.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_memory.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_message.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_miniz.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_serialization.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\optick\src\optick_server.h">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\Application.cpp">
@@ -262,6 +316,33 @@
     </ClCompile>
     <ClCompile Include="ThirdParty\imgui\imgui_widgets.cpp">
       <Filter>ThirdParty\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_capi.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_core.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_gpu.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_gpu.d3d12.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_gpu.vulkan.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_message.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_miniz.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_serialization.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\optick\src\optick_server.cpp">
+      <Filter>ThirdParty\optick\src</Filter>
     </ClCompile>
     <ClCompile Include="ThirdParty\stb_image\cke_stb.cpp">
       <Filter>ThirdParty\stb_image</Filter>

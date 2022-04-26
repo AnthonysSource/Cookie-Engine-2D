@@ -78,7 +78,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COOKIE_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;COOKIE_DEBUG;CKE_ASSERTS;COOKIE_LOGGING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\CookieEngine\ThirdParty\glfw\include;..\CookieEngine\ThirdParty\glad\include;..\CookieEngine\ThirdParty\glm;..\CookieEngine\ThirdParty\imgui;..\CookieEngine\ThirdParty\stb_image;..\CookieEngine\ThirdParty\spdlog\include;..\CookieEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\CookieEngine\ThirdParty\glfw\include;..\CookieEngine\ThirdParty\glad\include;..\CookieEngine\ThirdParty\glm;..\CookieEngine\ThirdParty\imgui;..\CookieEngine\ThirdParty\stb_image;..\CookieEngine\ThirdParty\spdlog\include;..\CookieEngine\ThirdParty\optick\src;..\CookieEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COOKIE_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;COOKIE_DEBUG;CKE_ASSERTS;COOKIE_LOGGING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\CookieEngine\ThirdParty\glfw\include;..\CookieEngine\ThirdParty\glad\include;..\CookieEngine\ThirdParty\glm;..\CookieEngine\ThirdParty\imgui;..\CookieEngine\ThirdParty\stb_image;..\CookieEngine\ThirdParty\spdlog\include;..\CookieEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\CookieEngine\ThirdParty\glfw\include;..\CookieEngine\ThirdParty\glad\include;..\CookieEngine\ThirdParty\glm;..\CookieEngine\ThirdParty\imgui;..\CookieEngine\ThirdParty\stb_image;..\CookieEngine\ThirdParty\spdlog\include;..\CookieEngine\ThirdParty\optick\src;..\CookieEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -122,7 +122,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>COOKIE_PLATFORM_WINDOWS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\CookieEngine\ThirdParty\glfw\include;..\CookieEngine\ThirdParty\glad\include;..\CookieEngine\ThirdParty\glm;..\CookieEngine\ThirdParty\imgui;..\CookieEngine\ThirdParty\stb_image;..\CookieEngine\ThirdParty\spdlog\include;..\CookieEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\CookieEngine\ThirdParty\glfw\include;..\CookieEngine\ThirdParty\glad\include;..\CookieEngine\ThirdParty\glm;..\CookieEngine\ThirdParty\imgui;..\CookieEngine\ThirdParty\stb_image;..\CookieEngine\ThirdParty\spdlog\include;..\CookieEngine\ThirdParty\optick\src;..\CookieEngine\Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
