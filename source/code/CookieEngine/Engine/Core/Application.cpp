@@ -4,19 +4,19 @@
 #include "Core/Platform/Platform.h"
 #include "Core/Types/Function.h"
 #include "Core/Types/PrimitiveTypes.h"
+#include "Core/Profiling/Profiling.h"
 
 #include "Core/FileSystem/FileSystem.h"
 #include "Core/FileSystem/FileSystemTest.h"
+#include "Core/InputSystem/InputSystem.h"
 
 #include "Resources/Resources.h"
 
-#include "Core/InputSystem/InputSystem.h"
 #include "Render/RenderingSystem.h"
 
 #include "Entities/EntityAdmin.h"
 
 #include <GLFW/glfw3.h>
-#include "optick.h"
 
 namespace Cookie {
 
@@ -55,12 +55,12 @@ namespace Cookie {
 			CKE_LOG_INFO(Log::Channel::Core, "Creating Game World");
 			gameInitData->m_CreateWorldFunc(g_Admin);
 
+
 			CKE_LOG_INFO(Log::Channel::Core, "Starting engine loop");
 			g_EngineClock.Init();
 
 			while (Platform::IsRunning(g_AppData.m_Window.m_Handle)) {
-
-				OPTICK_FRAME("MainThread");
+				CKE_PROFILE_START_FRAME("MainThread");
 
 				// Tick the engine clock
 				g_EngineClock.Update();

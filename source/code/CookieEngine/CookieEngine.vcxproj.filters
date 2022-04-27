@@ -28,6 +28,9 @@
     <Filter Include="Engine\Core\Platform">
       <UniqueIdentifier>{C7AED0D1-B33D-5A9B-5C5C-6E9648CA6A41}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Core\Profiling">
+      <UniqueIdentifier>{4C1DADAA-B889-68A5-817D-0003EDA88A0D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Core\Random">
       <UniqueIdentifier>{63B73EEE-4F9B-FF43-B8FB-F996A4FEE9C5}</UniqueIdentifier>
     </Filter>
@@ -116,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Core\Platform\Platform.h">
       <Filter>Engine\Core\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Core\Profiling\Profiling.h">
+      <Filter>Engine\Core\Profiling</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Random\Random.h">
       <Filter>Engine\Core\Random</Filter>
@@ -268,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Core\Platform\Platform.cpp">
       <Filter>Engine\Core\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Core\Profiling\Profiling.cpp">
+      <Filter>Engine\Core\Profiling</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Core\Random\Random.cpp">
       <Filter>Engine\Core\Random</Filter>

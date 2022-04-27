@@ -1,5 +1,5 @@
 #include "EntityAdmin.h"
-#include "optick.h"
+#include "Core/Profiling/Profiling.h"
 
 namespace Cookie {
 
@@ -10,7 +10,7 @@ namespace Cookie {
 	}
 
 	void EntityAdmin::Update(f32 deltaTime) {
-		OPTICK_EVENT();
+		CKE_PROFILE_EVENT();
 		for (auto const pair : m_Systems) {
 			pair.second->Update(deltaTime);
 		}

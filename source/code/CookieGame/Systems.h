@@ -15,7 +15,7 @@ namespace Cookie {
 		}
 
 		void Update(f32 dt) override {
-			OPTICK_EVENT();
+			CKE_PROFILE_EVENT();
 			for (auto const &entityID : m_EntitiesCache) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				RotatingComponent *f = g_Admin->GetComponent<RotatingComponent>(entityID);
@@ -32,7 +32,7 @@ namespace Cookie {
 		}
 
 		void Update(f32 dt) override {
-			OPTICK_EVENT();
+			CKE_PROFILE_EVENT();
 			for (auto const &entityID : m_EntitiesCache) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				MoveComponent *m = g_Admin->GetComponent<MoveComponent>(entityID);

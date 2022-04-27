@@ -17,4 +17,6 @@
 #include "Core/Types/Containers.h"
 #include "Core/Types/String.h"
 
+#include "Core/Profiling/Profiling.h"
+
 #include "Resources/Resources.h"

@@ -5,7 +5,7 @@
 #include "Core/Platform/Platform.h"
 
 #include "Core/Logging/Log.h"
-#include "optick.h"
+#include "Core/Profiling/Profiling.h"
 
 namespace Cookie {
 	namespace InputSystem {
@@ -19,7 +19,7 @@ namespace Cookie {
 		InputComponent g_InputComponent;
 
 		void InputSystem::Update() {
-			OPTICK_EVENT();
+			CKE_PROFILE_EVENT();
 
 			// Reset previous input state
 			for (size_t i = 0; i < 255; i++) {
@@ -35,9 +35,9 @@ namespace Cookie {
 			// Process input events
 			for (i32 i = 0; i < s_InputEventsBuffer.size(); i++) {
 				InputEvent e = s_InputEventsBuffer.front();
-				
+
 				// Logging to inspect system state
-				//LogInput(e);
+				// LogInput(e);
 
 				s_InputEventsBuffer.pop();
 			}
@@ -77,8 +77,8 @@ namespace Cookie {
 			// }
 
 			CKE_LOG_INFO(Log::Channel::Input, "KeyName: %s / Event: %d / Down: %d / Held: %d / Up: %d",
-						glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action, g_InputComponent.m_Keyboard.m_KeyDown[e.m_KeyCode],
-						g_InputComponent.m_Keyboard.m_KeyHeld[e.m_KeyCode], g_InputComponent.m_Keyboard.m_KeyUp[e.m_KeyCode]);
+						 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action, g_InputComponent.m_Keyboard.m_KeyDown[e.m_KeyCode],
+						 g_InputComponent.m_Keyboard.m_KeyHeld[e.m_KeyCode], g_InputComponent.m_Keyboard.m_KeyUp[e.m_KeyCode]);
 		}
 
 	} // namespace InputSystem
