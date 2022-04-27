@@ -10,9 +10,6 @@
     <Filter Include="Engine\Core\FileSystem">
       <UniqueIdentifier>{47BD667B-33B7-8FCD-1C24-26DE08BDF539}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\IMGUI">
-      <UniqueIdentifier>{1D347AC8-894A-785E-D2C1-03803E1749E6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\InputSystem">
       <UniqueIdentifier>{7780A2B6-E3B7-EA4D-ECC1-4E7158781147}</UniqueIdentifier>
     </Filter>
@@ -34,9 +31,6 @@
     <Filter Include="Engine\Core\Random">
       <UniqueIdentifier>{63B73EEE-4F9B-FF43-B8FB-F996A4FEE9C5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Core\RenderAPI">
-      <UniqueIdentifier>{FCDB6342-6848-1F3D-313C-B79A9D6741A5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Core\Time">
       <UniqueIdentifier>{918D5F1D-7D86-7E6F-A6B8-63F492105E7B}</UniqueIdentifier>
     </Filter>
@@ -48,6 +42,9 @@
     </Filter>
     <Filter Include="Engine\Render">
       <UniqueIdentifier>{EAE1D856-56A2-548D-1FDD-9D0A8B5C9969}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Render\IMGUI">
+      <UniqueIdentifier>{340EF0D7-A06F-CDE5-29DD-1398953D04A5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Resources">
       <UniqueIdentifier>{05BB681F-F1B3-8771-1AE6-6CF6063E677D}</UniqueIdentifier>
@@ -99,9 +96,6 @@
     <ClInclude Include="Engine\Core\FileSystem\FileSystemTest.h">
       <Filter>Engine\Core\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Core\IMGUI\IMGUI_Impl.h">
-      <Filter>Engine\Core\IMGUI</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Core\InputSystem\InputSystem.h">
       <Filter>Engine\Core\InputSystem</Filter>
     </ClInclude>
@@ -125,9 +119,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Core\Random\Random.h">
       <Filter>Engine\Core\Random</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Core\RenderAPI\RenderAPI.h">
-      <Filter>Engine\Core\RenderAPI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Core\Time\Time.h">
       <Filter>Engine\Core\Time</Filter>
@@ -164,6 +155,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Entities\System.h">
       <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\IMGUI\IMGUI_Impl.h">
+      <Filter>Engine\Render\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\RenderAPI.h">
+      <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\RenderingSystem.h">
       <Filter>Engine\Render</Filter>
@@ -260,9 +257,6 @@
     <ClCompile Include="Engine\Core\FileSystem\FileSystem.cpp">
       <Filter>Engine\Core\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\IMGUI\IMGUI_Impl.cpp">
-      <Filter>Engine\Core\IMGUI</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Core\InputSystem\InputSystem.cpp">
       <Filter>Engine\Core\InputSystem</Filter>
     </ClCompile>
@@ -281,14 +275,17 @@
     <ClCompile Include="Engine\Core\Random\Random.cpp">
       <Filter>Engine\Core\Random</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Core\RenderAPI\RenderAPI.cpp">
-      <Filter>Engine\Core\RenderAPI</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Core\Time\Time.cpp">
       <Filter>Engine\Core\Time</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Entities\EntityAdmin.cpp">
       <Filter>Engine\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\IMGUI\IMGUI_Impl.cpp">
+      <Filter>Engine\Render\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\RenderAPI.cpp">
+      <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\RenderingSystem.cpp">
       <Filter>Engine\Render</Filter>

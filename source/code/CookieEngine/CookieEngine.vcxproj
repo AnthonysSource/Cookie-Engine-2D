@@ -144,7 +144,6 @@
     <ClInclude Include="Engine\Core\Defines.h" />
     <ClInclude Include="Engine\Core\FileSystem\FileSystem.h" />
     <ClInclude Include="Engine\Core\FileSystem\FileSystemTest.h" />
-    <ClInclude Include="Engine\Core\IMGUI\IMGUI_Impl.h" />
     <ClInclude Include="Engine\Core\InputSystem\InputSystem.h" />
     <ClInclude Include="Engine\Core\InputSystem\KeyCodes.h" />
     <ClInclude Include="Engine\Core\Logging\Log.h" />
@@ -153,7 +152,6 @@
     <ClInclude Include="Engine\Core\Platform\Platform.h" />
     <ClInclude Include="Engine\Core\Profiling\Profiling.h" />
     <ClInclude Include="Engine\Core\Random\Random.h" />
-    <ClInclude Include="Engine\Core\RenderAPI\RenderAPI.h" />
     <ClInclude Include="Engine\Core\Time\Time.h" />
     <ClInclude Include="Engine\Core\Types\Containers.h" />
     <ClInclude Include="Engine\Core\Types\Function.h" />
@@ -166,6 +164,8 @@
     <ClInclude Include="Engine\Entities\Entities_API.h" />
     <ClInclude Include="Engine\Entities\EntityAdmin.h" />
     <ClInclude Include="Engine\Entities\System.h" />
+    <ClInclude Include="Engine\Render\IMGUI\IMGUI_Impl.h" />
+    <ClInclude Include="Engine\Render\RenderAPI.h" />
     <ClInclude Include="Engine\Render\RenderingSystem.h" />
     <ClInclude Include="Engine\Resources\Resources.h" />
     <ClInclude Include="ThirdParty\imgui\backends\imgui_impl_glfw.h" />
@@ -199,16 +199,16 @@
   <ItemGroup>
     <ClCompile Include="Engine\Core\Application.cpp" />
     <ClCompile Include="Engine\Core\FileSystem\FileSystem.cpp" />
-    <ClCompile Include="Engine\Core\IMGUI\IMGUI_Impl.cpp" />
     <ClCompile Include="Engine\Core\InputSystem\InputSystem.cpp" />
     <ClCompile Include="Engine\Core\Logging\Log.cpp" />
     <ClCompile Include="Engine\Core\Memory\Memory.cpp" />
     <ClCompile Include="Engine\Core\Platform\Platform.cpp" />
     <ClCompile Include="Engine\Core\Profiling\Profiling.cpp" />
     <ClCompile Include="Engine\Core\Random\Random.cpp" />
-    <ClCompile Include="Engine\Core\RenderAPI\RenderAPI.cpp" />
     <ClCompile Include="Engine\Core\Time\Time.cpp" />
     <ClCompile Include="Engine\Entities\EntityAdmin.cpp" />
+    <ClCompile Include="Engine\Render\IMGUI\IMGUI_Impl.cpp" />
+    <ClCompile Include="Engine\Render\RenderAPI.cpp" />
     <ClCompile Include="Engine\Render\RenderingSystem.cpp" />
     <ClCompile Include="Engine\Resources\Resources.cpp" />
     <ClCompile Include="ThirdParty\glad\src\glad.c" />
