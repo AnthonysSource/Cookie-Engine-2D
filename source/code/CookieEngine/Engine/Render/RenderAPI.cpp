@@ -230,7 +230,9 @@ namespace Cookie::RenderingAPI {
 			gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 			// Viewport settings and resize
-			glViewport(0, 0, 1280, 720);
+			int w, h;
+			glfwGetFramebufferSize(g_AppData.m_Window.m_Handle, &w, &h);
+			glViewport(0, 0, w, h);
 			glfwSetFramebufferSizeCallback(g_AppData.m_Window.m_Handle,
 										   [](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
 

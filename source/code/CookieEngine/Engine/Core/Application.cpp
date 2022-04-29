@@ -28,7 +28,6 @@ namespace Cookie {
 
 		void Run(GameInitData *gameInitData) {
 
-
 			Log::Initialize();
 
 			CKE_LOG_INFO(Log::Channel::Core, "Starting up Cookie Engine");

@@ -108,6 +108,8 @@ int main() {
 	wd.m_Title = "Cookie Game";
 	wd.m_Width = 1280;
 	wd.m_Height = 720;
+	wd.m_IsFullScreen = false;
+	wd.m_RefreshRate = 144;
 
 	g.m_WindowDesc = wd;
 	g.m_LoadResourcesFunc = LoadResources;

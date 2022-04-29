@@ -23,6 +23,9 @@ namespace Cookie {
 		u32 m_Height;
 		u32 m_Width;
 		String m_Title;
+		bool m_IsFullScreen;
+		u16 m_RefreshRate;
+		String m_IconPath;
 	};
 
 	struct AppData {
