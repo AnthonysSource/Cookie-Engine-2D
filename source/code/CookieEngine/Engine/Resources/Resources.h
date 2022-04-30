@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Types/Containers.h"
 #include "Core/Defines.h"
@@ -27,7 +29,7 @@ namespace Cookie {
 		RenderingAPI::Program m_Program;
 		RenderingAPI::Texture m_Texture;
 
-		TVector<float> m_Vertices{};
+		TVector<RenderingAPI::Vertex> m_Vertices{};
 		TVector<u32> m_Indices{};
 	};
 

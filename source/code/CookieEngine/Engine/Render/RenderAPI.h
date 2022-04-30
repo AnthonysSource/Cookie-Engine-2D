@@ -111,4 +111,16 @@ namespace Cookie::RenderingAPI {
 		void DrawIndexed(VertexArray *va);
 	} // namespace Context
 
+	//-------------------------------------------------------------------------
+
+	struct Vertex {
+		Float3 m_Pos;
+		Float2 m_TexCoord;
+		// Float3 m_Color;
+
+		inline Vertex(Float3 pos, Float2 texCoord) : m_Pos(pos), m_TexCoord(texCoord) {}
+	};
+
+
+
 } // namespace Cookie::RenderingAPI

@@ -33,6 +33,9 @@ namespace Cookie {
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
+		Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
+		Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+
 		// Render all Objects
 		for (auto const &entityID : m_EntitiesCache) {
 			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
@@ -41,8 +44,7 @@ namespace Cookie {
 			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
 
 			// Camera Config
-			Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
-			Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+
 			sp->m_Program.SetUniformMat4("view", glm::value_ptr(view));
 			sp->m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
 
@@ -71,8 +73,6 @@ namespace Cookie {
 		glfwSwapBuffers(g_AppData.m_Window.m_Handle);
 	}
 
-	void RenderingSystem::Shutdown() {
-		ImGuiRenderer::Shutdown();
-	}
+	void RenderingSystem::Shutdown() { ImGuiRenderer::Shutdown(); }
 
 } // namespace Cookie

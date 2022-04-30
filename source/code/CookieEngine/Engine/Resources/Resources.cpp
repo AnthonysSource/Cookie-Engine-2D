@@ -75,16 +75,20 @@ namespace Cookie {
 
 			// Quad
 			// clang-format off
-			sp->m_Vertices = { -image->m_Width / (2.0f * pixelsPerUnit), -image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   0.0f, 0.0f, 
-								image->m_Width / (2.0f * pixelsPerUnit), -image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   1.0f, 0.0f,
-							    image->m_Width / (2.0f * pixelsPerUnit),  image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   1.0f, 1.0f, 
-							   -image->m_Width / (2.0f * pixelsPerUnit),  image->m_Height / (2.0f * pixelsPerUnit), 0.0f,   0.0f, 1.0f};
+			sp->m_Vertices.push_back(Vertex(
+				Float3(-image->m_Width / (2.0f * pixelsPerUnit), -image->m_Height / (2.0f * pixelsPerUnit), 0.0f), Float2(0.0f, 0.0f)));
+			sp->m_Vertices.push_back(Vertex(
+				Float3(image->m_Width / (2.0f * pixelsPerUnit), -image->m_Height / (2.0f * pixelsPerUnit), 0.0f), Float2(1.0f, 0.0f)));
+			sp->m_Vertices.push_back(Vertex(
+				Float3(image->m_Width / (2.0f * pixelsPerUnit), image->m_Height / (2.0f * pixelsPerUnit), 0.0f), Float2(1.0f, 1.0f)));
+			sp->m_Vertices.push_back(Vertex(
+				Float3(-image->m_Width / (2.0f * pixelsPerUnit), image->m_Height / (2.0f * pixelsPerUnit), 0.0f), Float2(0.0f, 1.0f)));
 			sp->m_Indices = {0, 1, 2,
 							 2, 3, 0};
 			// clang-format on
 
 			// Vertex & Index Buffer
-			sp->m_VertexBuffer = Device::CreateVertexBuffer((char *)sp->m_Vertices.data(), sizeof(float) * sp->m_Vertices.size());
+			sp->m_VertexBuffer = Device::CreateVertexBuffer((char *)sp->m_Vertices.data(), sizeof(Vertex) * sp->m_Vertices.size());
 			sp->m_IndexBuffer = Device::CreateIndexBuffer((char *)sp->m_Indices.data(), sizeof(u32) * sp->m_Indices.size(), UINT);
 
 			// Program
