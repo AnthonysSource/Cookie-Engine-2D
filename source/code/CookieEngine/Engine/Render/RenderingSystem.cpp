@@ -54,6 +54,31 @@ namespace Cookie {
 		++batch->m_NumSpritesToDraw;
 	}
 
+	void FlushBatch(RenderBatch *batch) {
+		Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
+		Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
+		Matrix4 model = Matrix4(1.0f);
+
+		Context::BindProgram(&batch->m_Program);
+
+		batch->m_Program.SetUniformMat4("view", glm::value_ptr(view));
+		batch->m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
+		batch->m_Program.SetUniformMat4("model", glm::value_ptr(model));
+
+		// Issue Drawcall
+		Device::BufferDataIntoVertexBuffer(&batch->m_VertexBuffer, (const char *)batch->m_Vertices.data(),
+										   batch->m_Vertices.size() * sizeof(Vertex));
+		Context::BindVertexBuffer(&batch->m_VertexBuffer);
+		Context::BindIndexBuffer(&batch->m_IndexBuffer);
+		Context::BindTexture(&batch->m_Texture);
+		Context::BindLayout(&batch->m_Layout);
+		Context::Submit(batch->m_NumSpritesToDraw);
+
+		// Reset Batch
+		batch->m_Vertices.clear();
+		batch->m_NumSpritesToDraw = 0;
+	}
+
 	// --------------------------------------------------------------------------
 
 	void RenderingSystem::InitSignature() {
@@ -97,49 +122,44 @@ namespace Cookie {
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
-		// TODO: Adjust proj matrix dynamically
-		Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
-		Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
-		Matrix4 model = Matrix4(1.0f);
-
-		// TODO: BATCH RENDERING
-		// Sort Sprites By Texture
+		// TODO: Rendering Flow
 		//
-		// For All Sprites with the same Texture
-		//		Create a Batch
-		//		Add Quads already transformed
-		//		Submit Batch Drawcall
-
+		// On Initialization:
+		//		Group all entities by layers
+		//		For each layer group:
+		//			Group all entities by sprite
+		// Only update the groups when a new rendereable entity is created
+		//
+		// On Update
+		//		Discard all entities outside of the camera view
+		//		For all layer groups
+		//				For all sprite groups
+		//					Create a Batch
+		//					Add Sprite Quads
+		//					Submit Batch Drawcall
+		//
+		u32 numBatches = 0;
 		for (auto const &entityID : m_EntitiesCache) {
 			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 			RenderComponent *r = g_Admin->GetComponent<RenderComponent>(entityID);
 
 			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
 
-			AddQuad(&batch, t->m_Position, sp->m_Width, sp->m_Height, sp->m_PixelsPerUnit);
+			if (batch.m_Texture.m_ID != sp->m_Texture.m_ID) {
+				if (batch.m_NumSpritesToDraw > 0) {
+					FlushBatch(&batch);
+					++numBatches;
+				}
+				batch.m_Texture = sp->m_Texture;
+				batch.m_Layout = sp->m_Layout;
+				batch.m_Program = sp->m_Program;
+			}
 
-			batch.m_Texture = sp->m_Texture;
-			batch.m_Layout = sp->m_Layout;
-			batch.m_Program = sp->m_Program;
+			AddQuad(&batch, t->m_Position, sp->m_Width, sp->m_Height, sp->m_PixelsPerUnit);
 		}
 
-		Context::BindProgram(&batch.m_Program);
-
-		batch.m_Program.SetUniformMat4("view", glm::value_ptr(view));
-		batch.m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
-		batch.m_Program.SetUniformMat4("model", glm::value_ptr(model));
-
-		// Issue Drawcall
-		Device::BufferDataIntoVertexBuffer(&batch.m_VertexBuffer, (const char *)batch.m_Vertices.data(),
-										   batch.m_Vertices.size() * sizeof(Vertex));
-		Context::BindVertexBuffer(&batch.m_VertexBuffer);
-		Context::BindIndexBuffer(&batch.m_IndexBuffer);
-		Context::BindTexture(&batch.m_Texture);
-		Context::BindLayout(&batch.m_Layout);
-		Context::Submit(batch.m_NumSpritesToDraw);
-
-		batch.m_Vertices.clear();
-		batch.m_NumSpritesToDraw = 0;
+		FlushBatch(&batch);
+		++numBatches;
 
 		//// TODO: Adjust proj matrix dynamically
 		// Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
@@ -178,6 +198,8 @@ namespace Cookie {
 		// IMGUI Rendering
 		ImGuiRenderer::NewFrame();
 		ImGui::LabelText("FPS", "%f", 1.0f / dt);
+		ImGui::LabelText("FrameTime", "%f ms", dt * 1000.0f);
+		ImGui::LabelText("Batches", "%d", numBatches);
 		ImGuiRenderer::Render();
 
 		// Swap Buffers
