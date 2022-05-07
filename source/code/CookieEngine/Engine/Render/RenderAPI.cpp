@@ -254,8 +254,8 @@ namespace Cookie::RenderingAPI {
 		}
 
 		void BindLayout(Layout *l) {
-			u32 count = l->m_Attributes.size();
-			for (u32 i = 0; i < count; i++) {
+			size_t count = l->m_Attributes.size();
+			for (size_t i = 0; i < count; i++) {
 				LayoutAttribute *attr = &l->m_Attributes[i];
 				glVertexAttribPointer(attr->m_Pos, attr->m_Count, GetOpenGLDataType(attr->m_Type), attr->m_Normalized, l->m_Stride,
 									  (void *)(UINT_PTR)attr->m_Offset);

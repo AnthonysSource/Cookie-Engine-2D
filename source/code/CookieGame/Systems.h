@@ -65,7 +65,7 @@ namespace Cookie {
 			for (auto const &entityID : m_EntitiesCache) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				FloatComponent *f = g_Admin->GetComponent<FloatComponent>(entityID);
-				t->m_Position.y = f->m_Amplitude * cos(f->m_Speed * glfwGetTime());
+				t->m_Position.y = f->m_Amplitude * (float)cos(f->m_Speed * glfwGetTime());
 			}
 		}
 	};

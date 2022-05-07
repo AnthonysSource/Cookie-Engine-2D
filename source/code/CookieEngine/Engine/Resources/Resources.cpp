@@ -25,7 +25,7 @@ namespace Cookie {
 		// --------------------------------------------------------------------------
 		void Init() {
 			//	Initialize all the resource IDs
-			for (size_t i = 0; i < 1000; i++) {
+			for (u32 i = 0; i < 1000; i++) {
 				m_AvailableIDs.push(i);
 			}
 
@@ -90,8 +90,8 @@ namespace Cookie {
 			// clang-format on
 
 			// Vertex & Index Buffer
-			sp->m_VertexBuffer = Device::CreateVertexBuffer((char *)sp->m_Vertices.data(), sizeof(Vertex) * sp->m_Vertices.size());
-			sp->m_IndexBuffer = Device::CreateIndexBuffer((char *)sp->m_Indices.data(), sizeof(u32) * sp->m_Indices.size(), UINT);
+			sp->m_VertexBuffer = Device::CreateVertexBuffer((char *)sp->m_Vertices.data(), (u32)(sizeof(Vertex) * sp->m_Vertices.size()));
+			sp->m_IndexBuffer = Device::CreateIndexBuffer((char *)sp->m_Indices.data(), (u32)(sizeof(u32) * sp->m_Indices.size()), UINT);
 
 			// Program
 			sp->m_Program = defaultSpriteProgram;

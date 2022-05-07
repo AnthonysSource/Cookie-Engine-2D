@@ -32,7 +32,7 @@ namespace Cookie {
 		CKE_PROFILE_EVENT();
 
 		m_TimeData.m_SecondsUpTime = glfwGetTime();
-		m_TimeData.m_DeltaTime = m_TimeData.m_SecondsUpTime - m_TimeData.m_SecondsUpTimeLastUpdate;
+		m_TimeData.m_DeltaTime = (f32)(m_TimeData.m_SecondsUpTime - m_TimeData.m_SecondsUpTimeLastUpdate);
 		m_TimeData.m_SecondsUpTimeLastUpdate = m_TimeData.m_SecondsUpTime;
 
 		++m_TimeData.m_FrameNumber;
