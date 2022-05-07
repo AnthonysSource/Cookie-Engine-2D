@@ -8,7 +8,7 @@ namespace Cookie {
 	using EntityID = u32;
 	using ComponentSignatureIndex = u8;
 
-	const EntityID MAX_ENTITIES = 100000;
+	const EntityID MAX_ENTITIES = 500000;
 	const ComponentSignatureIndex MAX_COMPONENTS = 128;
 
 	using Signature = Bitset<MAX_COMPONENTS>;

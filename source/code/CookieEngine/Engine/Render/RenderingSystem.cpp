@@ -26,6 +26,7 @@ namespace Cookie {
 		Texture m_Texture;
 
 		u32 m_NumSpritesToDraw;
+		u32 m_MaxSpritesToDraw;
 		TVector<Vertex> m_Vertices{};
 	};
 
@@ -94,9 +95,10 @@ namespace Cookie {
 		ImGuiRenderer::Init();
 
 		// Init Batch Rendering
-		u32 MAX_SPRITES = 100000;
+		u32 MAX_SPRITES = 5000;
 		u32 MAX_INDICES = MAX_SPRITES * 6;
 
+		batch.m_MaxSpritesToDraw = MAX_SPRITES;
 		batch.m_VertexBuffer = Device::CreateDynamicVertexBuffer(MAX_SPRITES);
 
 		indices = new u32[MAX_INDICES];
@@ -158,6 +160,14 @@ namespace Cookie {
 					FlushBatch(&batch);
 					++numBatches;
 				}
+				batch.m_Texture = sp->m_Texture;
+				batch.m_Layout = sp->m_Layout;
+				batch.m_Program = sp->m_Program;
+			}
+
+			if (batch.m_NumSpritesToDraw >= batch.m_MaxSpritesToDraw - 1) {
+				FlushBatch(&batch);
+				++numBatches;
 				batch.m_Texture = sp->m_Texture;
 				batch.m_Layout = sp->m_Layout;
 				batch.m_Program = sp->m_Program;

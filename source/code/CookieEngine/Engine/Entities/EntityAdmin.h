@@ -86,7 +86,8 @@ namespace Cookie {
 
 	private:
 		TQueue<EntityID> m_AvailableEntityIDs{};
-		TArray<Signature, MAX_ENTITIES> m_Signatures{};
+		// TArray<Signature, MAX_ENTITIES> m_Signatures{};
+		TVector<Signature> m_Signatures{};
 		u32 m_ActiveEntitiesCount{};
 
 		THashMap<size_t, IComponentArray *> m_ComponentArrays{};

@@ -6,6 +6,7 @@ namespace Cookie {
 	void EntityAdmin::Init() {
 		for (EntityID entityID = 0; entityID < MAX_ENTITIES; ++entityID) {
 			m_AvailableEntityIDs.push(entityID);
+			m_Signatures.emplace_back(Signature{});
 		}
 	}
 
