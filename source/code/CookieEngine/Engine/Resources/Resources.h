@@ -20,22 +20,24 @@ namespace Cookie {
 		unsigned char *m_Data;
 	};
 
-	// All the data used by the render API to
-	// render this sprite
+	// Data used by the batch renderer
+	// to render a quad with the sprite
 	struct SpriteRenderData {
-		RenderingAPI::VertexBuffer m_VertexBuffer;
-		RenderingAPI::IndexBuffer m_IndexBuffer;
+		f32 m_PixelsPerUnit;
+		i32 m_Height;
+		i32 m_Width;
+
 		RenderingAPI::Layout m_Layout;
 		RenderingAPI::Program m_Program;
 		RenderingAPI::Texture m_Texture;
-
-		TVector<RenderingAPI::Vertex> m_Vertices{};
-		TVector<u32> m_Indices{};
 	};
 
 	struct ResourcesDatabase {
 		THashMap<SpriteHandle, SpriteRenderData *> m_Sprites;
 		THashMap<ImageHandle, ImageCPU *> m_Images;
+
+		// TODO: Move this functions out and make this struct
+		// internal only
 
 		CKE_FORCE_INLINE SpriteRenderData *GetSpriteData(u32 spriteID) {
 			CKE_ASSERT(m_Sprites.count(spriteID) != 0, "Acessing a sprite that doesn't exist");

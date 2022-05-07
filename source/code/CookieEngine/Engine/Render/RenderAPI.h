@@ -79,6 +79,7 @@ namespace Cookie::RenderingAPI {
 	namespace Device {
 		VertexBuffer CreateVertexBuffer(char *data, u32 size);
 		VertexBuffer CreateDynamicVertexBuffer(u32 size);
+		void BufferDataIntoVertexBuffer(VertexBuffer *vb, const char *data, u32 size);
 		IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type);
 		Texture CreateTexture(unsigned char *data, u32 width, u32 height);
 		Program CreateProgram(const char *vertShaderPath, const char *fragShaderPath);
@@ -96,7 +97,7 @@ namespace Cookie::RenderingAPI {
 
 		void Init();
 		void ClearColorBuffer(float r, float g, float b, float a);
-		void Submit();
+		void Submit(u32 spritesCount);
 	} // namespace Context
 
 	//-------------------------------------------------------------------------
@@ -106,13 +107,12 @@ namespace Cookie::RenderingAPI {
 		Float2 m_TexCoord;
 		// Float3 m_Color;
 
+		Vertex() : m_Pos(Float3(0.0f)), m_TexCoord(Float3(0.0f)) {}
 		Vertex(Float3 pos, Float2 texCoord) : m_Pos(pos), m_TexCoord(texCoord) {}
 	};
 
 	struct Quad {
 		Vertex m_Vertices[4];
 	};
-
-
 
 } // namespace Cookie::RenderingAPI

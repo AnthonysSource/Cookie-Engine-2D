@@ -80,7 +80,7 @@ namespace Cookie::RenderingAPI {
 			return va;
 		};
 
-		VertexBuffer Device::CreateVertexBuffer(char *data, u32 size) {
+		VertexBuffer CreateVertexBuffer(char *data, u32 size) {
 			VertexBuffer vb;
 			vb.m_Size = size;
 
@@ -91,13 +91,21 @@ namespace Cookie::RenderingAPI {
 			return vb;
 		};
 
-		VertexBuffer CreateDynamicVertexBuffer(u32 size) {
+		VertexBuffer CreateDynamicVertexBuffer(u32 maxQuads) {
 			VertexBuffer vb;
-			vb.m_Size = size;
+			vb.m_Size = maxQuads * sizeof(Quad);
+			glGenBuffers(1, &vb.m_DeviceID);
+			glBindBuffer(GL_ARRAY_BUFFER, vb.m_DeviceID);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(Quad) * maxQuads, nullptr, GL_DYNAMIC_DRAW);
 			return vb;
 		};
 
-		IndexBuffer Device::CreateIndexBuffer(char *data, u32 size, DataType type) {
+		void BufferDataIntoVertexBuffer(VertexBuffer *vb, const char *data, u32 size) {
+			glBindBuffer(GL_ARRAY_BUFFER, vb->m_DeviceID);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+		}
+
+		IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type) {
 			IndexBuffer ib;
 			ib.m_Size = size;
 			ib.m_DataType = type;
@@ -127,7 +135,7 @@ namespace Cookie::RenderingAPI {
 			return t;
 		};
 
-		Program Device::CreateProgram(const char *vertShaderPath, const char *fragShaderPath) {
+		Program CreateProgram(const char *vertShaderPath, const char *fragShaderPath) {
 			Program p;
 			std::string vertexString = FileSystem::ReadTextFile(vertShaderPath);
 			std::string fragString = FileSystem::ReadTextFile(fragShaderPath);
@@ -224,7 +232,7 @@ namespace Cookie::RenderingAPI {
 										   [](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
 
 			// Enable Debug Logging Callback
-			// glEnable(GL_DEBUG_OUTPUT);
+			glEnable(GL_DEBUG_OUTPUT);
 			glDebugMessageCallback(MessageCallback, 0);
 
 			// Generate Global VAO
@@ -263,10 +271,7 @@ namespace Cookie::RenderingAPI {
 			}
 		}
 
-		void Submit() {
-			glDrawElements(GL_TRIANGLES, g_Context.m_CurrentIB->m_IndexCount, GetOpenGLDataType(g_Context.m_CurrentIB->m_DataType),
-						   nullptr);
-		}
+		void Submit(u32 spritesCount) { glDrawElements(GL_TRIANGLES, spritesCount * 6, GL_UNSIGNED_INT, nullptr); }
 
 		void Context::ClearColorBuffer(float r, float g, float b, float a) {
 			glClearColor(r, g, b, a);
