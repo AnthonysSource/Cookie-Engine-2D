@@ -43,27 +43,8 @@ namespace Cookie::RenderingAPI {
 
 	//-------------------------------------------------------------------------
 
-	void VertexArray::BindVertexBuffer(VertexBuffer *vb) {
-		m_VertexBuffer = vb;
-		glBindVertexArray(m_DeviceID);
-		glBindBuffer(GL_ARRAY_BUFFER, vb->m_DeviceID);
-	};
-
-	void VertexArray::BindIndexBuffer(IndexBuffer *ib) {
-		m_IndexBuffer = ib;
-		glBindVertexArray(m_DeviceID);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib->m_DeviceID);
-	};
-
-	void VertexArray::SetLayout(VertexArrayLayout *layout) {
-		m_Layout = layout;
-		u32 count = layout->m_Attributes.size();
-		for (u32 i = 0; i < count; i++) {
-			LayoutAttribute *attr = &layout->m_Attributes[i];
-			glVertexAttribPointer(attr->m_Pos, attr->m_Count, GetOpenGLDataType(attr->m_Type), attr->m_Normalized, layout->m_Stride,
-								  (void *)(UINT_PTR)attr->m_Offset);
-			glEnableVertexAttribArray(attr->m_Pos);
-		}
+	struct VertexArray {
+		u32 m_DeviceID;
 	};
 
 	//-------------------------------------------------------------------------
@@ -71,7 +52,7 @@ namespace Cookie::RenderingAPI {
 	LayoutAttribute::LayoutAttribute(u32 pos, DataType type, u32 count, bool normalized)
 		: m_Pos(pos), m_Type(type), m_Count(count), m_Normalized(normalized), m_Size(GetDataTypeSize(type) * count), m_Offset(-1){};
 
-	void VertexArrayLayout::AddAttribute(LayoutAttribute attr) {
+	void Layout::AddAttribute(LayoutAttribute attr) {
 		m_Attributes.push_back(attr);
 		attr.m_Size = GetDataTypeSize(attr.m_Type) * attr.m_Count;
 		m_Stride = 0;
@@ -92,7 +73,7 @@ namespace Cookie::RenderingAPI {
 
 	namespace Device {
 
-		VertexArray Device::CreateVertexArray() {
+		VertexArray CreateVertexArray() {
 			VertexArray va;
 			glGenVertexArrays(1, &va.m_DeviceID);
 			glBindVertexArray(va.m_DeviceID);
@@ -110,6 +91,12 @@ namespace Cookie::RenderingAPI {
 			return vb;
 		};
 
+		VertexBuffer CreateDynamicVertexBuffer(u32 size) {
+			VertexBuffer vb;
+			vb.m_Size = size;
+			return vb;
+		};
+
 		IndexBuffer Device::CreateIndexBuffer(char *data, u32 size, DataType type) {
 			IndexBuffer ib;
 			ib.m_Size = size;
@@ -122,8 +109,10 @@ namespace Cookie::RenderingAPI {
 			return ib;
 		};
 
-		Texture CreateTexture(unsigned char *data, i32 width, i32 height) {
+		Texture CreateTexture(unsigned char *data, u32 width, u32 height) {
 			Texture t;
+			t.m_Width = width;
+			t.m_Height = height;
 
 			glGenTextures(1, &t.m_ID);
 			glActiveTexture(GL_TEXTURE0);
@@ -201,26 +190,24 @@ namespace Cookie::RenderingAPI {
 
 	namespace Context {
 
-		void BindVertexArray(VertexArray *va) { glBindVertexArray(va->m_DeviceID); };
+		struct ContextState {
+			VertexArray m_VAO;
+			VertexBuffer *m_CurrentVB;
+			IndexBuffer *m_CurrentIB;
+			Program *m_CurrentProgram;
+		};
 
-		void BindTexture(Texture *t) {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, t->m_ID);
-		}
+		ContextState g_Context;
 
-		void DrawIndexed(VertexArray *va) {
-			// We need to store this parameters in the va
-			glDrawElements(GL_TRIANGLES, va->m_IndexBuffer->m_IndexCount, GetOpenGLDataType(va->m_IndexBuffer->m_DataType), nullptr);
-		}
-
-		void Context::BindProgram(Program *p) { glUseProgram(p->m_DeviceID); }
+		//-------------------------------------------------------------------------
 
 		void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message,
 										const void *userParam) {
-			if (type == GL_DEBUG_TYPE_ERROR) {
-				CKE_LOG_ERROR(Log::Channel::Rendering, "[OpenGL] %s", message);
-			}
+			CKE_LOG_ERROR(Log::Channel::Rendering, "[OpenGL] %s", message);
 		}
+
+		// Lifetime
+		//-------------------------------------------------------------------------
 
 		void Init() {
 			// Set current OpenGL context to the window
@@ -237,9 +224,49 @@ namespace Cookie::RenderingAPI {
 										   [](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
 
 			// Enable Debug Logging Callback
-			glEnable(GL_DEBUG_OUTPUT);
+			// glEnable(GL_DEBUG_OUTPUT);
 			glDebugMessageCallback(MessageCallback, 0);
+
+			// Generate Global VAO
+			g_Context.m_VAO = Device::CreateVertexArray();
 		};
+
+		//-------------------------------------------------------------------------
+
+		void BindVertexBuffer(VertexBuffer *vb) {
+			glBindBuffer(GL_ARRAY_BUFFER, vb->m_DeviceID);
+			g_Context.m_CurrentVB = vb;
+		}
+
+		void BindIndexBuffer(IndexBuffer *ib) {
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib->m_DeviceID);
+			g_Context.m_CurrentIB = ib;
+		}
+
+		void BindTexture(Texture *t) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, t->m_ID);
+		}
+
+		void BindProgram(Program *p) {
+			g_Context.m_CurrentProgram = p;
+			glUseProgram(p->m_DeviceID);
+		}
+
+		void BindLayout(Layout *l) {
+			u32 count = l->m_Attributes.size();
+			for (u32 i = 0; i < count; i++) {
+				LayoutAttribute *attr = &l->m_Attributes[i];
+				glVertexAttribPointer(attr->m_Pos, attr->m_Count, GetOpenGLDataType(attr->m_Type), attr->m_Normalized, l->m_Stride,
+									  (void *)(UINT_PTR)attr->m_Offset);
+				glEnableVertexAttribArray(attr->m_Pos);
+			}
+		}
+
+		void Submit() {
+			glDrawElements(GL_TRIANGLES, g_Context.m_CurrentIB->m_IndexCount, GetOpenGLDataType(g_Context.m_CurrentIB->m_DataType),
+						   nullptr);
+		}
 
 		void Context::ClearColorBuffer(float r, float g, float b, float a) {
 			glClearColor(r, g, b, a);

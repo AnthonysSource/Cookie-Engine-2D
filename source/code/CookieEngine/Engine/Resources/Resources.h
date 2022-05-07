@@ -23,9 +23,9 @@ namespace Cookie {
 	// All the data used by the render API to
 	// render this sprite
 	struct SpriteRenderData {
-		RenderingAPI::VertexArray m_VertexArray;
 		RenderingAPI::VertexBuffer m_VertexBuffer;
 		RenderingAPI::IndexBuffer m_IndexBuffer;
+		RenderingAPI::Layout m_Layout;
 		RenderingAPI::Program m_Program;
 		RenderingAPI::Texture m_Texture;
 

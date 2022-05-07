@@ -43,8 +43,9 @@ namespace Cookie {
 
 			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
 
-			// Camera Config
+			Context::BindProgram(&sp->m_Program);
 
+			// Camera Config
 			sp->m_Program.SetUniformMat4("view", glm::value_ptr(view));
 			sp->m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
 
@@ -58,10 +59,11 @@ namespace Cookie {
 			sp->m_Program.SetUniformMat4("model", glm::value_ptr(model));
 
 			// Issue Drawcall
-			Context::BindProgram(&sp->m_Program);
-			Context::BindVertexArray(&sp->m_VertexArray);
+			Context::BindVertexBuffer(&sp->m_VertexBuffer);
+			Context::BindIndexBuffer(&sp->m_IndexBuffer);
 			Context::BindTexture(&sp->m_Texture);
-			Context::DrawIndexed(&sp->m_VertexArray);
+			Context::BindLayout(&sp->m_Layout);
+			Context::Submit();
 		}
 
 		// IMGUI Rendering

@@ -40,23 +40,11 @@ namespace Cookie::RenderingAPI {
 		LayoutAttribute(u32 pos, DataType type, u32 count, bool normalized);
 	};
 
-	struct VertexArrayLayout {
+	struct Layout {
 		TVector<LayoutAttribute> m_Attributes;
 		u32 m_Stride;
 
 		void AddAttribute(LayoutAttribute attr);
-	};
-
-	struct VertexArray {
-		u32 m_DeviceID;
-		VertexBuffer *m_VertexBuffer;
-		IndexBuffer *m_IndexBuffer;
-		VertexArrayLayout *m_Layout;
-		// Layout
-
-		void BindVertexBuffer(VertexBuffer *vb);
-		void BindIndexBuffer(IndexBuffer *ib);
-		void SetLayout(VertexArrayLayout *layout);
 	};
 
 	//-------------------------------------------------------------------------
@@ -82,33 +70,33 @@ namespace Cookie::RenderingAPI {
 
 	struct Texture {
 		u32 m_ID;
+		u32 m_Width;
+		u32 m_Height;
 	};
 
 	//-------------------------------------------------------------------------
 
 	namespace Device {
-		VertexArray CreateVertexArray();
 		VertexBuffer CreateVertexBuffer(char *data, u32 size);
+		VertexBuffer CreateDynamicVertexBuffer(u32 size);
 		IndexBuffer CreateIndexBuffer(char *data, u32 size, DataType type);
-		Texture CreateTexture(unsigned char *data, i32 width, i32 height);
+		Texture CreateTexture(unsigned char *data, u32 width, u32 height);
 		Program CreateProgram(const char *vertShaderPath, const char *fragShaderPath);
-
-		void DeleteProgram();
 
 	} // namespace Device
 
 	//-------------------------------------------------------------------------
 
 	namespace Context {
-		void BindVertexArray(VertexArray *va);
 		void BindVertexBuffer(VertexBuffer *vb);
 		void BindIndexBuffer(IndexBuffer *ib);
 		void BindProgram(Program *p);
 		void BindTexture(Texture *t);
+		void BindLayout(Layout *l);
 
 		void Init();
 		void ClearColorBuffer(float r, float g, float b, float a);
-		void DrawIndexed(VertexArray *va);
+		void Submit();
 	} // namespace Context
 
 	//-------------------------------------------------------------------------
@@ -118,7 +106,11 @@ namespace Cookie::RenderingAPI {
 		Float2 m_TexCoord;
 		// Float3 m_Color;
 
-		inline Vertex(Float3 pos, Float2 texCoord) : m_Pos(pos), m_TexCoord(texCoord) {}
+		Vertex(Float3 pos, Float2 texCoord) : m_Pos(pos), m_TexCoord(texCoord) {}
+	};
+
+	struct Quad {
+		Vertex m_Vertices[4];
 	};
 
 
