@@ -1,6 +1,7 @@
 #include "FileSystem.h"
 
 #include "Core/Types/PrimitiveTypes.h"
+#include "Core/Logging/Log.h"
 
 #include <fstream>
 #include <iostream>
@@ -34,7 +35,7 @@ namespace Cookie {
 				fileStream.close();
 				fileText = textStream.str();
 			} catch (const std::ifstream::failure e) {
-				std::cerr << e.what() << '\n';
+				CKE_LOG_ERROR(Log::Channel::FileSystem, "Could not load text file at [%s]", path);
 			}
 			return fileText;
 		}
