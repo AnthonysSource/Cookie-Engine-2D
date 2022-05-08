@@ -17,7 +17,7 @@ namespace Cookie {
 		const f32 alignmentFactor = 0.1f;
 		const f32 cohesionFactor = 0.05f;
 
-		const f32 maxSpeed = 3.5f;
+		const f32 maxSpeed = 1.0f;
 
 		const Float2 boundsSize = Float2(5.0f, 2.5f);
 		const f32 clampToBoundsFactor = 0.25f;
@@ -88,7 +88,7 @@ namespace Cookie {
 				}
 
 				// Limit Speed
-				f32 speed = boid->m_Velocity.length();
+				f32 speed = glm::length(boid->m_Velocity);
 				if (speed > maxSpeed) {
 					boid->m_Velocity = (boid->m_Velocity / speed) * maxSpeed;
 				}
