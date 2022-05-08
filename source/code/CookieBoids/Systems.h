@@ -29,9 +29,14 @@ namespace Cookie {
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
+
+			// Get component arrays
+			ComponentArray<TransformComponent> *transfArray = g_Admin->GetComponentArray<TransformComponent>();
+			ComponentArray<BoidComponent> *boidArray = g_Admin->GetComponentArray<BoidComponent>();
+
 			for (auto const &entityID : m_EntitiesCache) {
-				TransformComponent *transf = g_Admin->GetComponent<TransformComponent>(entityID);
-				BoidComponent *boid = g_Admin->GetComponent<BoidComponent>(entityID);
+				TransformComponent *transf = transfArray->Get(entityID);
+				BoidComponent *boid = boidArray->Get(entityID);
 
 				Float3 separationVelocity = Float3(0.0f);
 				Float3 cohesionCenterOfBoids = Float3(0.0f);
@@ -39,8 +44,8 @@ namespace Cookie {
 				u32 numNeighbours = 0;
 
 				for (auto const &otherEntityID : m_EntitiesCache) {
-					TransformComponent *otherTransf = g_Admin->GetComponent<TransformComponent>(otherEntityID);
-					BoidComponent *otherBoid = g_Admin->GetComponent<BoidComponent>(otherEntityID);
+					TransformComponent *otherTransf = transfArray->Get(otherEntityID);
+					BoidComponent *otherBoid = boidArray->Get(otherEntityID);
 
 					// Avoid
 					if (otherEntityID != entityID) {

@@ -61,6 +61,12 @@ namespace Cookie {
 
 		template <typename T> T *GetComponent(EntityID entity) { return GetComponentArray<T>()->Get(entity); };
 
+		template <typename T> ComponentArray<T> *GetComponentArray() {
+			size_t typeID = typeid(T).hash_code();
+			CKE_ASSERT(m_ComponentArrays.find(typeID) != m_ComponentArrays.end(), "Trying to add an unregistered component to an entity");
+			return dynamic_cast<ComponentArray<T> *>(m_ComponentArrays[typeID]);
+		}
+
 		template <typename T> ComponentSignatureIndex GetComponentSignatureID() {
 			size_t typeID = typeid(T).hash_code();
 			CKE_ASSERT(m_ComponentSignatureIndex.find(typeID) != m_ComponentSignatureIndex.end(),
@@ -113,12 +119,6 @@ namespace Cookie {
 					system->m_EntitiesCache.erase(entityID);
 				}
 			}
-		}
-
-		template <typename T> ComponentArray<T> *GetComponentArray() {
-			size_t typeID = typeid(T).hash_code();
-			CKE_ASSERT(m_ComponentArrays.find(typeID) != m_ComponentArrays.end(), "Trying to add an unregistered component to an entity");
-			return dynamic_cast<ComponentArray<T> *>(m_ComponentArrays[typeID]);
 		}
 	};
 

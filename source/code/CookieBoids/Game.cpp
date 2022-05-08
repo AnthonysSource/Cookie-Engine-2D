@@ -49,7 +49,7 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	EntitiesAdmin->RegisterSystem<BoidsSystem>();
 
 	// Create World Entities
-	i32 rows = 25;
+	i32 rows = 100;
 	i32 columns = 10;
 	for (size_t x = 0; x < columns; x++) {
 		for (size_t y = 0; y < rows; y++) {
