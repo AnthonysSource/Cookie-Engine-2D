@@ -232,7 +232,7 @@ namespace Cookie::RenderingAPI {
 										   [](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
 
 			// Enable Debug Logging Callback
-			glEnable(GL_DEBUG_OUTPUT);
+			// glEnable(GL_DEBUG_OUTPUT);
 			glDebugMessageCallback(MessageCallback, 0);
 
 			glEnable(GL_DEPTH_TEST);
