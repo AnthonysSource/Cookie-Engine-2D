@@ -13,6 +13,7 @@ workspace "Cookie"
     outputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
     targetdir ("%{wks.location}/bin/%{prj.name}/" .. outputDir)
     objdir ("%{wks.location}/bin-obj/%{prj.name}/" .. outputDir)
+    debugdir ("%{wks.location}/bin/%{prj.name}/" .. outputDir)
 
 -- Configurations
 ---------------------------------------------------------------------
