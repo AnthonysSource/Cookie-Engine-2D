@@ -61,7 +61,7 @@ namespace Cookie {
 		}
 
 		void Update(f32 dt) override {
-			OPTICK_EVENT();
+			CKE_PROFILE_EVENT();
 			for (auto const &entityID : m_EntitiesCache) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				FloatComponent *f = g_Admin->GetComponent<FloatComponent>(entityID);

@@ -63,6 +63,7 @@ void CreateSugarCube(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 }
 
 void LoadResources() {
+	CKE_PROFILE_EVENT();
 	// Resources
 	ImageHandle cookieImg = ResourcesSystem::LoadImage("cookie.png");
 	ImageHandle butterImg = ResourcesSystem::LoadImage("butter_stick.png");
@@ -75,6 +76,7 @@ void LoadResources() {
 
 // Game World Init
 void CreateWorld(EntityAdmin *const EntitiesAdmin) {
+	CKE_PROFILE_EVENT();
 
 	using namespace Cookie;
 
