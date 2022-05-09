@@ -14,7 +14,7 @@ void CreateControllableCookie(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EntityID e = EntitiesAdmin->CreateEntity();
 
 	TransformComponent transform = TransformComponent{};
-	MoveComponent move = MoveComponent{};
+	PlayerCharacterComponent move = PlayerCharacterComponent{};
 	RotatingComponent rotating = RotatingComponent{};
 	RenderComponent render = RenderComponent{};
 
@@ -83,12 +83,12 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	// Register Components
 	EntitiesAdmin->RegisterComponent<RotatingComponent>();
 	EntitiesAdmin->RegisterComponent<FloatComponent>();
-	EntitiesAdmin->RegisterComponent<MoveComponent>();
+	EntitiesAdmin->RegisterComponent<PlayerCharacterComponent>();
 
 	// Register Systems in order of execution
 	EntitiesAdmin->RegisterSystem<RotateSystem>();
 	EntitiesAdmin->RegisterSystem<FloatSystem>();
-	EntitiesAdmin->RegisterSystem<MoveSystem>();
+	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
 
 	// Create World Entities
 	CreateFloatingButterStick(EntitiesAdmin, Float3(-2.0f, 0.0f, 0.0f));

@@ -13,7 +13,7 @@ namespace Cookie {
 		f32 m_Amplitude = 2.0f;
 	};
 
-	struct MoveComponent {
+	struct PlayerCharacterComponent {
 		f32 m_Speed = 1.0f;
 	};
 

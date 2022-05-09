@@ -15,14 +15,15 @@ void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 
 	TransformComponent transform = {};
 	RenderComponent render = {};
-	BoidComponent boid = {};
+	PlayerCharacterComponent move = {};
 
 	transform.m_Position = pos;
 	render.m_SpriteHandle = cookieSprite;
+	move.m_Speed = 3.0f;
 
 	EntitiesAdmin->AddComponent(e, transform);
 	EntitiesAdmin->AddComponent(e, render);
-	EntitiesAdmin->AddComponent(e, boid);
+	EntitiesAdmin->AddComponent(e, move);
 };
 
 void LoadResources() {
@@ -43,19 +44,22 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	using namespace Cookie;
 
 	// Register Components
-	EntitiesAdmin->RegisterComponent<BoidComponent>();
+	EntitiesAdmin->RegisterComponent<PlayerCharacterComponent>();
+	EntitiesAdmin->RegisterComponent<EnemyComponent>();
 
 	// Register Systems in order of execution
-	EntitiesAdmin->RegisterSystem<BoidsSystem>();
+	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
 
 	// Create World Entities
-	i32 rows = 100;
-	i32 columns = 10;
-	for (size_t x = 0; x < columns; x++) {
-		for (size_t y = 0; y < rows; y++) {
-			CreatePlayer(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
-		}
-	}
+	CreatePlayer(EntitiesAdmin, Float3(0.0f, 0.0f, -0.001f));
+
+	// i32 rows = 100;
+	// i32 columns = 10;
+	// for (size_t x = 0; x < columns; x++) {
+	//	for (size_t y = 0; y < rows; y++) {
+	//		CreatePlayer(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
+	//	}
+	//}
 }
 
 int main() {
@@ -63,7 +67,7 @@ int main() {
 	GameInitData g = {};
 
 	WindowDescription wd = {};
-	wd.m_Title = "Cookie Boids";
+	wd.m_Title = "Cookie Survival";
 	wd.m_Width = 1280;
 	wd.m_Height = 720;
 	wd.m_IsFullScreen = false;

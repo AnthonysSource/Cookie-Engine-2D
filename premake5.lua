@@ -52,3 +52,4 @@ filter "configurations:Shipping"
 include("source/code/CookieEngine")
 include("source/code/CookieGame")
 include("source/code/CookieBoids")
+include("source/code/CookieSurvival")
