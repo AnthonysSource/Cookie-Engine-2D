@@ -6,7 +6,7 @@
 #include "Common.h"
 
 namespace Cookie {
-    
+
 	class System {
 	public:
 		virtual void InitSignature() = 0;
@@ -14,7 +14,11 @@ namespace Cookie {
 
 	protected:
 		Signature m_Signature{};
-		TSet<EntityID> m_EntitiesCache{};
+		TSet<EntityID> m_Entities{};
+
+		template <typename T> void SetRequiredComponent() {
+			m_Signature.set(g_Admin->GetComponentSignatureID<T>(), true);
+		}
 
 		friend class EntityAdmin;
 	};

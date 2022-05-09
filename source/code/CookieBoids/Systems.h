@@ -34,7 +34,7 @@ namespace Cookie {
 			ComponentArray<TransformComponent> *transfArray = g_Admin->GetComponentArray<TransformComponent>();
 			ComponentArray<BoidComponent> *boidArray = g_Admin->GetComponentArray<BoidComponent>();
 
-			for (auto const &entityID : m_EntitiesCache) {
+			for (auto const &entityID : m_Entities) {
 				TransformComponent *transf = transfArray->Get(entityID);
 				BoidComponent *boid = boidArray->Get(entityID);
 
@@ -43,7 +43,7 @@ namespace Cookie {
 				Float3 alignmentVelocity = Float3(0.0f);
 				u32 numNeighbours = 0;
 
-				for (auto const &otherEntityID : m_EntitiesCache) {
+				for (auto const &otherEntityID : m_Entities) {
 					TransformComponent *otherTransf = transfArray->Get(otherEntityID);
 					BoidComponent *otherBoid = boidArray->Get(otherEntityID);
 

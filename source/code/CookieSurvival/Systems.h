@@ -8,13 +8,14 @@ namespace Cookie {
 	class PlayerMovementSystem : public System {
 	public:
 		void InitSignature() {
-			m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-			m_Signature.set(g_Admin->GetComponentSignatureID<PlayerCharacterComponent>(), true);
+			SetRequiredComponent<TransformComponent>();
+			SetRequiredComponent<PlayerCharacterComponent>();
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
-			for (auto const &entityID : m_EntitiesCache) {
+
+			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
 				InputComponent *input = &InputSystem::g_InputComponent;
@@ -37,13 +38,13 @@ namespace Cookie {
 	class EnemySystem : public System {
 	public:
 		void InitSignature() {
-			m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-			m_Signature.set(g_Admin->GetComponentSignatureID<EnemyComponent>(), true);
+			SetRequiredComponent<TransformComponent>();
+			SetRequiredComponent<EnemyComponent>();
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
-			for (auto const &entityID : m_EntitiesCache) {
+			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				EnemyComponent *m = g_Admin->GetComponent<EnemyComponent>(entityID);
 			}

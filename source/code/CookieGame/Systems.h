@@ -16,7 +16,7 @@ namespace Cookie {
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
-			for (auto const &entityID : m_EntitiesCache) {
+			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				RotatingComponent *f = g_Admin->GetComponent<RotatingComponent>(entityID);
 				t->m_Rotation += Float3(0.0f, f->m_Speed, 0.0f) * dt;
@@ -33,7 +33,7 @@ namespace Cookie {
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
-			for (auto const &entityID : m_EntitiesCache) {
+			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
 				InputComponent *input = &InputSystem::g_InputComponent;
@@ -62,7 +62,7 @@ namespace Cookie {
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
-			for (auto const &entityID : m_EntitiesCache) {
+			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				FloatComponent *f = g_Admin->GetComponent<FloatComponent>(entityID);
 				t->m_Position.y = f->m_Amplitude * (float)cos(f->m_Speed * glfwGetTime());

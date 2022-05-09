@@ -114,9 +114,9 @@ namespace Cookie {
 				if ((entitySignature & system->m_Signature) == system->m_Signature) {
 					// We don't have to check if its already added
 					// because we are using a set
-					system->m_EntitiesCache.insert(entityID);
+					system->m_Entities.insert(entityID);
 				} else {
-					system->m_EntitiesCache.erase(entityID);
+					system->m_Entities.erase(entityID);
 				}
 			}
 		}

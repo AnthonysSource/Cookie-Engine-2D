@@ -147,7 +147,7 @@ namespace Cookie {
 		//					Submit Batch Drawcall
 		//
 		u32 numBatches = 0;
-		for (auto const &entityID : m_EntitiesCache) {
+		for (auto const &entityID : m_Entities) {
 			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 			RenderComponent *r = g_Admin->GetComponent<RenderComponent>(entityID);
 

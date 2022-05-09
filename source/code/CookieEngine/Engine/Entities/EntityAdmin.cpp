@@ -56,7 +56,7 @@ namespace Cookie {
 		// Erase entity from systems iteration cache
 		for (auto const &pair : m_Systems) {
 			System *system = pair.second;
-			system->m_EntitiesCache.erase(entityID);
+			system->m_Entities.erase(entityID);
 		}
 	}
 
