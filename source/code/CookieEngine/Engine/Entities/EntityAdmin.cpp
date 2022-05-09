@@ -18,7 +18,12 @@ namespace Cookie {
 	}
 
 	void EntityAdmin::Shutdown() {
+		// Deallocate all systems
 		for (auto const pair : m_Systems) {
+			delete pair.second;
+		}
+		// Deallocate all component arrays
+		for (auto const pair : m_ComponentArrays) {
 			delete pair.second;
 		}
 	}
