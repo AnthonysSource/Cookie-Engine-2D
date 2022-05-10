@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CookieSurvival", "source\co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{376E56B9-2367-750B-4C99-5A9038F15417}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "source\code\CookieEngine\ThirdParty\box2d\Box2D.vcxproj", "{A434E80C-1049-10BE-D9CA-B31D459E0CEF}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "source\code\CookieEngine\ThirdParty\glfw\GLFW.vcxproj", "{154B857C-0182-860D-AA6E-6C109684020F}"
 EndProject
 Global
@@ -44,6 +46,12 @@ Global
 		{FB4B5267-E719-466D-D0AD-B693BC1A22D2}.Release|Win64.Build.0 = Release Win64|x64
 		{FB4B5267-E719-466D-D0AD-B693BC1A22D2}.Shipping|Win64.ActiveCfg = Shipping Win64|x64
 		{FB4B5267-E719-466D-D0AD-B693BC1A22D2}.Shipping|Win64.Build.0 = Shipping Win64|x64
+		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Debug|Win64.ActiveCfg = Debug Win64|x64
+		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Debug|Win64.Build.0 = Debug Win64|x64
+		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Release|Win64.ActiveCfg = Release Win64|x64
+		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Release|Win64.Build.0 = Release Win64|x64
+		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Shipping|Win64.ActiveCfg = Shipping Win64|x64
+		{A434E80C-1049-10BE-D9CA-B31D459E0CEF}.Shipping|Win64.Build.0 = Shipping Win64|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Debug|Win64.ActiveCfg = Debug Win64|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Debug|Win64.Build.0 = Debug Win64|x64
 		{154B857C-0182-860D-AA6E-6C109684020F}.Release|Win64.ActiveCfg = Release Win64|x64
@@ -55,6 +63,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A434E80C-1049-10BE-D9CA-B31D459E0CEF} = {376E56B9-2367-750B-4C99-5A9038F15417}
 		{154B857C-0182-860D-AA6E-6C109684020F} = {376E56B9-2367-750B-4C99-5A9038F15417}
 	EndGlobalSection
 EndGlobal

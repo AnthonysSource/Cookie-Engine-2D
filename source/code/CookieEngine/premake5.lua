@@ -20,15 +20,18 @@ project "CookieEngine"
         "ThirdParty/stb_image",
         "ThirdParty/spdlog/include",
         "ThirdParty/optick/src",
+        "ThirdParty/box2d/include",
         "Engine"
     }
     links {
         "opengl32.lib",
-        "GLFW"
+        "GLFW",
+        "Box2D"
     }
 
 group "ThirdParty"
     include("ThirdParty/glfw")
+    include("ThirdParty/box2d")
 group "" -- end of "ThirdParty"
 
 -- Function to be used by external libraries that want to use this project
@@ -43,7 +46,8 @@ function UseCookieEngine()
         "%{wks.location}/source/code/CookieEngine/ThirdParty/stb_image",
         "%{wks.location}/source/code/CookieEngine/ThirdParty/spdlog/include",
         "%{wks.location}/source/code/CookieEngine/ThirdParty/optick/src",
+        "%{wks.location}/source/code/CookieEngine/ThirdParty/box2d/include",
         "%{wks.location}/source/code/CookieEngine/Engine"
     }
-    links { "CookieEngine" }
+    links { "CookieEngine", "Box2D" }
  end
