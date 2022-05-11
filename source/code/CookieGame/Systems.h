@@ -10,8 +10,8 @@ namespace Cookie {
 	class RotateSystem : public System {
 	public:
 		void InitSignature() {
-			m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-			m_Signature.set(g_Admin->GetComponentSignatureID<RotatingComponent>(), true);
+			SetRequiredComponent<TransformComponent>();
+			SetRequiredComponent<RotatingComponent>();
 		}
 
 		void Update(f32 dt) override {

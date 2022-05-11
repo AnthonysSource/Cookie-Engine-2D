@@ -14,6 +14,8 @@ namespace Cookie {
 
 	// -----------------------------------------------------------------
 
+	class System;
+
 	class EntityAdmin {
 
 	public:
@@ -40,7 +42,7 @@ namespace Cookie {
 			size_t typeID = typeid(T).hash_code();
 			CKE_ASSERT(m_SingletonComponents.find(typeID) != m_SingletonComponents.end(),
 					   "Trying to access a singleton component that doesn't exist");
-			return (T*)(m_SingletonComponents[typeID]);
+			return (T *)(m_SingletonComponents[typeID]);
 		}
 
 		// Components
@@ -98,6 +100,7 @@ namespace Cookie {
 		template <typename T> void RegisterSystem() {
 			size_t typeID = typeid(T).hash_code();
 			System *system = new T();
+			system->m_Admin = this;
 			m_Systems.insert({typeID, system});
 			system->InitSignature();
 		};
