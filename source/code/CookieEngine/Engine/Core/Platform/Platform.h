@@ -1,11 +1,15 @@
 #pragma once
 
-#include "Core/Application.h"
+#include "Core/Window.h"
 
-namespace Cookie::Platform {
+namespace Cookie {
 
-	void Init(WindowDescription *wd);
-	bool IsRunning(GLFWwindow *appData);
-	void Shutdown();
+	namespace Platform {
 
-} // namespace Cookie::Platform
+		void Initialize(WindowDescription *wd);
+		bool IsRunning(GLFWwindow *appData);
+		void Shutdown();
+
+	} // namespace Platform
+
+} // namespace Cookie

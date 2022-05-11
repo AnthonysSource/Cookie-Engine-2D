@@ -5,7 +5,7 @@
 namespace Cookie {
 
 	class RenderingSystem : public System {
-	  public:
+	public:
 		void Init();
 		void InitSignature() override;
 		void Update(f32) override;

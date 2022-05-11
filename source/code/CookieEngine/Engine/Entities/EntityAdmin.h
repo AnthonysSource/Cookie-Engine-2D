@@ -9,7 +9,6 @@
 #include "Entities/Common.h"
 #include "Entities/ComponentArray.h"
 #include "Entities/System.h"
-#include "Entities/BaseComponents.h"
 
 namespace Cookie {
 
@@ -27,6 +26,22 @@ namespace Cookie {
 
 		EntityID CreateEntity();
 		void DestroyEntity(EntityID entity);
+
+		// Singleton Components
+		// -----------------------------------------------------------------
+
+		template <typename T> void RegisterSinglComponent() {
+			size_t typeID = typeid(T).hash_code();
+			T *singlComp = new T();
+			m_SingletonComponents.insert({typeID, (void *)singlComp});
+		};
+
+		template <typename T> T *GetSinglComponent() {
+			size_t typeID = typeid(T).hash_code();
+			CKE_ASSERT(m_SingletonComponents.find(typeID) != m_SingletonComponents.end(),
+					   "Trying to access a singleton component that doesn't exist");
+			return (T*)(m_SingletonComponents[typeID]);
+		}
 
 		// Components
 		// -----------------------------------------------------------------
@@ -67,6 +82,9 @@ namespace Cookie {
 			return dynamic_cast<ComponentArray<T> *>(m_ComponentArrays[typeID]);
 		}
 
+		// Signature
+		// -----------------------------------------------------------------
+
 		template <typename T> ComponentSignatureIndex GetComponentSignatureID() {
 			size_t typeID = typeid(T).hash_code();
 			CKE_ASSERT(m_ComponentSignatureIndex.find(typeID) != m_ComponentSignatureIndex.end(),
@@ -97,6 +115,7 @@ namespace Cookie {
 		u32 m_ActiveEntitiesCount{};
 
 		THashMap<size_t, IComponentArray *> m_ComponentArrays{};
+		THashMap<size_t, void *> m_SingletonComponents{};
 		THashMap<size_t, ComponentSignatureIndex> m_ComponentSignatureIndex{};
 		ComponentSignatureIndex m_NextComponentIndex{};
 

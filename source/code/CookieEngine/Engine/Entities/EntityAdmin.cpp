@@ -1,17 +1,30 @@
 #include "EntityAdmin.h"
 #include "Core/Profiling/Profiling.h"
 
+#include "Entities/BaseComponents.h"
+
 namespace Cookie {
 
 	void EntityAdmin::Init() {
+		// Create Entity IDs
 		for (EntityID entityID = 0; entityID < MAX_ENTITIES; ++entityID) {
 			m_AvailableEntityIDs.push(entityID);
 			m_Signatures.emplace_back(Signature{});
 		}
+
+		// Register Base Components
+		RegisterComponent<TransformComponent>();
+		RegisterComponent<RenderComponent>();
+		RegisterComponent<PhysicsComponent>();
+
+		RegisterSinglComponent<InputComponent>();
 	}
 
 	void EntityAdmin::Update(f32 deltaTime) {
 		CKE_PROFILE_EVENT();
+
+		// Update all systems
+		// TODO: System update order
 		for (auto const pair : m_Systems) {
 			pair.second->Update(deltaTime);
 		}

@@ -10,6 +10,7 @@
 #include "Resources/Resources.h"
 
 #include "Entities/EntityAdmin.h"
+#include "Entities/BaseComponents.h"
 
 namespace Cookie {
 

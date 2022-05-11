@@ -1,28 +1,8 @@
 #pragma once
 
-#include "Core/Math/Math.h"
-#include "Core/Types/PrimitiveTypes.h"
-
-namespace Cookie {
-
-	struct TransformComponent {
-		Float3 m_Position;
-		Float3 m_Rotation;
-		Float3 m_Scale;
-	};
-
-	struct RenderComponent {
-		u32 m_SpriteHandle;
-	};
-
-	struct RenderInstancedComponent {};
-
-	struct CameraComponent {
-		Float3 m_Position;
-		Float3 m_Forward;
-		Float3 m_Up;
-	};
-
-	struct ScriptComponent {};
-
-} // namespace Cookie
+#include "Entities/Components/CameraComponent.h"
+#include "Entities/Components/PhysicsComponent.h"
+#include "Entities/Components/RenderComponent.h"
+#include "Entities/Components/ScriptComponent.h"
+#include "Entities/Components/SingletonInputComponent.h"
+#include "Entities/Components/TransformComponent.h"

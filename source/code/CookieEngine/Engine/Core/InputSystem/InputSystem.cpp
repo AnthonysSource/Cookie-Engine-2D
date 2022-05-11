@@ -1,85 +1,100 @@
 #include "InputSystem.h"
 
+#include "Core/Application.h"
 #include "Core/Types/Containers.h"
 #include "Core/Types/PrimitiveTypes.h"
-#include "Core/Platform/Platform.h"
 
 #include "Core/Logging/Log.h"
 #include "Core/Profiling/Profiling.h"
 
+#include "Entities/Components/SingletonInputComponent.h"
+#include "Core/Window.h"
+
 namespace Cookie {
-	namespace InputSystem {
 
-		void LogInput(InputEvent e);
-		void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action, int mods);
+	void LogInput(InputEvent e, InputComponent inputComp);
+	void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action, int mods);
 
-		// Contains a buffer of the input events that have been
-		// registered in the current frame
-		TQueue<InputEvent> s_InputEventsBuffer;
-		InputComponent g_InputComponent;
+	// -----------------------------------------------------------------
 
-		void InputSystem::Update() {
-			CKE_PROFILE_EVENT();
+	// Contains a buffer of the input events that have been
+	// registered in the current frame
+	TQueue<InputEvent> s_InputEventsBuffer;
+	InputComponent g_InputComponent;
 
-			// Reset previous input state
-			for (size_t i = 0; i < 255; i++) {
-				// We dont reset keyheld because that gets
-				// reset in a keyup event
-				g_InputComponent.m_Keyboard.m_KeyDown[i] = false;
-				g_InputComponent.m_Keyboard.m_KeyUp[i] = false;
-			}
+	// -----------------------------------------------------------------
 
-			// Poll All Window Events
-			glfwPollEvents();
+	void InputSystem::Init(WindowData *window) { glfwSetKeyCallback(window->m_Handle, WindowKeyEventHandle); }
 
-			// Process input events
-			for (i32 i = 0; i < s_InputEventsBuffer.size(); i++) {
-				InputEvent e = s_InputEventsBuffer.front();
+	void InputSystem::InitSignature() {}
 
-				// Logging to inspect system state
-				// LogInput(e);
+	void InputSystem::Shutdown() {}
 
-				s_InputEventsBuffer.pop();
-			}
+	void InputSystem::Update(f32 dt) {
+		CKE_PROFILE_EVENT();
+
+		InputComponent *inputComp = g_Admin->GetSinglComponent<InputComponent>();
+
+		// Reset previous input state
+		for (size_t i = 0; i < 255; i++) {
+			// We dont reset keyheld because that gets
+			// reset in a keyup event
+			inputComp->m_Keyboard.m_KeyDown[i] = false;
+			inputComp->m_Keyboard.m_KeyUp[i] = false;
 		}
 
-		void InputSystem::Shutdown() {}
+		// Poll All Window Events
+		glfwPollEvents();
 
-		void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action, int mods) {
-			// Push input event into queue
-			InputEvent e;
-			e.m_KeyCode = key;
-			e.m_ScanCode = scancode;
-			e.m_Action = action;
-			e.m_Mods = mods;
-			s_InputEventsBuffer.push(e);
+		// Process input events
+		for (i32 i = 0; i < s_InputEventsBuffer.size(); i++) {
+			InputEvent e = s_InputEventsBuffer.front();
 
-			// Save input data
-			if (action == 1) {
-				g_InputComponent.m_Keyboard.m_KeyDown[key] = true;
-				g_InputComponent.m_Keyboard.m_KeyHeld[key] = true;
-			} else if (action == 0) {
-				g_InputComponent.m_Keyboard.m_KeyHeld[key] = false;
-				g_InputComponent.m_Keyboard.m_KeyUp[key] = true;
-			}
+			// Logging to inspect system state
+			// LogInput(e);
+
+			s_InputEventsBuffer.pop();
 		}
+	}
 
-		void InputSystem::Init(WindowData *window) { glfwSetKeyCallback(window->m_Handle, WindowKeyEventHandle); }
 
-		void LogInput(InputEvent e) {
-			// CKE_LOG_INFO("Event Data -> Key Name: {} / Keycode: {} / Scancode : {} / Action: {} / Mod: {}",
-			//			 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_KeyCode, e.m_ScanCode, e.m_Action, e.m_Mods);
+	// Input State Logging
+	// -----------------------------------------------------------------
 
-			// if (e.m_Action == 0) {
-			// 	CKE_LOG_INFO("[{}] Released", glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
-			// } else if (e.m_Action == 1) {
-			// 	CKE_LOG_INFO("[{}] Pressed", glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
-			// }
+	void WindowKeyEventHandle(GLFWwindow *window, int key, int scancode, int action, int mods) {
+		// Push input event into queue
+		InputEvent e;
+		e.m_KeyCode = key;
+		e.m_ScanCode = scancode;
+		e.m_Action = action;
+		e.m_Mods = mods;
+		s_InputEventsBuffer.push(e);
 
-			CKE_LOG_INFO(Log::Channel::Input, "KeyName: %s / Event: %d / Down: %d / Held: %d / Up: %d",
-						 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action, g_InputComponent.m_Keyboard.m_KeyDown[e.m_KeyCode],
-						 g_InputComponent.m_Keyboard.m_KeyHeld[e.m_KeyCode], g_InputComponent.m_Keyboard.m_KeyUp[e.m_KeyCode]);
+		InputComponent *inputComp = g_Admin->GetSinglComponent<InputComponent>();
+
+		// Save input data
+		if (action == 1) {
+			inputComp->m_Keyboard.m_KeyDown[key] = true;
+			inputComp->m_Keyboard.m_KeyHeld[key] = true;
+		} else if (action == 0) {
+			inputComp->m_Keyboard.m_KeyHeld[key] = false;
+			inputComp->m_Keyboard.m_KeyUp[key] = true;
 		}
+	}
 
-	} // namespace InputSystem
+	void LogInput(InputEvent e, InputComponent inputComp) {
+		// CKE_LOG_INFO("Event Data -> Key Name: {} / Keycode: {} / Scancode : {} / Action: {} / Mod: {}",
+		//			 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_KeyCode, e.m_ScanCode, e.m_Action, e.m_Mods);
+
+		// if (e.m_Action == 0) {
+		// 	CKE_LOG_INFO("[{}] Released", glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
+		// } else if (e.m_Action == 1) {
+		// 	CKE_LOG_INFO("[{}] Pressed", glfwGetKeyName(e.m_KeyCode, e.m_ScanCode));
+		// }
+
+		CKE_LOG_INFO(Log::Channel::Input, "KeyName: %s / Event: %d / Down: %d / Held: %d / Up: %d",
+					 glfwGetKeyName(e.m_KeyCode, e.m_ScanCode), e.m_Action, inputComp.m_Keyboard.m_KeyDown[e.m_KeyCode],
+					 inputComp.m_Keyboard.m_KeyHeld[e.m_KeyCode], inputComp.m_Keyboard.m_KeyUp[e.m_KeyCode]);
+	}
+
 } // namespace Cookie

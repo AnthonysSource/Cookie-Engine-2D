@@ -36,7 +36,7 @@ namespace Cookie {
 			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
-				InputComponent *input = &InputSystem::g_InputComponent;
+				InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
 
 				if (input->IsKeyHeld(COOKIE_KEY_W)) {
 					t->m_Position.y += m->m_Speed * dt;

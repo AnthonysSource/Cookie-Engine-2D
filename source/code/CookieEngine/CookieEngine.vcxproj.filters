@@ -40,6 +40,12 @@
     <Filter Include="Engine\Entities">
       <UniqueIdentifier>{EFE66E34-5B72-DCF8-6483-5FEDD08D38F9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Entities\Components">
+      <UniqueIdentifier>{A438F489-9048-A05A-F901-0579E5308FF3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Physics">
+      <UniqueIdentifier>{4D76CF9F-3944-C3A5-22D8-33CC0E459F0A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Render">
       <UniqueIdentifier>{EAE1D856-56A2-548D-1FDD-9D0A8B5C9969}</UniqueIdentifier>
     </Filter>
@@ -138,6 +144,9 @@
     <ClInclude Include="Engine\Core\Types\String.h">
       <Filter>Engine\Core\Types</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Core\Window.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Entities\BaseComponents.h">
       <Filter>Engine\Entities</Filter>
     </ClInclude>
@@ -147,6 +156,24 @@
     <ClInclude Include="Engine\Entities\ComponentArray.h">
       <Filter>Engine\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Entities\Components\CameraComponent.h">
+      <Filter>Engine\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\Components\PhysicsComponent.h">
+      <Filter>Engine\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\Components\RenderComponent.h">
+      <Filter>Engine\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\Components\ScriptComponent.h">
+      <Filter>Engine\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\Components\SingletonInputComponent.h">
+      <Filter>Engine\Entities\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Entities\Components\TransformComponent.h">
+      <Filter>Engine\Entities\Components</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Entities\Entities_API.h">
       <Filter>Engine\Entities</Filter>
     </ClInclude>
@@ -155,6 +182,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Entities\System.h">
       <Filter>Engine\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Physics\PhysicsSystem.h">
+      <Filter>Engine\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\IMGUI\IMGUI_Impl.h">
       <Filter>Engine\Render\IMGUI</Filter>
@@ -280,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Entities\EntityAdmin.cpp">
       <Filter>Engine\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Physics\PhysicsSystem.cpp">
+      <Filter>Engine\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\IMGUI\IMGUI_Impl.cpp">
       <Filter>Engine\Render\IMGUI</Filter>

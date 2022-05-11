@@ -41,6 +41,10 @@ namespace Cookie {
 
 		T *Get(EntityID entity) { return &m_Array[m_EntityToIndex[entity]]; }
 
+		T *At(size_t index) { return &m_Array[index]; }
+
+		u64 Count() { return m_Count; }
+
 		void DestroyEntity(EntityID entity) override {
 			if (m_EntityToIndex.find(entity) != m_EntityToIndex.end()) {
 				Remove(entity);

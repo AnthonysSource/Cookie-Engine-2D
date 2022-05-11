@@ -18,7 +18,7 @@ namespace Cookie {
 			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
-				InputComponent *input = &InputSystem::g_InputComponent;
+				InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
 
 				if (input->IsKeyHeld(COOKIE_KEY_W)) {
 					t->m_Position.y += m->m_Speed * dt;
@@ -44,6 +44,13 @@ namespace Cookie {
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
+
+			auto playerComponents = g_Admin->GetComponentArray<PlayerCharacterComponent>();
+			u64 size = playerComponents->Count();
+			for (size_t i = 0; i < size; i++) {
+				playerComponents->At(i)->m_Speed += dt;
+			}
+
 			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				EnemyComponent *m = g_Admin->GetComponent<EnemyComponent>(entityID);

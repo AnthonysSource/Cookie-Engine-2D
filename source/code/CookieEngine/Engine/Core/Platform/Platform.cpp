@@ -1,10 +1,11 @@
 #include "Platform.h"
+#include "Core/Application.h"
 
 #include <GLFW/glfw3.h>
 
 namespace Cookie::Platform {
 
-	void Init(WindowDescription *wd) {
+	void Initialize(Cookie::WindowDescription *wd) {
 		WindowData *window = &g_AppData.m_Window;
 
 		glfwInit();

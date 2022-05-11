@@ -49,6 +49,7 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 
 	// Register Systems in order of execution
 	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
+	EntitiesAdmin->RegisterSystem<EnemySystem>();
 
 	// Create World Entities
 	CreatePlayer(EntitiesAdmin, Float3(0.0f, 0.0f, -0.001f));
