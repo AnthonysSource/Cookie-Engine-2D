@@ -19,11 +19,27 @@ void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 
 	transform.m_Position = pos;
 	render.m_SpriteHandle = cookieSprite;
-	move.m_Speed = 3.0f;
+	move.m_Speed = 6.0f;
 
 	EntitiesAdmin->AddComponent(e, transform);
 	EntitiesAdmin->AddComponent(e, render);
 	EntitiesAdmin->AddComponent(e, move);
+};
+
+void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos) {
+	EntityID e = EntitiesAdmin->CreateEntity();
+
+	TransformComponent transform = {};
+	RenderComponent render = {};
+	EnemyComponent enemy = {};
+
+	transform.m_Position = pos;
+	render.m_SpriteHandle = cookieSprite;
+	enemy.m_Acceleration = Random::Float(1.0f, 3.0f);
+
+	EntitiesAdmin->AddComponent(e, transform);
+	EntitiesAdmin->AddComponent(e, render);
+	EntitiesAdmin->AddComponent(e, enemy);
 };
 
 void LoadResources() {
@@ -47,20 +63,22 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	EntitiesAdmin->RegisterComponent<PlayerCharacterComponent>();
 	EntitiesAdmin->RegisterComponent<EnemyComponent>();
 
+	EntitiesAdmin->RegisterSinglComponent<SinglMainPlayerComponent>();
+
 	// Register Systems in order of execution
 	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
 	EntitiesAdmin->RegisterSystem<EnemySystem>();
 
 	// Create World Entities
-	CreatePlayer(EntitiesAdmin, Float3(0.0f, 0.0f, -0.001f));
+	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, -0.001f));
 
-	// i32 rows = 100;
-	// i32 columns = 10;
-	// for (size_t x = 0; x < columns; x++) {
-	//	for (size_t y = 0; y < rows; y++) {
-	//		CreatePlayer(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
-	//	}
-	//}
+	i32 rows = 100;
+	i32 columns = 10;
+	for (size_t x = 0; x < columns; x++) {
+		for (size_t y = 0; y < rows; y++) {
+			CreateEnemy(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
+		}
+	}
 }
 
 int main() {

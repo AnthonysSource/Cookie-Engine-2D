@@ -18,7 +18,9 @@ namespace Cookie {
 			for (auto const &entityID : m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
+
 				InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
+				SinglMainPlayerComponent *mainPlayer = g_Admin->GetSinglComponent<SinglMainPlayerComponent>();
 
 				if (input->IsKeyHeld(COOKIE_KEY_W)) {
 					t->m_Position.y += m->m_Speed * dt;
@@ -31,6 +33,8 @@ namespace Cookie {
 				} else if (input->IsKeyHeld(COOKIE_KEY_A)) {
 					t->m_Position.x -= m->m_Speed * dt;
 				}
+
+				mainPlayer->m_Position = t->m_Position;
 			}
 		}
 	};
@@ -45,15 +49,15 @@ namespace Cookie {
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
 
-			auto playerComponents = g_Admin->GetComponentArray<PlayerCharacterComponent>();
-			u64 size = playerComponents->Count();
-			for (size_t i = 0; i < size; i++) {
-				playerComponents->At(i)->m_Speed += dt;
-			}
+			auto mainPlayer = m_Admin->GetSinglComponent<SinglMainPlayerComponent>();
 
 			for (auto const &entityID : m_Entities) {
-				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-				EnemyComponent *m = g_Admin->GetComponent<EnemyComponent>(entityID);
+				TransformComponent *t = m_Admin->GetComponent<TransformComponent>(entityID);
+				EnemyComponent *m = m_Admin->GetComponent<EnemyComponent>(entityID);
+
+				Float3 dir = mainPlayer->m_Position - t->m_Position;
+				m->m_Velocity += glm::normalize(dir) * dt * m->m_Acceleration;
+				t->m_Position += m->m_Velocity * dt;
 			}
 		}
 	};

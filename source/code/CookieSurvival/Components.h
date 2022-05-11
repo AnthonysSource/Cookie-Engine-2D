@@ -9,7 +9,12 @@ namespace Cookie {
 	};
 
 	struct EnemyComponent {
-		f32 m_Speed;
+		f32 m_Acceleration;
+		Float3 m_Velocity;
+	};
+
+	struct SinglMainPlayerComponent {
+		Float3 m_Position;
 	};
 
 } // namespace Cookie
