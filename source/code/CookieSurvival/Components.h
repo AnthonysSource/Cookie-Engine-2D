@@ -10,6 +10,7 @@ namespace Cookie {
 
 	struct EnemyComponent {
 		f32 m_Acceleration;
+		f32 m_TopSpeed;
 		Float3 m_Velocity;
 	};
 

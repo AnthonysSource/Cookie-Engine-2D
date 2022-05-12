@@ -6,8 +6,7 @@ using namespace Cookie;
 
 // Sprites
 SpriteHandle cookieSprite;
-SpriteHandle butterSprite;
-SpriteHandle sugarSprite;
+SpriteHandle bigCookieSprite;
 
 // Entities Templates
 void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
@@ -18,7 +17,7 @@ void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	PlayerCharacterComponent move = {};
 
 	transform.m_Position = pos;
-	render.m_SpriteHandle = cookieSprite;
+	render.m_SpriteHandle = bigCookieSprite;
 	move.m_Speed = 6.0f;
 
 	EntitiesAdmin->AddComponent(e, transform);
@@ -36,6 +35,7 @@ void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	transform.m_Position = pos;
 	render.m_SpriteHandle = cookieSprite;
 	enemy.m_Acceleration = Random::Float(1.0f, 3.0f);
+	enemy.m_TopSpeed = Random::Float(3.0f, 7.0f);
 
 	EntitiesAdmin->AddComponent(e, transform);
 	EntitiesAdmin->AddComponent(e, render);
@@ -50,8 +50,7 @@ void LoadResources() {
 	ImageHandle sugarImg = ResourcesSystem::LoadImage("sugar_cube.png");
 
 	cookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f * 8.0f);
-	butterSprite = ResourcesSystem::GenerateSprite(butterImg, 96.0f);
-	sugarSprite = ResourcesSystem::GenerateSprite(sugarImg, 96.0f);
+	bigCookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f * 2.5f);
 }
 
 // Game World Init
@@ -72,8 +71,8 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	// Create World Entities
 	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, -0.001f));
 
-	i32 rows = 100;
-	i32 columns = 10;
+	i32 rows = 1000;
+	i32 columns = 100;
 	for (size_t x = 0; x < columns; x++) {
 		for (size_t y = 0; y < rows; y++) {
 			CreateEnemy(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
