@@ -28,30 +28,23 @@ namespace Cookie {
 
 		u32 m_NumSpritesToDraw;
 		u32 m_MaxSpritesToDraw;
-		TVector<Vertex> m_Vertices{};
+		// TVector<Vertex> m_Vertices{};
+		Vertex *m_Vertices;
 	};
 
 	RenderBatch batch;
 	u32 *indices;
 
-	void AddQuad(RenderBatch *batch, Float3 pos, u32 width, u32 height, f32 pixelsPerUnit) {
-		Quad q;
-		q.m_Vertices[0] =
-			Vertex(Float3(-(f32)width / (2.0f * pixelsPerUnit), -(f32)height / (2.0f * pixelsPerUnit), 0.0f), Float2(0.0f, 0.0f));
-		q.m_Vertices[1] =
-			Vertex(Float3((f32)width / (2.0f * pixelsPerUnit), -(f32)height / (2.0f * pixelsPerUnit), 0.0f), Float2(1.0f, 0.0f));
-		q.m_Vertices[2] =
-			Vertex(Float3((f32)width / (2.0f * pixelsPerUnit), (f32)height / (2.0f * pixelsPerUnit), 0.0f), Float2(1.0f, 1.0f));
-		q.m_Vertices[3] =
-			Vertex(Float3(-(f32)width / (2.0f * pixelsPerUnit), (f32)height / (2.0f * pixelsPerUnit), 0.0f), Float2(0.0f, 1.0f));
+	CKE_FORCE_INLINE void AddQuad(RenderBatch *batch, Float3 pos, u32 width, u32 height, f32 pixelsPerUnit) {
 
-		for (size_t i = 0; i < 4; i++) {
-			q.m_Vertices[i].m_Pos += pos;
-		}
-
-		for (size_t i = 0; i < 4; i++) {
-			batch->m_Vertices.push_back(q.m_Vertices[i]);
-		}
+		batch->m_Vertices[batch->m_NumSpritesToDraw * 4 + 0] = Vertex(
+			Float3(-(f32)width / (2.0f * pixelsPerUnit) + pos.x, -(f32)height / (2.0f * pixelsPerUnit) + pos.y, pos.z), Float2(0.0f, 0.0f));
+		batch->m_Vertices[batch->m_NumSpritesToDraw * 4 + 1] = Vertex(
+			Float3((f32)width / (2.0f * pixelsPerUnit) + pos.x, -(f32)height / (2.0f * pixelsPerUnit) + pos.y, pos.z), Float2(1.0f, 0.0f));
+		batch->m_Vertices[batch->m_NumSpritesToDraw * 4 + 2] = Vertex(
+			Float3((f32)width / (2.0f * pixelsPerUnit) + pos.x, (f32)height / (2.0f * pixelsPerUnit) + pos.y, pos.z), Float2(1.0f, 1.0f));
+		batch->m_Vertices[batch->m_NumSpritesToDraw * 4 + 3] = Vertex(
+			Float3(-(f32)width / (2.0f * pixelsPerUnit) + pos.x, (f32)height / (2.0f * pixelsPerUnit) + pos.y, pos.z), Float2(0.0f, 1.0f));
 
 		++batch->m_NumSpritesToDraw;
 	}
@@ -68,8 +61,8 @@ namespace Cookie {
 		batch->m_Program.SetUniformMat4("model", glm::value_ptr(model));
 
 		// Issue Drawcall
-		Device::BufferDataIntoVertexBuffer(&batch->m_VertexBuffer, (const char *)batch->m_Vertices.data(),
-										   batch->m_Vertices.size() * sizeof(Vertex));
+		Device::BufferDataIntoVertexBuffer(&batch->m_VertexBuffer, (const char *)batch->m_Vertices,
+										   batch->m_NumSpritesToDraw * 4 * sizeof(Vertex));
 		Context::BindVertexBuffer(&batch->m_VertexBuffer);
 		Context::BindIndexBuffer(&batch->m_IndexBuffer);
 		Context::BindTexture(&batch->m_Texture);
@@ -77,7 +70,7 @@ namespace Cookie {
 		Context::Submit(batch->m_NumSpritesToDraw);
 
 		// Reset Batch
-		batch->m_Vertices.clear();
+		// batch->m_Vertices.clear();
 		batch->m_NumSpritesToDraw = 0;
 	}
 
@@ -85,6 +78,8 @@ namespace Cookie {
 	// --------------------------------------------------------------------------
 
 	void RenderingSystem::InitSignature() {
+		// SetRequiredComponent<TransformComponent>();
+		// SetRequiredComponent<RenderComponent>();
 		m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
 		m_Signature.set(g_Admin->GetComponentSignatureID<RenderComponent>(), true);
 	}
@@ -98,11 +93,13 @@ namespace Cookie {
 		// Init Batch Rendering
 		u32 MAX_SPRITES = 5000;
 		u32 MAX_INDICES = MAX_SPRITES * 6;
+		u32 MAX_VERTICES = MAX_SPRITES * 4;
 
 		batch.m_MaxSpritesToDraw = MAX_SPRITES;
 		batch.m_VertexBuffer = Device::CreateDynamicVertexBuffer(MAX_SPRITES);
 
 		indices = new u32[MAX_INDICES];
+		batch.m_Vertices = new Vertex[MAX_VERTICES];
 		u32 offset = 0;
 		for (size_t i = 0; i < MAX_INDICES; i += 6) {
 			indices[i + 0] = 0 + offset;
@@ -121,7 +118,9 @@ namespace Cookie {
 
 	void RenderingSystem::Shutdown() {
 		ImGuiRenderer::Shutdown();
+
 		delete indices;
+		delete batch.m_Vertices;
 	}
 
 	// --------------------------------------------------------------------------
@@ -148,9 +147,13 @@ namespace Cookie {
 		//					Submit Batch Drawcall
 		//
 		u32 numBatches = 0;
+
+		auto transforms = g_Admin->GetComponentArray<TransformComponent>();
+		auto render = g_Admin->GetComponentArray<RenderComponent>();
+
 		for (auto const &entityID : m_Entities) {
-			TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-			RenderComponent *r = g_Admin->GetComponent<RenderComponent>(entityID);
+			TransformComponent *t = transforms->Get(entityID);
+			RenderComponent *r = render->Get(entityID);
 
 			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
 
