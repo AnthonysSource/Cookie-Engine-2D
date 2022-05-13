@@ -30,4 +30,5 @@ namespace Cookie {
 		void Run(GameInitData *gameInitData);
 
 	} // namespace Application
+
 } // namespace Cookie

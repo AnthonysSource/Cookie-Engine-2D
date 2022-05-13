@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CookieBoids", "source\code\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CookieEngine", "source\code\CookieEngine\CookieEngine.vcxproj", "{5500CE5A-4163-5DFF-EAE8-95B5D62A2982}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CookiePhysics", "source\code\CookiePhysics\CookiePhysics.vcxproj", "{42D39AF6-AE93-162D-77CE-5FAAE34D5B09}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CookieSurvival", "source\code\CookieSurvival\CookieSurvival.vcxproj", "{FB4B5267-E719-466D-D0AD-B693BC1A22D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{376E56B9-2367-750B-4C99-5A9038F15417}"
@@ -40,6 +42,12 @@ Global
 		{5500CE5A-4163-5DFF-EAE8-95B5D62A2982}.Release|Win64.Build.0 = Release Win64|x64
 		{5500CE5A-4163-5DFF-EAE8-95B5D62A2982}.Shipping|Win64.ActiveCfg = Shipping Win64|x64
 		{5500CE5A-4163-5DFF-EAE8-95B5D62A2982}.Shipping|Win64.Build.0 = Shipping Win64|x64
+		{42D39AF6-AE93-162D-77CE-5FAAE34D5B09}.Debug|Win64.ActiveCfg = Debug Win64|x64
+		{42D39AF6-AE93-162D-77CE-5FAAE34D5B09}.Debug|Win64.Build.0 = Debug Win64|x64
+		{42D39AF6-AE93-162D-77CE-5FAAE34D5B09}.Release|Win64.ActiveCfg = Release Win64|x64
+		{42D39AF6-AE93-162D-77CE-5FAAE34D5B09}.Release|Win64.Build.0 = Release Win64|x64
+		{42D39AF6-AE93-162D-77CE-5FAAE34D5B09}.Shipping|Win64.ActiveCfg = Shipping Win64|x64
+		{42D39AF6-AE93-162D-77CE-5FAAE34D5B09}.Shipping|Win64.Build.0 = Shipping Win64|x64
 		{FB4B5267-E719-466D-D0AD-B693BC1A22D2}.Debug|Win64.ActiveCfg = Debug Win64|x64
 		{FB4B5267-E719-466D-D0AD-B693BC1A22D2}.Debug|Win64.Build.0 = Debug Win64|x64
 		{FB4B5267-E719-466D-D0AD-B693BC1A22D2}.Release|Win64.ActiveCfg = Release Win64|x64
