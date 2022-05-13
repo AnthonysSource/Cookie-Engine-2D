@@ -16,9 +16,13 @@ namespace Cookie {
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
+
+			auto transforms = g_Admin->GetComponentArray<TransformComponent>();
+			auto rotations = g_Admin->GetComponentArray<RotatingComponent>();
+
 			for (auto const &entityID : m_Entities) {
-				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-				RotatingComponent *f = g_Admin->GetComponent<RotatingComponent>(entityID);
+				TransformComponent *t = transforms->Get(entityID);
+				RotatingComponent *f = rotations->Get(entityID);
 				t->m_Rotation += Float3(0.0f, f->m_Speed, 0.0f) * dt;
 			}
 		}
@@ -27,16 +31,21 @@ namespace Cookie {
 	class PlayerMovementSystem : public System {
 	public:
 		void InitSignature() {
-			m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-			m_Signature.set(g_Admin->GetComponentSignatureID<PlayerCharacterComponent>(), true);
+			SetRequiredComponent<TransformComponent>();
+			SetRequiredComponent<PlayerCharacterComponent>();
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
+
+			auto transforms = g_Admin->GetComponentArray<TransformComponent>();
+			auto players = g_Admin->GetComponentArray<PlayerCharacterComponent>();
+			InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
+
 			for (auto const &entityID : m_Entities) {
-				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
-				InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
+
+				TransformComponent *t = transforms->Get(entityID);
+				PlayerCharacterComponent *m = players->Get(entityID);
 
 				if (input->IsKeyHeld(COOKIE_KEY_W)) {
 					t->m_Position.y += m->m_Speed * dt;
@@ -56,15 +65,19 @@ namespace Cookie {
 	class FloatSystem : public System {
 	public:
 		void InitSignature() {
-			m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
-			m_Signature.set(g_Admin->GetComponentSignatureID<FloatComponent>(), true);
+			SetRequiredComponent<TransformComponent>();
+			SetRequiredComponent<FloatComponent>();
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
+
+			auto transforms = g_Admin->GetComponentArray<TransformComponent>();
+			auto floats = g_Admin->GetComponentArray<FloatComponent>();
+
 			for (auto const &entityID : m_Entities) {
-				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-				FloatComponent *f = g_Admin->GetComponent<FloatComponent>(entityID);
+				TransformComponent *t = transforms->Get(entityID);
+				FloatComponent *f = floats->Get(entityID);
 				t->m_Position.y = f->m_Amplitude * (float)cos(f->m_Speed * glfwGetTime());
 			}
 		}
