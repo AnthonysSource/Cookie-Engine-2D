@@ -43,12 +43,12 @@ namespace Cookie {
 		// internal only
 
 		CKE_FORCE_INLINE SpriteRenderData *GetSpriteData(u32 spriteID) {
-			// CKE_ASSERT(m_Sprites.count(spriteID) != 0, "Acessing a sprite that doesn't exist");
+			CKE_ASSERT(m_Sprites[spriteID] != 0, "Acessing a Sprite that doesn't exist");
 			return m_Sprites[spriteID];
 		}
 
 		CKE_FORCE_INLINE ImageCPU *GetImage(u32 imageID) {
-			// CKE_ASSERT(m_Images.count(imageID) != 0, "Acessing an image that doesn't exist");
+			CKE_ASSERT(m_Images[imageID] != 0, "Acessing an Image that doesn't exist");
 			return m_Images[imageID];
 		}
 	};
