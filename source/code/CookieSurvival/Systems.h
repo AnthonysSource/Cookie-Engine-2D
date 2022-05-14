@@ -66,7 +66,7 @@ namespace Cookie {
 
 				Float3 dir = mainPlayer->m_Position - t->m_Position;
 				f32 distance = glm::length(dir);
-				m->m_Velocity += glm::normalize(dir) * dt * m->m_Acceleration;
+				m->m_Velocity += dir * (dt * m->m_Acceleration / distance);
 
 				// Top Speed
 				if (glm::length(m->m_Velocity) > m->m_TopSpeed) {
