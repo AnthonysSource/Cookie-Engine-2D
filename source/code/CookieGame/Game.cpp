@@ -74,8 +74,7 @@ void LoadResources() {
 	sugarSprite = ResourcesSystem::GenerateSprite(sugarImg, 32.0f);
 }
 
-// Game World Init
-void CreateWorld(EntityAdmin *const EntitiesAdmin) {
+void RegisterECS(EntityAdmin *const EntitiesAdmin) {
 	CKE_PROFILE_EVENT();
 
 	using namespace Cookie;
@@ -89,6 +88,13 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	EntitiesAdmin->RegisterSystem<RotateSystem>();
 	EntitiesAdmin->RegisterSystem<FloatSystem>();
 	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
+}
+
+// Game World Init
+void CreateWorld(EntityAdmin *const EntitiesAdmin) {
+	CKE_PROFILE_EVENT();
+
+	using namespace Cookie;
 
 	// Create World Entities
 	CreateFloatingButterStick(EntitiesAdmin, Float3(-2.0f, 0.0f, 0.0f));
@@ -116,6 +122,7 @@ int main() {
 	g.m_WindowDesc = wd;
 	g.m_LoadResourcesFunc = LoadResources;
 	g.m_CreateWorldFunc = CreateWorld;
+	g.m_RegisterECSFunc = RegisterECS;
 
 	Application::Run(&g);
 	return 0;

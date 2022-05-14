@@ -24,9 +24,8 @@ namespace Cookie {
 		CKE_PROFILE_EVENT();
 
 		// Update all systems
-		// TODO: System update order
-		for (auto const pair : m_Systems) {
-			pair.second->Update(deltaTime);
+		for (size_t i = 0; i < m_SystemsExecutionOrder.size(); i++) {
+			m_Systems[m_SystemsExecutionOrder[i]]->Update(deltaTime);
 		}
 	}
 

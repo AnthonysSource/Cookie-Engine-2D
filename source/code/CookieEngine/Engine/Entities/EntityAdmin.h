@@ -16,6 +16,13 @@ namespace Cookie {
 
 	class System;
 
+	struct EntitiesView {
+		// Signature of the entities in this view
+		Signature m_ViewSignature{};
+		// Entities in the view
+		TSet<EntityID> m_Entities{};
+	};
+
 	class EntityAdmin {
 
 	public:
@@ -81,7 +88,7 @@ namespace Cookie {
 		template <typename T> ComponentArray<T> *GetComponentArray() {
 			size_t typeID = typeid(T).hash_code();
 			CKE_ASSERT(m_ComponentArrays.find(typeID) != m_ComponentArrays.end(), "Trying to add an unregistered component to an entity");
-			return dynamic_cast<ComponentArray<T> *>(m_ComponentArrays[typeID]);
+			return (ComponentArray<T> *)(m_ComponentArrays[typeID]);
 		}
 
 		// Signature
@@ -97,23 +104,36 @@ namespace Cookie {
 		// Systems
 		// -----------------------------------------------------------------
 
-		template <typename T> void RegisterSystem() {
+		template <typename T> size_t RegisterSystem() {
 			size_t typeID = typeid(T).hash_code();
 			System *system = new T();
 			system->m_Admin = this;
 			m_Systems.insert({typeID, system});
 			system->InitSignature();
+			m_SystemsExecutionOrder.emplace_back(typeID);
+			return typeID;
 		};
 
-		template <typename T> void RegisterSystem(T *system) {
+		template <typename T> size_t RegisterSystem(T *system) {
 			size_t typeID = typeid(T).hash_code();
 			m_Systems.insert({typeID, system});
 			system->InitSignature();
+			m_SystemsExecutionOrder.emplace_back(typeID);
+			return typeID;
 		};
+
+		// Views
+		// -----------------------------------------------------------------
+
+		EntitiesView *CreateView(Signature viewSignature) {
+			EntitiesView *view = new EntitiesView();
+			view->m_ViewSignature = viewSignature;
+			m_Views.push_back(view);
+			return view;
+		}
 
 	private:
 		TQueue<EntityID> m_AvailableEntityIDs{};
-		// TArray<Signature, MAX_ENTITIES> m_Signatures{};
 		TVector<Signature> m_Signatures{};
 		u32 m_ActiveEntitiesCount{};
 
@@ -123,22 +143,28 @@ namespace Cookie {
 		ComponentSignatureIndex m_NextComponentIndex{};
 
 		THashMap<size_t, System *> m_Systems{};
+		TVector<size_t> m_SystemsExecutionOrder{};
+
+		TVector<EntitiesView *> m_Views{};
 
 		// -----------------------------------------------------------------
 
+		// Systems must declare their views on init
+
+		// Updates the entities views on each system when an entitie signature
+		// has changed
 		void EntitySignatureChanged(EntityID entityID) {
+
 			Signature entitySignature = m_Signatures[entityID];
 
-			for (auto const &pair : m_Systems) {
-				size_t systemTypeID = pair.first;
-				System *system = pair.second;
+			for (EntitiesView *view : m_Views) {
 
-				if ((entitySignature & system->m_Signature) == system->m_Signature) {
-					// We don't have to check if its already added
-					// because we are using a set
-					system->m_Entities.insert(entityID);
+				// If the view's signature has the required components we
+				// add the entity to the view
+				if ((view->m_ViewSignature & entitySignature) == view->m_ViewSignature) {
+					view->m_Entities.insert(entityID);
 				} else {
-					system->m_Entities.erase(entityID);
+					view->m_Entities.erase(entityID);
 				}
 			}
 		}

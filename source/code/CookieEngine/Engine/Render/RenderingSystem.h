@@ -10,6 +10,9 @@ namespace Cookie {
 		void InitSignature() override;
 		void Update(f32) override;
 		void Shutdown();
+
+	private:
+		EntitiesView *m_RendereableView;
 	};
 
 } // namespace Cookie

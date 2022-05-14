@@ -53,6 +53,9 @@ namespace Cookie {
 			g_Admin->Init();
 			g_Admin->RegisterSystem(g_InputSystem);
 			g_Admin->RegisterSystem(g_PhysicsSystem);
+
+			gameInitData->m_RegisterECSFunc(g_Admin);
+
 			g_Admin->RegisterSystem(g_RenderingSystem);
 
 			CKE_LOG_INFO(Log::Channel::Core, "Loading Game Resources");

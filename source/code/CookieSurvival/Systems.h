@@ -10,12 +10,14 @@ namespace Cookie {
 		void InitSignature() {
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<PlayerCharacterComponent>();
+
+			m_View = g_Admin->CreateView(m_Signature);
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
 
-			for (auto const &entityID : m_Entities) {
+			for (auto const &entityID : m_View->m_Entities) {
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
 
@@ -37,6 +39,9 @@ namespace Cookie {
 				mainPlayer->m_Position = t->m_Position;
 			}
 		}
+
+	private:
+		EntitiesView *m_View;
 	};
 
 	class EnemySystem : public System {
@@ -44,6 +49,8 @@ namespace Cookie {
 		void InitSignature() {
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<EnemyComponent>();
+
+			m_View = g_Admin->CreateView(m_Signature);
 		}
 
 		void Update(f32 dt) override {
@@ -53,7 +60,7 @@ namespace Cookie {
 			auto transforms = m_Admin->GetComponentArray<TransformComponent>();
 			auto enemies = m_Admin->GetComponentArray<EnemyComponent>();
 
-			for (auto const &entityID : m_Entities) {
+			for (auto const &entityID : m_View->m_Entities) {
 				TransformComponent *t = transforms->Get(entityID);
 				EnemyComponent *m = enemies->Get(entityID);
 
@@ -74,6 +81,9 @@ namespace Cookie {
 				}
 			}
 		}
+
+	private:
+		EntitiesView *m_View;
 	};
 
 } // namespace Cookie

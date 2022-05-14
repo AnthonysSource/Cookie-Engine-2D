@@ -9,6 +9,9 @@
 namespace Cookie {
 
 	// --------------------------------------------------------------------------
+	const u32 MAX_SPRITES = 5000;
+	const u32 MAX_IMAGES = 5000;
+
 	using ImageHandle = u32;
 	using SpriteHandle = u32;
 
@@ -33,19 +36,19 @@ namespace Cookie {
 	};
 
 	struct ResourcesDatabase {
-		THashMap<SpriteHandle, SpriteRenderData *> m_Sprites;
-		THashMap<ImageHandle, ImageCPU *> m_Images;
+		SpriteRenderData *m_Sprites[MAX_SPRITES];
+		ImageCPU *m_Images[MAX_IMAGES];
 
 		// TODO: Move this functions out and make this struct
 		// internal only
 
 		CKE_FORCE_INLINE SpriteRenderData *GetSpriteData(u32 spriteID) {
-			CKE_ASSERT(m_Sprites.count(spriteID) != 0, "Acessing a sprite that doesn't exist");
+			// CKE_ASSERT(m_Sprites.count(spriteID) != 0, "Acessing a sprite that doesn't exist");
 			return m_Sprites[spriteID];
 		}
 
 		CKE_FORCE_INLINE ImageCPU *GetImage(u32 imageID) {
-			CKE_ASSERT(m_Images.count(imageID) != 0, "Acessing an image that doesn't exist");
+			// CKE_ASSERT(m_Images.count(imageID) != 0, "Acessing an image that doesn't exist");
 			return m_Images[imageID];
 		}
 	};

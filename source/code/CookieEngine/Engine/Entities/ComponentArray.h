@@ -15,7 +15,7 @@ namespace Cookie {
 	template <typename T> class ComponentArray : public IComponentArray {
 	public:
 		void Insert(EntityID entity, T component) {
-			CKE_ASSERT(m_EntityToIndex.find(entity) == m_EntityToIndex.end(), "Component added to same entity more than once");
+			//CKE_ASSERT(m_EntityToIndex.find(entity) == m_EntityToIndex.end(), "Component added to same entity more than once");
 
 			u64 newIndex = m_Count;
 			m_EntityToIndex[entity] = newIndex;
@@ -33,8 +33,8 @@ namespace Cookie {
 			m_EntityToIndex[entityOfLastElement] = indexOfRemovedEntity;
 			m_IndexToEntity[indexOfRemovedEntity] = entityOfLastElement;
 
-			m_EntityToIndex.erase(entity);
-			m_IndexToEntity.erase(indexOfLastElement);
+			m_EntityToIndex[entity] = -1;
+			m_IndexToEntity[indexOfLastElement] = -1;
 
 			--m_Count;
 		}
@@ -45,18 +45,14 @@ namespace Cookie {
 
 		u64 Count() { return m_Count; }
 
-		void DestroyEntity(EntityID entity) override {
-			if (m_EntityToIndex.find(entity) != m_EntityToIndex.end()) {
-				Remove(entity);
-			}
-		}
+		void DestroyEntity(EntityID entity) override { m_EntityToIndex[entity] = -1; }
 
 	private:
 		T m_Array[MAX_ENTITIES];
 		u64 m_Count;
 
-		std::unordered_map<EntityID, u64> m_EntityToIndex;
-		std::unordered_map<u64, EntityID> m_IndexToEntity;
+		u64 m_EntityToIndex[MAX_ENTITIES];
+		u64 m_IndexToEntity[MAX_ENTITIES];
 	};
 
 } // namespace Cookie

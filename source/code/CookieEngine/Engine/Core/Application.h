@@ -19,6 +19,7 @@ namespace Cookie {
 	struct GameInitData {
 		WindowDescription m_WindowDesc;
 		TFunction<void(EntityAdmin *const EntitiesAdmin)> m_CreateWorldFunc;
+		TFunction<void(EntityAdmin *const EntitiesAdmin)> m_RegisterECSFunc;
 		TFunction<void()> m_LoadResourcesFunc;
 	};
 

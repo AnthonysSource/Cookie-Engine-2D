@@ -35,10 +35,10 @@ namespace Cookie {
 
 		void Shutdown() {
 			// Release all the Sprites
-			for (auto pair : g_ResourcesDatabase.m_Sprites) {
-				delete pair.second;
-			}
-			g_ResourcesDatabase.m_Sprites.clear();
+			// for (auto pair : g_ResourcesDatabase.m_Sprites) {
+			//	delete pair.second;
+			//}
+			// g_ResourcesDatabase.m_Sprites.clear();
 		}
 
 		// Images
@@ -60,7 +60,7 @@ namespace Cookie {
 			auto img = g_ResourcesDatabase.m_Images[handle];
 			stbi_image_free(g_ResourcesDatabase.m_Images[handle]->m_Data);
 			delete img;
-			g_ResourcesDatabase.m_Images.erase(handle);
+			g_ResourcesDatabase.m_Images[handle] = nullptr;
 		}
 
 		// Sprites
@@ -99,7 +99,7 @@ namespace Cookie {
 		void DeleteSprite(SpriteHandle handle) {
 			SpriteRenderData *sp = g_ResourcesDatabase.m_Sprites[handle];
 			delete sp;
-			g_ResourcesDatabase.m_Sprites.erase(handle);
+			g_ResourcesDatabase.m_Sprites[handle] = nullptr;
 		}
 
 	} // namespace ResourcesSystem

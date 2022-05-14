@@ -80,8 +80,11 @@ namespace Cookie {
 	void RenderingSystem::InitSignature() {
 		// SetRequiredComponent<TransformComponent>();
 		// SetRequiredComponent<RenderComponent>();
+
 		m_Signature.set(g_Admin->GetComponentSignatureID<TransformComponent>(), true);
 		m_Signature.set(g_Admin->GetComponentSignatureID<RenderComponent>(), true);
+
+		m_RendereableView = g_Admin->CreateView(m_Signature);
 	}
 
 	void RenderingSystem::Init() {
@@ -151,7 +154,7 @@ namespace Cookie {
 		auto transforms = g_Admin->GetComponentArray<TransformComponent>();
 		auto render = g_Admin->GetComponentArray<RenderComponent>();
 
-		for (auto const &entityID : m_Entities) {
+		for (auto const &entityID : m_RendereableView->m_Entities) {
 			TransformComponent *t = transforms->Get(entityID);
 			RenderComponent *r = render->Get(entityID);
 

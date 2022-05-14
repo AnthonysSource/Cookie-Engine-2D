@@ -13,4 +13,6 @@ namespace Cookie {
 
 	using Signature = Bitset<MAX_COMPONENTS>;
 
+	using SystemID = size_t;
+
 } // namespace Cookie

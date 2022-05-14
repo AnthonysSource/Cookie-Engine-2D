@@ -53,10 +53,7 @@ void LoadResources() {
 	bigCookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f * 2.5f);
 }
 
-// Game World Init
-void CreateWorld(EntityAdmin *const EntitiesAdmin) {
-	CKE_PROFILE_EVENT();
-	using namespace Cookie;
+void RegisterComponents(EntityAdmin *const EntitiesAdmin) {
 
 	// Register Components
 	EntitiesAdmin->RegisterComponent<PlayerCharacterComponent>();
@@ -67,6 +64,12 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	// Register Systems in order of execution
 	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
 	EntitiesAdmin->RegisterSystem<EnemySystem>();
+}
+
+// Game World Init
+void CreateWorld(EntityAdmin *const EntitiesAdmin) {
+	CKE_PROFILE_EVENT();
+	using namespace Cookie;
 
 	// Create World Entities
 	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, -0.001f));
@@ -94,6 +97,7 @@ int main() {
 	g.m_WindowDesc = wd;
 	g.m_LoadResourcesFunc = LoadResources;
 	g.m_CreateWorldFunc = CreateWorld;
+	g.m_RegisterECSFunc = RegisterComponents;
 
 	Application::Run(&g);
 	return 0;

@@ -20,7 +20,7 @@ namespace Cookie {
 		g_physicsState.m_World = new b2World(gravity);
 	}
 
-	void PhysicsSystem::InitSignature() { SetRequiredComponent<PhysicsComponent>(); }
+	void PhysicsSystem::InitSignature() {}
 
 	void PhysicsSystem::Update(f32 dt) { g_physicsState.m_World->Step(dt, 8, 3); }
 
