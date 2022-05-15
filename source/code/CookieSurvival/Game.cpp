@@ -71,6 +71,7 @@ void RegisterComponents(EntityAdmin *const EntitiesAdmin) {
 
 	// Register Systems in order of execution
 	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
+	EntitiesAdmin->RegisterSystem<CameraSystem>();
 	EntitiesAdmin->RegisterSystem<AttackSystem>();
 	EntitiesAdmin->RegisterSystem<EnemySystem>();
 }
@@ -81,7 +82,14 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	using namespace Cookie;
 
 	// Create World Entities
-	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, -0.001f));
+	auto mainCam = EntitiesAdmin->CreateEntity();
+	CameraComponent camComp;
+	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
+	camComp.m_Rotation = 0.0f;
+	EntitiesAdmin->AddComponent(mainCam, camComp);
+	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
+
+	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, 1.0f));
 
 	i32 rows = 1000;
 	i32 columns = 100;

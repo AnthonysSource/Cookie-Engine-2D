@@ -7,8 +7,12 @@ namespace Cookie {
 
 	struct CameraComponent {
 		Float3 m_Position;
-		Float3 m_Forward;
-		Float3 m_Up;
+		f32 m_Rotation;
+	};
+
+	struct CameraComponentSingl {
+		// Entity that represents the current camera
+		EntityID m_MainCam;
 	};
 
 } // namespace Cookie

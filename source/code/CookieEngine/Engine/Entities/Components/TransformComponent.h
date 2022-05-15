@@ -7,8 +7,8 @@ namespace Cookie {
 
 	struct TransformComponent {
 		Float3 m_Position;
-		Float3 m_Rotation;
-		Float3 m_Scale;
+		f32 m_Rotation;
+		f32 m_Scale;
 	};
 
 } // namespace Cookie

@@ -26,9 +26,16 @@ namespace Cookie {
 		Program m_Program;
 		Texture m_Texture;
 
+		// Camera that will be used for rendering
+		CameraComponent *m_Cam;
+
+		// Num of sprites that will be drawn in the batch
 		u32 m_NumSpritesToDraw;
+
+		// Max number of sprites that this batch will contain
 		u32 m_MaxSpritesToDraw;
-		// TVector<Vertex> m_Vertices{};
+
+		// Vertex data of all of the quads/sprites
 		Vertex *m_Vertices;
 	};
 
@@ -50,7 +57,8 @@ namespace Cookie {
 	}
 
 	void FlushBatch(RenderBatch *batch) {
-		Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
+		Matrix4 view = glm::lookAt(batch->m_Cam->m_Position, Float3(batch->m_Cam->m_Position.x, batch->m_Cam->m_Position.y, 0.0f),
+								   Float3(0.0f, 1.0f, 0.0f));
 		Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 		Matrix4 model = Matrix4(1.0f);
 
@@ -134,7 +142,7 @@ namespace Cookie {
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
 		// TODO: Rendering Flow
-		//
+		// NOTE: Current code implements "layers" by using the Z coordinate
 		// On Initialization:
 		//		Group all entities by layers
 		//		For each layer group:
@@ -151,10 +159,15 @@ namespace Cookie {
 		//
 		u32 numBatches = 0;
 
+		auto camSingl = g_Admin->GetSinglComponent<CameraComponentSingl>();
+
 		auto transforms = g_Admin->GetComponentArray<TransformComponent>();
 		auto render = g_Admin->GetComponentArray<RenderComponent>();
+		auto renderCam = g_Admin->GetComponent<CameraComponent>(camSingl->m_MainCam);
 
-		for (auto const &entityID : m_RendereableView->m_Entities) {
+		batch.m_Cam = renderCam;
+
+		for (EntityID const &entityID : m_RendereableView->m_Entities) {
 			TransformComponent *t = transforms->Get(entityID);
 			RenderComponent *r = render->Get(entityID);
 
@@ -196,42 +209,5 @@ namespace Cookie {
 		// Swap Buffers
 		glfwSwapBuffers(g_AppData.m_Window.m_Handle);
 	}
-
-
-	// Previous rendering Loop
-
-	//// TODO: Adjust proj matrix dynamically
-	// Matrix4 view = glm::lookAt(Float3(0.0f, 0.0f, 5.0f), Float3(0.0f), Float3(0.0f, 1.0f, 0.0f));
-	// Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
-
-	//// Render all Objects
-	// for (auto const &entityID : m_EntitiesCache) {
-	//	TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-	//	RenderComponent *r = g_Admin->GetComponent<RenderComponent>(entityID);
-
-	//	SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
-
-	//	Context::BindProgram(&sp->m_Program);
-
-	//	// Camera Config
-	//	sp->m_Program.SetUniformMat4("view", glm::value_ptr(view));
-	//	sp->m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
-
-	//	// Model
-	//	Matrix4 model = Matrix4(1.0f);
-	//	Float3 *rot = &t->m_Rotation;
-	//	model = glm::translate(model, t->m_Position);
-	//	model = glm::rotate(model, rot->x, Float3(1.0f, 0.0f, 0.0f));
-	//	model = glm::rotate(model, rot->y, Float3(0.0f, 1.0f, 0.0f));
-	//	model = glm::rotate(model, rot->z, Float3(0.0f, 0.0f, 1.0f));
-	//	sp->m_Program.SetUniformMat4("model", glm::value_ptr(model));
-
-	//	// Issue Drawcall
-	//	Context::BindVertexBuffer(&sp->m_VertexBuffer);
-	//	Context::BindIndexBuffer(&sp->m_IndexBuffer);
-	//	Context::BindTexture(&sp->m_Texture);
-	//	Context::BindLayout(&sp->m_Layout);
-	//	Context::Submit();
-	//}
 
 } // namespace Cookie

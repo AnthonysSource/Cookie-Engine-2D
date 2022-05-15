@@ -16,8 +16,10 @@ namespace Cookie {
 		RegisterComponent<TransformComponent>();
 		RegisterComponent<RenderComponent>();
 		RegisterComponent<PhysicsComponent>();
+		RegisterComponent<CameraComponent>();
 
 		RegisterSinglComponent<InputComponent>();
+		RegisterSinglComponent<CameraComponentSingl>();
 	}
 
 	void EntityAdmin::Update(f32 deltaTime) {
