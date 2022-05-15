@@ -18,4 +18,11 @@ namespace Cookie {
 		Float3 m_Position;
 	};
 
+	struct AttackComponent {
+		i32 m_AttackDamage;
+		f32 m_Area;
+		f32 m_CooldownElapsed;
+		f32 m_CooldownTotal;
+	};
+
 } // namespace Cookie

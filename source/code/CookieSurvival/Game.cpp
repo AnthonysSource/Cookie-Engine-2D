@@ -15,6 +15,12 @@ void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	TransformComponent transform = {};
 	RenderComponent render = {};
 	PlayerCharacterComponent move = {};
+	AttackComponent attack = {};
+
+	attack.m_Area = 1.5f;
+	attack.m_AttackDamage = 10.0f;
+	attack.m_CooldownTotal = 1.0f;
+	attack.m_CooldownElapsed = 0.0f;
 
 	transform.m_Position = pos;
 	render.m_SpriteHandle = bigCookieSprite;
@@ -23,6 +29,7 @@ void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EntitiesAdmin->AddComponent(e, transform);
 	EntitiesAdmin->AddComponent(e, render);
 	EntitiesAdmin->AddComponent(e, move);
+	EntitiesAdmin->AddComponent(e, attack);
 };
 
 void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos) {
@@ -58,11 +65,13 @@ void RegisterComponents(EntityAdmin *const EntitiesAdmin) {
 	// Register Components
 	EntitiesAdmin->RegisterComponent<PlayerCharacterComponent>();
 	EntitiesAdmin->RegisterComponent<EnemyComponent>();
+	EntitiesAdmin->RegisterComponent<AttackComponent>();
 
 	EntitiesAdmin->RegisterSinglComponent<SinglMainPlayerComponent>();
 
 	// Register Systems in order of execution
 	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
+	EntitiesAdmin->RegisterSystem<AttackSystem>();
 	EntitiesAdmin->RegisterSystem<EnemySystem>();
 }
 
