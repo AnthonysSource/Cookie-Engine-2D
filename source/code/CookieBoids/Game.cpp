@@ -42,20 +42,31 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	CKE_PROFILE_EVENT();
 	using namespace Cookie;
 
-	// Register Components
-	EntitiesAdmin->RegisterComponent<BoidComponent>();
-
-	// Register Systems in order of execution
-	EntitiesAdmin->RegisterSystem<BoidsSystem>();
-
 	// Create World Entities
+	auto mainCam = EntitiesAdmin->CreateEntity();
+	CameraComponent camComp;
+	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
+	camComp.m_Rotation = 0.0f;
+	EntitiesAdmin->AddComponent(mainCam, camComp);
+	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
+
 	i32 rows = 100;
-	i32 columns = 10;
+	i32 columns = 25;
 	for (size_t x = 0; x < columns; x++) {
 		for (size_t y = 0; y < rows; y++) {
 			CreatePlayer(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
 		}
 	}
+}
+
+void RegisterECS(EntityAdmin *const EntitiesAdmin) {
+	CKE_PROFILE_EVENT();
+	using namespace Cookie;
+
+	EntitiesAdmin->RegisterComponent<BoidComponent>();
+
+	EntitiesAdmin->RegisterSystem<CameraSystem>();
+	EntitiesAdmin->RegisterSystem<BoidsSystem>();
 }
 
 int main() {
@@ -72,6 +83,7 @@ int main() {
 	g.m_WindowDesc = wd;
 	g.m_LoadResourcesFunc = LoadResources;
 	g.m_CreateWorldFunc = CreateWorld;
+	g.m_RegisterECSFunc = RegisterECS;
 
 	Application::Run(&g);
 	return 0;
