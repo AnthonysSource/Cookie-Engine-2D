@@ -5,10 +5,15 @@
 using namespace Cookie;
 
 // Sprites
-SpriteHandle cookieSprite;
-SpriteHandle bigCookieSprite;
+// --------------------------------------------------------------------------
+static SpriteHandle sugarCube;
+static SpriteHandle butterStick;
+
+static SpriteHandle cookieSprite;
+static SpriteHandle bigCookieSprite;
 
 // Entities Templates
+// --------------------------------------------------------------------------
 void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EntityID e = EntitiesAdmin->CreateEntity();
 
@@ -32,7 +37,7 @@ void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EntitiesAdmin->AddComponent(e, attack);
 };
 
-void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos) {
+void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos, SpriteHandle sprite) {
 	EntityID e = EntitiesAdmin->CreateEntity();
 
 	TransformComponent transform = {};
@@ -40,7 +45,7 @@ void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EnemyComponent enemy = {};
 
 	transform.m_Position = pos;
-	render.m_SpriteHandle = cookieSprite;
+	render.m_SpriteHandle = sprite;
 	enemy.m_Acceleration = Random::Float(1.0f, 3.0f);
 	enemy.m_TopSpeed = Random::Float(3.0f, 7.0f);
 
@@ -49,6 +54,50 @@ void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EntitiesAdmin->AddComponent(e, enemy);
 };
 
+void CreateCamera(EntityAdmin *const EntitiesAdmin) {
+	auto mainCam = EntitiesAdmin->CreateEntity();
+	CameraComponent camComp;
+	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
+	camComp.m_Rotation = 0.0f;
+	EntitiesAdmin->AddComponent(mainCam, camComp);
+	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
+}
+
+// Worlds Templates
+// --------------------------------------------------------------------------
+void MixedWorld(EntityAdmin *const EntitiesAdmin) {
+	i32 rows = 1000;
+	i32 columns = 100;
+	for (size_t x = 0; x < columns; x++) {
+
+		SpriteHandle sprite;
+		if (x < 33) {
+			sprite = cookieSprite;
+		} else if (x < 66) {
+			sprite = sugarCube;
+		} else {
+			sprite = butterStick;
+		}
+
+		for (size_t y = 0; y < rows; y++) {
+			f32 zPos = Random::Float(0.001f, 0.01f);
+			CreateEnemy(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -zPos), sprite);
+		}
+	}
+}
+
+void CookiesWorld(EntityAdmin *const EntitiesAdmin) {
+	i32 rows = 100;
+	i32 columns = 100;
+	for (size_t x = 0; x < columns; x++) {
+		for (size_t y = 0; y < rows; y++) {
+			CreateEnemy(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f), cookieSprite);
+		}
+	}
+}
+
+// Game Initialization
+// --------------------------------------------------------------------------
 void LoadResources() {
 	CKE_PROFILE_EVENT();
 	// Resources
@@ -58,6 +107,8 @@ void LoadResources() {
 
 	cookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f * 8.0f);
 	bigCookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f * 2.5f);
+	butterStick = ResourcesSystem::GenerateSprite(butterImg, 32.0f * 13.0f);
+	sugarCube = ResourcesSystem::GenerateSprite(sugarImg, 32.0f * 8.0f);
 }
 
 void RegisterComponents(EntityAdmin *const EntitiesAdmin) {
@@ -82,23 +133,13 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	using namespace Cookie;
 
 	// Create World Entities
-	auto mainCam = EntitiesAdmin->CreateEntity();
-	CameraComponent camComp;
-	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
-	camComp.m_Rotation = 0.0f;
-	EntitiesAdmin->AddComponent(mainCam, camComp);
-	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
-
+	CreateCamera(EntitiesAdmin);
 	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, 1.0f));
-
-	i32 rows = 1000;
-	i32 columns = 100;
-	for (size_t x = 0; x < columns; x++) {
-		for (size_t y = 0; y < rows; y++) {
-			CreateEnemy(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
-		}
-	}
+	MixedWorld(EntitiesAdmin);
 }
+
+// Entry Point
+// --------------------------------------------------------------------------
 
 int main() {
 	using namespace Cookie;

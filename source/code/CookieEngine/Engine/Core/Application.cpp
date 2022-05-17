@@ -53,9 +53,7 @@ namespace Cookie {
 			g_Admin->Init();
 			g_Admin->RegisterSystem(g_InputSystem);
 			g_Admin->RegisterSystem(g_PhysicsSystem);
-
 			gameInitData->m_RegisterECSFunc(g_Admin);
-
 			g_Admin->RegisterSystem(g_RenderingSystem);
 
 			CKE_LOG_INFO(Log::Channel::Core, "Loading Game Resources");
@@ -63,6 +61,7 @@ namespace Cookie {
 
 			CKE_LOG_INFO(Log::Channel::Core, "Creating Game World");
 			gameInitData->m_CreateWorldFunc(g_Admin);
+			g_Admin->InitViews();
 
 			CKE_LOG_INFO(Log::Channel::Core, "Starting engine loop");
 			g_EngineClock.Init();

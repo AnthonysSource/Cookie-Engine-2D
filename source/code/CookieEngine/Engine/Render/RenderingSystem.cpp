@@ -136,26 +136,24 @@ namespace Cookie {
 
 	// --------------------------------------------------------------------------
 
+	THashMap<SpriteHandle, TVector<EntityID>> m_SortedEntitiesMap{};
+
 	void RenderingSystem::Update(f32 dt) {
 		CKE_PROFILE_EVENT();
 		// Clear buffer
 		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
-		// TODO: Rendering Flow
 		// NOTE: Current code implements "layers" by using the Z coordinate
 		// On Initialization:
-		//		Group all entities by layers
-		//		For each layer group:
-		//			Group all entities by sprite
-		// Only update the groups when a new rendereable entity is created
+		//		Group all entities by sprite
+		// NOTE: Ideally only update the groups when a new rendereable entity is created
 		//
 		// On Update
 		//		Discard all entities outside of the camera view
-		//		For all layer groups
-		//				For all sprite groups
-		//					Create a Batch
-		//					Add Sprite Quads
-		//					Submit Batch Drawcall
+		//			For all sprite groups
+		//				Create a Batch
+		//				Add Sprite Quads
+		//				Submit Batch Drawcall
 		//
 		u32 numBatches = 0;
 
@@ -167,34 +165,77 @@ namespace Cookie {
 
 		batch.m_Cam = renderCam;
 
+		for (auto &sortedEntities : m_SortedEntitiesMap) {
+			sortedEntities.second.clear();
+		}
+
 		for (EntityID const &entityID : m_RendereableView->m_Entities) {
-			TransformComponent *t = transforms->Get(entityID);
 			RenderComponent *r = render->Get(entityID);
+			m_SortedEntitiesMap[r->m_SpriteHandle].emplace_back(entityID);
+		}
 
-			SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
+		for (auto sortedEntities : m_SortedEntitiesMap) {
+			TVector<EntityID> entitiesArray = sortedEntities.second;
+			for (size_t i = 0; i < entitiesArray.size(); i++) {
+				EntityID entityID = entitiesArray[i];
 
-			// This approach means that we don't guarantee drawing
-			// all the sprites with the same texture in the same batch
-			if (batch.m_Texture.m_ID != sp->m_Texture.m_ID) {
-				if (batch.m_NumSpritesToDraw > 0) {
+				TransformComponent *t = transforms->Get(entityID);
+				RenderComponent *r = render->Get(entityID);
+
+				SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
+
+				// This approach means that we don't guarantee drawing
+				// all the sprites with the same texture in the same batch
+				if (batch.m_Texture.m_ID != sp->m_Texture.m_ID) {
+					if (batch.m_NumSpritesToDraw > 0) {
+						FlushBatch(&batch);
+						++numBatches;
+					}
+					batch.m_Texture = sp->m_Texture;
+					batch.m_Layout = sp->m_Layout;
+					batch.m_Program = sp->m_Program;
+				}
+
+				if (batch.m_NumSpritesToDraw >= batch.m_MaxSpritesToDraw - 1) {
 					FlushBatch(&batch);
 					++numBatches;
+					batch.m_Texture = sp->m_Texture;
+					batch.m_Layout = sp->m_Layout;
+					batch.m_Program = sp->m_Program;
 				}
-				batch.m_Texture = sp->m_Texture;
-				batch.m_Layout = sp->m_Layout;
-				batch.m_Program = sp->m_Program;
-			}
 
-			if (batch.m_NumSpritesToDraw >= batch.m_MaxSpritesToDraw - 1) {
-				FlushBatch(&batch);
-				++numBatches;
-				batch.m_Texture = sp->m_Texture;
-				batch.m_Layout = sp->m_Layout;
-				batch.m_Program = sp->m_Program;
+				AddQuad(&batch, t->m_Position, sp->m_Width, sp->m_Height, sp->m_PixelsPerUnit);
 			}
-
-			AddQuad(&batch, t->m_Position, sp->m_Width, sp->m_Height, sp->m_PixelsPerUnit);
 		}
+
+		// for (EntityID const &entityID : m_RendereableView->m_Entities) {
+		//	TransformComponent *t = transforms->Get(entityID);
+		//	RenderComponent *r = render->Get(entityID);
+
+		//	SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
+
+		//	// This approach means that we don't guarantee drawing
+		//	// all the sprites with the same texture in the same batch
+		//	if (batch.m_Texture.m_ID != sp->m_Texture.m_ID) {
+		//		if (batch.m_NumSpritesToDraw > 0) {
+		//			FlushBatch(&batch);
+		//			++numBatches;
+		//		}
+		//		batch.m_Texture = sp->m_Texture;
+		//		batch.m_Layout = sp->m_Layout;
+		//		batch.m_Program = sp->m_Program;
+		//	}
+
+		//	if (batch.m_NumSpritesToDraw >= batch.m_MaxSpritesToDraw - 1) {
+		//		FlushBatch(&batch);
+		//		++numBatches;
+		//		batch.m_Texture = sp->m_Texture;
+		//		batch.m_Layout = sp->m_Layout;
+		//		batch.m_Program = sp->m_Program;
+		//	}
+
+		//	AddQuad(&batch, t->m_Position, sp->m_Width, sp->m_Height, sp->m_PixelsPerUnit);
+		//}
 
 		FlushBatch(&batch);
 		++numBatches;

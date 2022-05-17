@@ -27,6 +27,7 @@ namespace Cookie {
 
 	public:
 		void Init();
+		void InitViews();
 		void Update(f32 deltaTime);
 		void Shutdown();
 
@@ -70,7 +71,9 @@ namespace Cookie {
 			signature.set(GetComponentSignatureID<T>(), true);
 			m_Signatures[entity] = signature;
 
-			EntitySignatureChanged(entity);
+			if (m_IsFullyInitialized) {
+				EntitySignatureChanged(entity);
+			}
 		};
 
 		template <typename T> void RemoveComponent(EntityID entity) {
@@ -80,7 +83,9 @@ namespace Cookie {
 			signature.set(GetComponentSignatureID<T>(), false);
 			m_Signatures[entity] = signature;
 
-			EntitySignatureChanged(entity);
+			if (m_IsFullyInitialized) {
+				EntitySignatureChanged(entity);
+			}
 		};
 
 		template <typename T> T *GetComponent(EntityID entity) { return GetComponentArray<T>()->Get(entity); };
@@ -126,6 +131,15 @@ namespace Cookie {
 		// -----------------------------------------------------------------
 
 		EntitiesView *CreateView(Signature viewSignature) {
+			// Check if a view exists with the same signature and
+			// return it if so
+			for (EntitiesView *view : m_Views) {
+				if (view->m_ViewSignature == viewSignature) {
+					return view;
+				}
+			}
+
+			// If there isn't one then create it
 			EntitiesView *view = new EntitiesView();
 			view->m_ViewSignature = viewSignature;
 			m_Views.push_back(view);
@@ -134,6 +148,7 @@ namespace Cookie {
 
 	private:
 		TQueue<EntityID> m_AvailableEntityIDs{};
+		TSet<EntityID> m_ActiveEntities{};
 		TVector<Signature> m_Signatures{};
 		u32 m_ActiveEntitiesCount{};
 
@@ -147,16 +162,15 @@ namespace Cookie {
 
 		TVector<EntitiesView *> m_Views{};
 
-		// -----------------------------------------------------------------
+		bool m_IsFullyInitialized = false;
 
-		// Systems must declare their views on init
+		// -----------------------------------------------------------------
 
 		// Updates the entities views on each system when an entitie signature
 		// has changed
 		void EntitySignatureChanged(EntityID entityID) {
 
 			Signature entitySignature = m_Signatures[entityID];
-
 			for (EntitiesView *view : m_Views) {
 
 				// If the view's signature has the required components we

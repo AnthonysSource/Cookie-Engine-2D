@@ -18,7 +18,6 @@ namespace Cookie {
 
 	protected:
 		Signature m_Signature{};
-		TSet<EntityID> m_Entities{};
 		EntityAdmin *m_Admin;
 
 		template <typename T> void SetRequiredComponent() { m_Signature.set(m_Admin->GetComponentSignatureID<T>(), true); }
