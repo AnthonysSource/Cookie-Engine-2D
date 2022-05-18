@@ -10,12 +10,14 @@ namespace Cookie {
 		void InitSignature() {
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<PlayerCharacterComponent>();
+
+			m_View = g_Admin->CreateView(m_Signature);
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
 
-			for (auto const &entityID : m_Entities) {
+			for (auto const &entityID : m_View->m_Entities) {
 
 				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
 				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
@@ -38,6 +40,9 @@ namespace Cookie {
 				mainPlayer->m_Position = t->m_Position;
 			}
 		}
+
+	private:
+		EntitiesView *m_View;
 	};
 
 	class EnemySystem : public System {
@@ -45,6 +50,8 @@ namespace Cookie {
 		void InitSignature() {
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<EnemyComponent>();
+
+			m_View = g_Admin->CreateView(m_Signature);
 		}
 
 		void Update(f32 dt) override {
@@ -54,7 +61,7 @@ namespace Cookie {
 			auto transforms = m_Admin->GetComponentArray<TransformComponent>();
 			auto enemies = m_Admin->GetComponentArray<EnemyComponent>();
 
-			for (auto const &entityID : m_Entities) {
+			for (auto const &entityID : m_View->m_Entities) {
 				TransformComponent *t = transforms->Get(entityID);
 				EnemyComponent *m = enemies->Get(entityID);
 
@@ -74,6 +81,49 @@ namespace Cookie {
 					t->m_Position += Float3(10.0f, 0.0f, 0.0f);
 				}
 			}
+		}
+
+	private:
+		EntitiesView *m_View;
+	};
+
+	class CameraSystem : public System {
+	public:
+		void InitSignature() {}
+
+		void Update(f32 dt) override {
+			CKE_PROFILE_EVENT();
+
+			CameraComponentSingl *camSingl = g_Admin->GetSinglComponent<CameraComponentSingl>();
+			CameraComponent *cam = g_Admin->GetComponent<CameraComponent>(camSingl->m_MainCam);
+			InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
+
+			Float3 movementDir = Float3(0.0f, 0.0f, 0.0f);
+
+			if (input->IsKeyHeld(COOKIE_KEY_I)) {
+				movementDir.y = 1.0f;
+			} else if (input->IsKeyHeld(COOKIE_KEY_K)) {
+				movementDir.y = -1.0f;
+			}
+
+			if (input->IsKeyHeld(COOKIE_KEY_L)) {
+				movementDir.x = 1.0f;
+			} else if (input->IsKeyHeld(COOKIE_KEY_J)) {
+				movementDir.x = -1.0f;
+			}
+
+			if (movementDir.x > 0.01f || movementDir.x < -0.01f || movementDir.y > 0.01f || movementDir.y < -0.01f)
+				movementDir = glm::normalize(movementDir);
+
+			movementDir.z = 0.0f;
+
+			if (input->IsKeyHeld(COOKIE_KEY_U)) {
+				movementDir.z += 1.0f;
+			} else if (input->IsKeyHeld(COOKIE_KEY_O)) {
+				movementDir.z -= 1.0f;
+			}
+
+			cam->m_Position += movementDir * 5.0f * dt;
 		}
 	};
 

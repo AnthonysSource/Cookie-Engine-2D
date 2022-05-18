@@ -5,43 +5,79 @@
 using namespace Cookie;
 
 // Sprites
+// --------------------------------------------------------------------------
 SpriteHandle cookieSprite;
-SpriteHandle bigCookieSprite;
 
 // Entities Templates
-void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
+// --------------------------------------------------------------------------
+void CreatePhysicsBall(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EntityID e = EntitiesAdmin->CreateEntity();
 
 	TransformComponent transform = {};
 	RenderComponent render = {};
-	PlayerCharacterComponent move = {};
+	PhysicsComponent physics = {};
 
-	transform.m_Position = pos;
-	render.m_SpriteHandle = bigCookieSprite;
-	move.m_Speed = 6.0f;
-
-	EntitiesAdmin->AddComponent(e, transform);
-	EntitiesAdmin->AddComponent(e, render);
-	EntitiesAdmin->AddComponent(e, move);
-};
-
-void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos) {
-	EntityID e = EntitiesAdmin->CreateEntity();
-
-	TransformComponent transform = {};
-	RenderComponent render = {};
-	EnemyComponent enemy = {};
+	b2World *physicsWorld = EntitiesAdmin->GetSinglComponent<PhysicsWorldSinglComponent>()->m_World;
 
 	transform.m_Position = pos;
 	render.m_SpriteHandle = cookieSprite;
-	enemy.m_Acceleration = Random::Float(1.0f, 3.0f);
-	enemy.m_TopSpeed = Random::Float(3.0f, 7.0f);
+	b2BodyDef circleBodyDef;
+	circleBodyDef.type = b2_dynamicBody;
+	circleBodyDef.position.Set(pos.x, pos.y);
+	physics.m_Body = physicsWorld->CreateBody(&circleBodyDef);
+	b2PolygonShape circle;
+	circle.SetAsBox(0.1f, 0.1f);
+	b2FixtureDef fixture;
+	fixture.shape = &circle;
+	fixture.density = Random::Float(0.8f, 2.0f);
+	fixture.friction = 0.3f;
+	fixture.restitution = 1.0f;
+
+	physics.m_Body->CreateFixture(&fixture);
+
+	render.m_SpriteHandle = cookieSprite;
 
 	EntitiesAdmin->AddComponent(e, transform);
 	EntitiesAdmin->AddComponent(e, render);
-	EntitiesAdmin->AddComponent(e, enemy);
+	EntitiesAdmin->AddComponent(e, physics);
 };
 
+void CreatePhysicsGround(EntityAdmin *const EntitiesAdmin, Float3 pos) {
+	EntityID e = EntitiesAdmin->CreateEntity();
+
+	TransformComponent transform = {};
+	RenderComponent render = {};
+	PhysicsComponent physics = {};
+
+	b2World *physicsWorld = EntitiesAdmin->GetSinglComponent<PhysicsWorldSinglComponent>()->m_World;
+
+	transform.m_Position = pos;
+	render.m_SpriteHandle = cookieSprite;
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(pos.x, pos.y);
+	physics.m_Body = physicsWorld->CreateBody(&groundBodyDef);
+	b2PolygonShape groundBox;
+	groundBox.SetAsBox(50.0f, 1.0f);
+	physics.m_Body->CreateFixture(&groundBox, 0.0f);
+
+	render.m_SpriteHandle = cookieSprite;
+
+	EntitiesAdmin->AddComponent(e, transform);
+	EntitiesAdmin->AddComponent(e, render);
+	EntitiesAdmin->AddComponent(e, physics);
+};
+
+void CreateCamera(EntityAdmin *const EntitiesAdmin) {
+	auto mainCam = EntitiesAdmin->CreateEntity();
+	CameraComponent camComp;
+	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
+	camComp.m_Rotation = 0.0f;
+	EntitiesAdmin->AddComponent(mainCam, camComp);
+	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
+}
+
+// Game Initialization
+// --------------------------------------------------------------------------
 void LoadResources() {
 	CKE_PROFILE_EVENT();
 	// Resources
@@ -49,13 +85,10 @@ void LoadResources() {
 	ImageHandle butterImg = ResourcesSystem::LoadImage("butter_stick.png");
 	ImageHandle sugarImg = ResourcesSystem::LoadImage("sugar_cube.png");
 
-	cookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f * 8.0f);
-	bigCookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f * 2.5f);
+	cookieSprite = ResourcesSystem::GenerateSprite(cookieImg, 32.0f);
 }
 
-// Game World Init
-void CreateWorld(EntityAdmin *const EntitiesAdmin) {
-	CKE_PROFILE_EVENT();
+void RegisterECS(EntityAdmin *const EntitiesAdmin) {
 	using namespace Cookie;
 
 	// Register Components
@@ -67,19 +100,24 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	// Register Systems in order of execution
 	EntitiesAdmin->RegisterSystem<PlayerMovementSystem>();
 	EntitiesAdmin->RegisterSystem<EnemySystem>();
+	EntitiesAdmin->RegisterSystem<CameraSystem>();
+}
 
-	// Create World Entities
-	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, -0.001f));
+void CreateWorld(EntityAdmin *const EntitiesAdmin) {
+	CKE_PROFILE_EVENT();
+	using namespace Cookie;
 
-	i32 rows = 100;
-	i32 columns = 100;
-	for (size_t x = 0; x < columns; x++) {
-		for (size_t y = 0; y < rows; y++) {
-			CreateEnemy(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -0.001f));
-		}
+	CreateCamera(EntitiesAdmin);
+	CreatePhysicsGround(EntitiesAdmin, Float3(0.0f, -5.0f, 0.0f));
+
+	i32 rows = 500;
+	for (size_t x = 0; x < rows; x++) {
+		CreatePhysicsBall(EntitiesAdmin, Float3(-20.0f + ((f32)x / rows) * 40.0f, 10.0f + Random::Float(-5.0f, 5.0f), 0.0f));
 	}
 }
 
+// Entry Point
+// --------------------------------------------------------------------------
 int main() {
 	using namespace Cookie;
 	GameInitData g = {};
@@ -94,6 +132,7 @@ int main() {
 	g.m_WindowDesc = wd;
 	g.m_LoadResourcesFunc = LoadResources;
 	g.m_CreateWorldFunc = CreateWorld;
+	g.m_RegisterECSFunc = RegisterECS;
 
 	Application::Run(&g);
 	return 0;

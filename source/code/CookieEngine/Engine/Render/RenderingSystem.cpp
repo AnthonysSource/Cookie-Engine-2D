@@ -208,35 +208,6 @@ namespace Cookie {
 			}
 		}
 
-		// for (EntityID const &entityID : m_RendereableView->m_Entities) {
-		//	TransformComponent *t = transforms->Get(entityID);
-		//	RenderComponent *r = render->Get(entityID);
-
-		//	SpriteRenderData *sp = g_ResourcesDatabase.GetSpriteData(r->m_SpriteHandle);
-
-		//	// This approach means that we don't guarantee drawing
-		//	// all the sprites with the same texture in the same batch
-		//	if (batch.m_Texture.m_ID != sp->m_Texture.m_ID) {
-		//		if (batch.m_NumSpritesToDraw > 0) {
-		//			FlushBatch(&batch);
-		//			++numBatches;
-		//		}
-		//		batch.m_Texture = sp->m_Texture;
-		//		batch.m_Layout = sp->m_Layout;
-		//		batch.m_Program = sp->m_Program;
-		//	}
-
-		//	if (batch.m_NumSpritesToDraw >= batch.m_MaxSpritesToDraw - 1) {
-		//		FlushBatch(&batch);
-		//		++numBatches;
-		//		batch.m_Texture = sp->m_Texture;
-		//		batch.m_Layout = sp->m_Layout;
-		//		batch.m_Program = sp->m_Program;
-		//	}
-
-		//	AddQuad(&batch, t->m_Position, sp->m_Width, sp->m_Height, sp->m_PixelsPerUnit);
-		//}
-
 		FlushBatch(&batch);
 		++numBatches;
 

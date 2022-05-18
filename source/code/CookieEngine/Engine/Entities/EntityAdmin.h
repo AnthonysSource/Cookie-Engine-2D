@@ -121,6 +121,7 @@ namespace Cookie {
 
 		template <typename T> size_t RegisterSystem(T *system) {
 			size_t typeID = typeid(T).hash_code();
+			system->m_Admin = this;
 			m_Systems.insert({typeID, system});
 			system->InitSignature();
 			m_SystemsExecutionOrder.emplace_back(typeID);

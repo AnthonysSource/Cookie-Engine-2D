@@ -25,7 +25,6 @@ namespace Cookie {
 	AppData g_AppData;
 	EntityAdmin *g_Admin = new EntityAdmin();
 	RenderingSystem *g_RenderingSystem = new RenderingSystem();
-	PhysicsSystem *g_PhysicsSystem = new PhysicsSystem();
 	InputSystem *g_InputSystem = new InputSystem();
 
 	namespace Application {
@@ -46,13 +45,10 @@ namespace Cookie {
 			CKE_LOG_INFO(Log::Channel::Core, "Initializing Resources System");
 			ResourcesSystem::Init();
 
-			CKE_LOG_INFO(Log::Channel::Core, "Initializing Physics System");
-			g_PhysicsSystem->Init();
-
 			CKE_LOG_INFO(Log::Channel::Core, "Initializing Entity Admin");
 			g_Admin->Init();
 			g_Admin->RegisterSystem(g_InputSystem);
-			g_Admin->RegisterSystem(g_PhysicsSystem);
+			g_Admin->RegisterSystem<PhysicsSystem>();
 			gameInitData->m_RegisterECSFunc(g_Admin);
 			g_Admin->RegisterSystem(g_RenderingSystem);
 

@@ -18,6 +18,7 @@ namespace Cookie {
 		RegisterComponent<PhysicsComponent>();
 		RegisterComponent<CameraComponent>();
 
+		RegisterSinglComponent<PhysicsWorldSinglComponent>();
 		RegisterSinglComponent<InputComponent>();
 		RegisterSinglComponent<CameraComponentSingl>();
 	}

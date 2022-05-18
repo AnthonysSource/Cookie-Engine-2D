@@ -1,32 +1,48 @@
 #include "PhysicsSystem.h"
 #include "Core/Application.h"
 
+#include "Entities/Components/TransformComponent.h"
 #include "Entities/Components/PhysicsComponent.h"
-#include <Entities/EntityAdmin.h>
+#include "Entities/EntityAdmin.h"
 
 #include <box2d/box2d.h>
 
 namespace Cookie {
 
-	struct PhysicsSysState {
-		b2World *m_World;
-	};
-
-	static PhysicsSysState g_physicsState{};
-
-	void PhysicsSystem::Init() {
+	void PhysicsSystem::InitSignature() {
 		// Create Physics World
+		auto physicsWorldComp = m_Admin->GetSinglComponent<PhysicsWorldSinglComponent>();
+
 		b2Vec2 gravity(0.0f, -10.0f);
-		g_physicsState.m_World = new b2World(gravity);
+		physicsWorldComp->m_World = new b2World(gravity);
+
+		// Create View
+		SetRequiredComponent<TransformComponent>();
+		SetRequiredComponent<PhysicsComponent>();
+		m_View = m_Admin->CreateView(m_Signature);
 	}
 
-	void PhysicsSystem::InitSignature() {}
+	// TODO: Fixed Time-Step
+	void PhysicsSystem::Update(f32 dt) {
+		auto physicsWorldComp = m_Admin->GetSinglComponent<PhysicsWorldSinglComponent>();
+		physicsWorldComp->m_World->Step(dt, 8, 3);
 
-	void PhysicsSystem::Update(f32 dt) { g_physicsState.m_World->Step(dt, 8, 3); }
+		auto transforms = g_Admin->GetComponentArray<TransformComponent>();
+		auto physicsComp = g_Admin->GetComponentArray<PhysicsComponent>();
+
+		for (auto &entityID : m_View->m_Entities) {
+			auto t = transforms->Get(entityID);
+			auto p = physicsComp->Get(entityID);
+
+			b2Vec2 pos = p->m_Body->GetPosition();
+			t->m_Position = Float3(pos.x, pos.y, t->m_Position.z);
+		}
+	}
 
 	void PhysicsSystem::Shutdown() {
 		// Deallocate physics world
-		delete g_physicsState.m_World;
+		auto physicsWorldComp = m_Admin->GetSinglComponent<PhysicsWorldSinglComponent>();
+		delete physicsWorldComp->m_World;
 	}
 
 } // namespace Cookie
