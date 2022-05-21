@@ -11,18 +11,18 @@ namespace Cookie {
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<PlayerCharacterComponent>();
 
-			m_View = g_Admin->CreateView(m_Signature);
+			m_View = m_Admin->CreateView(m_Signature);
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
 
 			for (auto const &entityID : m_View->m_Entities) {
-				TransformComponent *t = g_Admin->GetComponent<TransformComponent>(entityID);
-				PlayerCharacterComponent *m = g_Admin->GetComponent<PlayerCharacterComponent>(entityID);
+				TransformComponent *t = m_Admin->GetComponent<TransformComponent>(entityID);
+				PlayerCharacterComponent *m = m_Admin->GetComponent<PlayerCharacterComponent>(entityID);
 
-				InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
-				SinglMainPlayerComponent *mainPlayer = g_Admin->GetSinglComponent<SinglMainPlayerComponent>();
+				InputComponent *input = m_Admin->GetSinglComponent<InputComponent>();
+				SinglMainPlayerComponent *mainPlayer = m_Admin->GetSinglComponent<SinglMainPlayerComponent>();
 
 				Float3 movementDir = Float3(0.0f, 0.0f, 0.0f);
 
@@ -42,9 +42,6 @@ namespace Cookie {
 					movementDir = glm::normalize(movementDir);
 
 				movementDir.z = 0.0f;
-
-				// CKE_LOG_INFO(Log::Channel::Game, "%f / %f / %f", movementDir.x, movementDir.y, movementDir.z);
-
 				t->m_Position += movementDir * m->m_Speed * dt;
 
 				// Copy position into singleton main player component
@@ -63,36 +60,21 @@ namespace Cookie {
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
 
-			CameraComponentSingl *camSingl = g_Admin->GetSinglComponent<CameraComponentSingl>();
-			CameraComponent *cam = g_Admin->GetComponent<CameraComponent>(camSingl->m_MainCam);
-			InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
+			CameraComponentSingl *camSingl = m_Admin->GetSinglComponent<CameraComponentSingl>();
+			SinglMainPlayerComponent *playerSingl = m_Admin->GetSinglComponent<SinglMainPlayerComponent>();
+			CameraComponent *cam = m_Admin->GetComponent<CameraComponent>(camSingl->m_MainCam);
+			InputComponent *input = m_Admin->GetSinglComponent<InputComponent>();
 
 			Float3 movementDir = Float3(0.0f, 0.0f, 0.0f);
 
-			if (input->IsKeyHeld(COOKIE_KEY_I)) {
-				movementDir.y = 1.0f;
-			} else if (input->IsKeyHeld(COOKIE_KEY_K)) {
-				movementDir.y = -1.0f;
-			}
-
-			if (input->IsKeyHeld(COOKIE_KEY_L)) {
-				movementDir.x = 1.0f;
-			} else if (input->IsKeyHeld(COOKIE_KEY_J)) {
-				movementDir.x = -1.0f;
-			}
-
-			if (movementDir.x > 0.01f || movementDir.x < -0.01f || movementDir.y > 0.01f || movementDir.y < -0.01f)
-				movementDir = glm::normalize(movementDir);
-
+			movementDir = playerSingl->m_Position - cam->m_Position;
 			movementDir.z = 0.0f;
-
-			if (input->IsKeyHeld(COOKIE_KEY_U)) {
-				movementDir.z += 1.0f;
-			} else if (input->IsKeyHeld(COOKIE_KEY_O)) {
-				movementDir.z -= 1.0f;
+			f32 length = glm::length(movementDir);
+			if (length > 0.0001f) {
+				movementDir /= length;
 			}
 
-			cam->m_Position += movementDir * 5.0f * dt;
+			cam->m_Position += movementDir * length * 5.0f * dt;
 		}
 	};
 
@@ -101,37 +83,90 @@ namespace Cookie {
 		void InitSignature() {
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<AttackComponent>();
-			m_AttackersView = g_Admin->CreateView(m_Signature);
+			m_AttackersView = m_Admin->CreateView(m_Signature);
 
 			m_Signature = Signature();
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<EnemyComponent>();
-			m_TargetsView = g_Admin->CreateView(m_Signature);
+			m_TargetsView = m_Admin->CreateView(m_Signature);
 		}
 
 		void Update(f32 dt) override {
 			CKE_PROFILE_EVENT();
 
-			auto targetTransforms = g_Admin->GetComponentArray<TransformComponent>();
-			auto attackers = g_Admin->GetComponentArray<AttackComponent>();
+			auto targetTransforms = m_Admin->GetComponentArray<TransformComponent>();
+			auto attackers = m_Admin->GetComponentArray<AttackComponent>();
+
+			Float3 enemyRespawnPos;
+			if (Random::Int(0, 2) == 0) {
+				enemyRespawnPos = Float3(-15.0f, 0.0f, 0.0f);
+			} else {
+				enemyRespawnPos = Float3(15.0f, 0.0f, 0.0f);
+			}
 
 			for (auto const &attackerID : m_AttackersView->m_Entities) {
-				TransformComponent *attackerTransform = targetTransforms->Get(attackerID);
 				AttackComponent *attackerAttack = attackers->Get(attackerID);
 
-				InputComponent *input = g_Admin->GetSinglComponent<InputComponent>();
-
+				// Tick attack CD
 				attackerAttack->m_CooldownElapsed += dt;
 
-				if (input->IsKeyHeld(COOKIE_KEY_SPACE) && attackerAttack->m_CooldownElapsed > attackerAttack->m_CooldownTotal) {
+				if (attackerAttack->m_CooldownElapsed > attackerAttack->m_CooldownTotal) {
+					// Reset Attack CD
 					attackerAttack->m_CooldownElapsed = 0.0f;
-					// TODO: Revisit when a Spatial-Hierarchy has been implemented to avoid
-					//
-					for (auto const &targetID : m_TargetsView->m_Entities) {
-						TransformComponent *targetTransf = targetTransforms->Get(targetID);
-						if (glm::length(targetTransf->m_Position - attackerTransform->m_Position) < attackerAttack->m_Area) {
-							targetTransf->m_Position += Float3(15.0f, 0.0f, 0.0f);
+
+					// Get Player Data
+					TransformComponent *attackerTransform = targetTransforms->Get(attackerID);
+					auto scoreComp = m_Admin->GetSinglComponent<ScoreSinglComponent>();
+
+					u32 newAttackID = (attackerAttack->m_LastAttackID + 1) % 3;
+					attackerAttack->m_LastAttackID = newAttackID;
+
+					// Check the attackid and execute it
+					switch (newAttackID) {
+					case 0:
+						for (auto const &targetID : m_TargetsView->m_Entities) {
+							TransformComponent *targetTransf = targetTransforms->Get(targetID);
+
+							// AABB
+							bool inX = targetTransf->m_Position.x < attackerTransform->m_Position.x + attackerAttack->m_RectX &&
+									   targetTransf->m_Position.x > attackerTransform->m_Position.x - attackerAttack->m_RectX;
+
+							bool inY = targetTransf->m_Position.y < attackerTransform->m_Position.y + attackerAttack->m_RectY &&
+									   targetTransf->m_Position.y > attackerTransform->m_Position.y - attackerAttack->m_RectY;
+
+							if (inX && inY) {
+								targetTransf->m_Position += Float3(15.0f, 0.0f, 0.0f);
+								++scoreComp->m_CurrentScore;
+							}
 						}
+						break;
+					case 1:
+						for (auto const &targetID : m_TargetsView->m_Entities) {
+							TransformComponent *targetTransf = targetTransforms->Get(targetID);
+
+							// AABB
+							bool inX = targetTransf->m_Position.x < attackerTransform->m_Position.x + attackerAttack->m_RectY &&
+									   targetTransf->m_Position.x > attackerTransform->m_Position.x - attackerAttack->m_RectY;
+
+							bool inY = targetTransf->m_Position.y < attackerTransform->m_Position.y + attackerAttack->m_RectX &&
+									   targetTransf->m_Position.y > attackerTransform->m_Position.y - attackerAttack->m_RectX;
+
+							if (inX && inY) {
+								targetTransf->m_Position += Float3(15.0f, 0.0f, 0.0f);
+								++scoreComp->m_CurrentScore;
+							}
+						}
+						break;
+					case 2:
+						for (auto const &targetID : m_TargetsView->m_Entities) {
+							TransformComponent *targetTransf = targetTransforms->Get(targetID);
+							f32 dist = glm::length(targetTransf->m_Position - attackerTransform->m_Position);
+							if (dist < attackerAttack->m_MaxArea && dist > attackerAttack->m_MinArea) {
+								targetTransf->m_Position += Float3(15.0f, 0.0f, 0.0f);
+								++scoreComp->m_CurrentScore;
+							}
+						}
+						break;
 					}
 				}
 			}
@@ -148,7 +183,7 @@ namespace Cookie {
 			SetRequiredComponent<TransformComponent>();
 			SetRequiredComponent<EnemyComponent>();
 
-			m_View = g_Admin->CreateView(m_Signature);
+			m_View = m_Admin->CreateView(m_Signature);
 		}
 
 		void Update(f32 dt) override {
@@ -173,13 +208,6 @@ namespace Cookie {
 				}
 
 				t->m_Position += m->m_Velocity * dt;
-
-				// Move out of screen if too close
-				// if (distance > 0.3f) {
-				//		t->m_Position += m->m_Velocity * dt;
-				//} else {
-				//	t->m_Position += Float3(10.0f, 0.0f, 0.0f);
-				//}
 			}
 		}
 

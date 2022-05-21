@@ -22,14 +22,17 @@ void CreatePlayer(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	PlayerCharacterComponent move = {};
 	AttackComponent attack = {};
 
-	attack.m_Area = 1.5f;
-	attack.m_AttackDamage = 10.0f;
+	attack.m_MinArea = 1.5f;
+	attack.m_LastAttackID = 0;
+	attack.m_MaxArea = 2.0f;
+	attack.m_RectX = 3.0f;
+	attack.m_RectY = 0.35f;
 	attack.m_CooldownTotal = 1.0f;
 	attack.m_CooldownElapsed = 0.0f;
 
 	transform.m_Position = pos;
 	render.m_SpriteHandle = bigCookieSprite;
-	move.m_Speed = 6.0f;
+	move.m_Speed = 3.0f;
 
 	EntitiesAdmin->AddComponent(e, transform);
 	EntitiesAdmin->AddComponent(e, render);
@@ -47,7 +50,7 @@ void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos, SpriteHandle spri
 	transform.m_Position = pos;
 	render.m_SpriteHandle = sprite;
 	enemy.m_Acceleration = Random::Float(1.0f, 3.0f);
-	enemy.m_TopSpeed = Random::Float(3.0f, 7.0f);
+	enemy.m_TopSpeed = Random::Float(1.5f, 2.5f);
 
 	EntitiesAdmin->AddComponent(e, transform);
 	EntitiesAdmin->AddComponent(e, render);
@@ -57,7 +60,7 @@ void CreateEnemy(EntityAdmin *const EntitiesAdmin, Float3 pos, SpriteHandle spri
 void CreateCamera(EntityAdmin *const EntitiesAdmin) {
 	auto mainCam = EntitiesAdmin->CreateEntity();
 	CameraComponent camComp;
-	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
+	camComp.m_Position = Float3(0.0f, 0.0f, 7.5f);
 	camComp.m_Rotation = 0.0f;
 	EntitiesAdmin->AddComponent(mainCam, camComp);
 	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
@@ -81,7 +84,12 @@ void MixedWorld(EntityAdmin *const EntitiesAdmin) {
 
 		for (size_t y = 0; y < rows; y++) {
 			f32 zPos = Random::Float(0.001f, 0.01f);
-			CreateEnemy(EntitiesAdmin, Float3(-0.5f + (1.0f / (f32)columns) * x, -0.5f + (1.0f / (f32)rows) * y, -zPos), sprite);
+			f32 xPos = -20.0f + (40.0f / (f32)columns) * x;
+			f32 yPos = -20.0f + (40.0f / (f32)rows) * y;
+
+			if (!(xPos < 1.0f && xPos > -1.0f && yPos < 1.0f && yPos > -1.0f)) {
+				CreateEnemy(EntitiesAdmin, Float3(xPos, yPos, zPos), sprite);
+			}
 		}
 	}
 }
@@ -118,6 +126,7 @@ void RegisterComponents(EntityAdmin *const EntitiesAdmin) {
 	EntitiesAdmin->RegisterComponent<EnemyComponent>();
 	EntitiesAdmin->RegisterComponent<AttackComponent>();
 
+	EntitiesAdmin->RegisterSinglComponent<ScoreSinglComponent>();
 	EntitiesAdmin->RegisterSinglComponent<SinglMainPlayerComponent>();
 
 	// Register Systems in order of execution
@@ -134,7 +143,7 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 
 	// Create World Entities
 	CreateCamera(EntitiesAdmin);
-	CreatePlayer(EntitiesAdmin, Float3(-4.0f, 0.0f, 1.0f));
+	CreatePlayer(EntitiesAdmin, Float3(0.0f, 0.0f, 1.0f));
 	MixedWorld(EntitiesAdmin);
 }
 

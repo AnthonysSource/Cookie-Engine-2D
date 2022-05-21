@@ -19,10 +19,26 @@ namespace Cookie {
 	};
 
 	struct AttackComponent {
-		i32 m_AttackDamage;
-		f32 m_Area;
+
+		// 0 = Horizontal
+		// 1 = Vertical
+		// 2 = Ring
+		u32 m_LastAttackID;
+
+		// Ring Attack
+		f32 m_MinArea;
+		f32 m_MaxArea;
+
+		// Rectangle Attack
+		f32 m_RectX;
+		f32 m_RectY;
+
 		f32 m_CooldownElapsed;
 		f32 m_CooldownTotal;
+	};
+
+	struct ScoreSinglComponent {
+		u32 m_CurrentScore;
 	};
 
 } // namespace Cookie
