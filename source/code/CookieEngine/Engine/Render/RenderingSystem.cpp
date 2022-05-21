@@ -37,10 +37,8 @@ namespace Cookie {
 
 		// Vertex data of all of the quads/sprites
 		Vertex *m_Vertices;
+		u32 *m_Indices;
 	};
-
-	RenderBatch batch;
-	u32 *indices;
 
 	CKE_FORCE_INLINE void AddQuad(RenderBatch *batch, Float3 pos, u32 width, u32 height, f32 pixelsPerUnit) {
 
@@ -62,13 +60,13 @@ namespace Cookie {
 		Matrix4 proj = glm::perspective(45.0f, 1280.0f / 720.0f, 0.1f, 1000.0f);
 		Matrix4 model = Matrix4(1.0f);
 
+		// Setup and Submit Drawcall
 		Context::BindProgram(&batch->m_Program);
 
 		batch->m_Program.SetUniformMat4("view", glm::value_ptr(view));
 		batch->m_Program.SetUniformMat4("projection", glm::value_ptr(proj));
 		batch->m_Program.SetUniformMat4("model", glm::value_ptr(model));
 
-		// Issue Drawcall
 		Device::BufferDataIntoVertexBuffer(&batch->m_VertexBuffer, (const char *)batch->m_Vertices,
 										   batch->m_NumSpritesToDraw * 4 * sizeof(Vertex));
 		Context::BindVertexBuffer(&batch->m_VertexBuffer);
@@ -78,9 +76,21 @@ namespace Cookie {
 		Context::Submit(batch->m_NumSpritesToDraw);
 
 		// Reset Batch
-		// batch->m_Vertices.clear();
 		batch->m_NumSpritesToDraw = 0;
 	}
+
+	void DeleteBatch(RenderBatch *batch) {
+		delete batch->m_Indices;
+		delete batch->m_Vertices;
+	}
+
+	// --------------------------------------------------------------------------
+
+	RenderBatch batch = {};
+
+	// We store a vector with all the entities
+	// that are using the same sprite to batch render them
+	THashMap<SpriteHandle, TVector<EntityID>> m_SortedEntitiesMap = {};
 
 	// Rendering System Lifetime
 	// --------------------------------------------------------------------------
@@ -109,39 +119,36 @@ namespace Cookie {
 		batch.m_MaxSpritesToDraw = MAX_SPRITES;
 		batch.m_VertexBuffer = Device::CreateDynamicVertexBuffer(MAX_SPRITES);
 
-		indices = new u32[MAX_INDICES];
+		batch.m_Indices = new u32[MAX_INDICES];
 		batch.m_Vertices = new Vertex[MAX_VERTICES];
 		u32 offset = 0;
 		for (size_t i = 0; i < MAX_INDICES; i += 6) {
-			indices[i + 0] = 0 + offset;
-			indices[i + 1] = 1 + offset;
-			indices[i + 2] = 2 + offset;
+			batch.m_Indices[i + 0] = 0 + offset;
+			batch.m_Indices[i + 1] = 1 + offset;
+			batch.m_Indices[i + 2] = 2 + offset;
 
-			indices[i + 3] = 2 + offset;
-			indices[i + 4] = 3 + offset;
-			indices[i + 5] = 0 + offset;
+			batch.m_Indices[i + 3] = 2 + offset;
+			batch.m_Indices[i + 4] = 3 + offset;
+			batch.m_Indices[i + 5] = 0 + offset;
 
 			offset += 4;
 		}
 
-		batch.m_IndexBuffer = Device::CreateIndexBuffer((char *)indices, sizeof(u32) * MAX_INDICES, DataType::UINT);
+		batch.m_IndexBuffer = Device::CreateIndexBuffer((char *)batch.m_Indices, sizeof(u32) * MAX_INDICES, DataType::UINT);
 	}
 
 	void RenderingSystem::Shutdown() {
 		ImGuiRenderer::Shutdown();
 
-		delete indices;
-		delete batch.m_Vertices;
+		DeleteBatch(&batch);
 	}
 
 	// --------------------------------------------------------------------------
 
-	THashMap<SpriteHandle, TVector<EntityID>> m_SortedEntitiesMap{};
-
 	void RenderingSystem::Update(f32 dt) {
 		CKE_PROFILE_EVENT();
 		// Clear buffer
-		Context::ClearColorBuffer(0.95f, 0.6f, 0.05f, 1.0f);
+		Context::ClearBuffer(0.95f, 0.6f, 0.05f, 1.0f);
 
 		// NOTE: Current code implements "layers" by using the Z coordinate
 		// On Initialization:
@@ -218,8 +225,7 @@ namespace Cookie {
 		ImGui::LabelText("Batches", "%d", numBatches);
 		ImGuiRenderer::Render();
 
-		// Swap Buffers
-		glfwSwapBuffers(g_AppData.m_Window.m_Handle);
+		Context::SwapBuffers();
 	}
 
 } // namespace Cookie

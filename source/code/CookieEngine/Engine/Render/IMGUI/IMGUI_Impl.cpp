@@ -12,7 +12,7 @@ namespace Cookie::ImGuiRenderer {
 		ImGui::CreateContext();
 		ImGuiIO &io = ImGui::GetIO();
 		ImGui::StyleColorsDark();
-		ImGui_ImplGlfw_InitForOpenGL(g_AppData.m_Window.m_Handle, true);
+		ImGui_ImplGlfw_InitForOpenGL((GLFWwindow *)g_AppData.m_Window.m_Handle, true);
 		ImGui_ImplOpenGL3_Init("#version 460");
 	}
 

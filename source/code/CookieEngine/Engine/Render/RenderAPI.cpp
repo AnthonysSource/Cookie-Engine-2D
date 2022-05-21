@@ -219,16 +219,16 @@ namespace Cookie::RenderingAPI {
 
 		void Init() {
 			// Set current OpenGL context to the window
-			glfwMakeContextCurrent(g_AppData.m_Window.m_Handle);
+			glfwMakeContextCurrent((GLFWwindow *)g_AppData.m_Window.m_Handle);
 
 			// Setup OpenGL function loading
 			gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 			// Viewport settings and resize
 			int w, h;
-			glfwGetFramebufferSize(g_AppData.m_Window.m_Handle, &w, &h);
+			glfwGetFramebufferSize((GLFWwindow *)g_AppData.m_Window.m_Handle, &w, &h);
 			glViewport(0, 0, w, h);
-			glfwSetFramebufferSizeCallback(g_AppData.m_Window.m_Handle,
+			glfwSetFramebufferSizeCallback((GLFWwindow *)g_AppData.m_Window.m_Handle,
 										   [](GLFWwindow *window, i32 width, i32 height) { glViewport(0, 0, width, height); });
 
 			// Enable Debug Logging Callback
@@ -275,10 +275,12 @@ namespace Cookie::RenderingAPI {
 
 		void Submit(u32 spritesCount) { glDrawElements(GL_TRIANGLES, spritesCount * 6, GL_UNSIGNED_INT, nullptr); }
 
-		void Context::ClearColorBuffer(float r, float g, float b, float a) {
+		void Context::ClearBuffer(float r, float g, float b, float a) {
 			glClearColor(r, g, b, a);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
+
+		void Context::SwapBuffers() { glfwSwapBuffers((GLFWwindow *)g_AppData.m_Window.m_Handle); }
 
 	} // namespace Context
 

@@ -10,6 +10,8 @@
 #include "Entities/Components/SingletonInputComponent.h"
 #include "Core/Window.h"
 
+#include <GLFW/glfw3.h>
+
 namespace Cookie {
 
 	void LogInput(InputEvent e, InputComponent inputComp);
@@ -24,7 +26,7 @@ namespace Cookie {
 
 	// -----------------------------------------------------------------
 
-	void InputSystem::Init(WindowData *window) { glfwSetKeyCallback(window->m_Handle, WindowKeyEventHandle); }
+	void InputSystem::Init(WindowData *window) { glfwSetKeyCallback((GLFWwindow *)window->m_Handle, WindowKeyEventHandle); }
 
 	void InputSystem::InitSignature() {}
 

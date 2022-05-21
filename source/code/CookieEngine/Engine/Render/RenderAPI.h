@@ -89,14 +89,16 @@ namespace Cookie::RenderingAPI {
 	//-------------------------------------------------------------------------
 
 	namespace Context {
+		void Init();
+
 		void BindVertexBuffer(VertexBuffer *vb);
 		void BindIndexBuffer(IndexBuffer *ib);
 		void BindProgram(Program *p);
 		void BindTexture(Texture *t);
 		void BindLayout(Layout *l);
 
-		void Init();
-		void ClearColorBuffer(float r, float g, float b, float a);
+		void ClearBuffer(float r, float g, float b, float a);
+		void SwapBuffers();
 		void Submit(u32 spritesCount);
 	} // namespace Context
 

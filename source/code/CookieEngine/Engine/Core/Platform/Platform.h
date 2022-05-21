@@ -7,7 +7,7 @@ namespace Cookie {
 	namespace Platform {
 
 		void Initialize(WindowDescription *wd);
-		bool IsRunning(GLFWwindow *appData);
+		bool IsRunning(void *windowHandle);
 		void Shutdown();
 
 	} // namespace Platform

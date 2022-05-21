@@ -34,7 +34,7 @@ namespace Cookie::Platform {
 		window->m_Title = wd->m_Title;
 	}
 
-	bool IsRunning(GLFWwindow *window) { return !glfwWindowShouldClose(window); }
+	bool IsRunning(void *windowHandle) { return !glfwWindowShouldClose((GLFWwindow *)windowHandle); }
 
 	void Shutdown() { glfwTerminate(); }
 
