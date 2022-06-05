@@ -23,6 +23,8 @@ namespace Cookie::Log {
 
 		struct LogConfig {
 			Verbosity m_MinVerbosity = Verbosity::Message;
+
+			// Include in the log message the code file+line where the log is called
 			bool m_LogOriginCodeFile = false;
 		};
 
@@ -35,7 +37,10 @@ namespace Cookie::Log {
 
 	//-------------------------------------------------------------------------
 
-	void Initialize() { g_GlobalLogFile.open("EngineLog.txt"); }
+	void Initialize() {
+		// Open/Create the global logs file
+		g_GlobalLogFile.open("EngineLog.txt");
+	}
 
 	void Shutdown() { g_GlobalLogFile.close(); }
 
@@ -71,6 +76,7 @@ namespace Cookie::Log {
 	}
 
 	void VAddEntry(Verbosity verbosity, Channel channel, char const *fileName, u32 lineNumber, char const *format, va_list argsList) {
+		// Setup static buffer for the message
 		const u32 MAX_CHARS = 1024;
 		static char s_LogBuffer[MAX_CHARS];
 
@@ -81,7 +87,7 @@ namespace Cookie::Log {
 		// the buffer
 		String msg = s_LogBuffer;
 
-		// Create the final message
+		// Set the final log format to create the final message
 		if (g_Config.m_LogOriginCodeFile) {
 			Format(s_LogBuffer, MAX_CHARS, "[%s][%s : %u][%s] %s", g_ChannelLabels[(u32)channel], fileName, lineNumber,
 				   g_VerbosityLabels[(u32)verbosity], msg.c_str());
@@ -89,9 +95,10 @@ namespace Cookie::Log {
 			Format(s_LogBuffer, MAX_CHARS, "[%s][%s] %s", g_ChannelLabels[(u32)channel], g_VerbosityLabels[(u32)verbosity], msg.c_str());
 		}
 
+		// Print it to the console using the standard output
 		printf("%s\n", s_LogBuffer);
 
-		// Create an In-Memory Log Entry
+		// Create and save an in-memory log entry of the message
 		LogEntry entry;
 		entry.m_Verbosity = verbosity;
 		entry.m_Channels = channel;
@@ -101,7 +108,7 @@ namespace Cookie::Log {
 
 		g_LogData.m_LogEntries.push_back(entry);
 
-		// Log to file
+		// Save the log to the global log file
 		g_GlobalLogFile << s_LogBuffer << std::endl;
 	}
 

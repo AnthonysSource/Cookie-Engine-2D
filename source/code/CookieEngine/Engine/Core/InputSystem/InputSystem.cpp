@@ -21,8 +21,8 @@ namespace Cookie {
 
 	// Contains a buffer of the input events that have been
 	// registered in the current frame
-	TQueue<InputEvent> s_InputEventsBuffer;
-	InputComponent g_InputComponent;
+	static TQueue<InputEvent> s_InputEventsBuffer;
+	static InputComponent g_InputComponent;
 
 	// -----------------------------------------------------------------
 

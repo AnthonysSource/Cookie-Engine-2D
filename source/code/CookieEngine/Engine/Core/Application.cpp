@@ -73,10 +73,12 @@ namespace Cookie {
 			g_RenderingSystem->Shutdown();
 			Platform::Shutdown();
 			ResourcesSystem::Shutdown();
+			g_InputSystem->Shutdown();
 			Log::Shutdown();
 
 			delete g_Admin;
 			delete g_RenderingSystem;
+			delete g_InputSystem;
 		}
 
 	} // namespace Application

@@ -2,14 +2,13 @@
 
 #include "Core/Window.h"
 
-namespace Cookie {
+namespace Cookie::Platform {
 
-	namespace Platform {
+	void Initialize(WindowDescription *wd);
 
-		void Initialize(WindowDescription *wd);
-		bool IsRunning(void *windowHandle);
-		void Shutdown();
+	// Returns true if the app should still be running
+	bool IsRunning(void *windowHandle);
 
-	} // namespace Platform
+	void Shutdown();
 
-} // namespace Cookie
+} // namespace Cookie::Platform
