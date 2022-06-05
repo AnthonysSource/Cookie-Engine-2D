@@ -15,8 +15,6 @@ namespace Cookie {
 	template <typename T> class ComponentArray : public IComponentArray {
 	public:
 		void Insert(EntityID entity, T component) {
-			//CKE_ASSERT(m_EntityToIndex.find(entity) == m_EntityToIndex.end(), "Component added to same entity more than once");
-
 			u64 newIndex = m_Count;
 			m_EntityToIndex[entity] = newIndex;
 			m_IndexToEntity[newIndex] = entity;
@@ -33,8 +31,8 @@ namespace Cookie {
 			m_EntityToIndex[entityOfLastElement] = indexOfRemovedEntity;
 			m_IndexToEntity[indexOfRemovedEntity] = entityOfLastElement;
 
-			m_EntityToIndex[entity] = -1;
-			m_IndexToEntity[indexOfLastElement] = -1;
+			m_EntityToIndex[entity] = InvalidEntityID;
+			m_IndexToEntity[indexOfLastElement] = InvalidEntityID;
 
 			--m_Count;
 		}

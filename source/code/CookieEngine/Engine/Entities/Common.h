@@ -6,6 +6,8 @@ namespace Cookie {
 	// could generate problems when destroying and creating a
 	// vast amount of entitites in a short timespan
 	using EntityID = u32;
+	const EntityID InvalidEntityID = -1;
+
 	using ComponentSignatureIndex = u8;
 
 	const EntityID MAX_ENTITIES = 500000;

@@ -45,4 +45,11 @@ namespace Cookie {
 		delete physicsWorldComp->m_World;
 	}
 
+	class b2Contacts : public b2ContactListener {
+		void BeginContact(b2Contact *contact) override {}
+
+		/// Called when two fixtures cease to touch.
+		void EndContact(b2Contact *contact) override {}
+	};
+
 } // namespace Cookie

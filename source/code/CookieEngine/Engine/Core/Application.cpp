@@ -6,10 +6,7 @@
 #include "Core/Types/Function.h"
 #include "Core/Types/PrimitiveTypes.h"
 #include "Core/Profiling/Profiling.h"
-
 #include "Core/FileSystem/FileSystem.h"
-#include "Core/FileSystem/FileSystemTest.h"
-
 #include "Core/InputSystem/InputSystem.h"
 
 #include "Resources/Resources.h"
