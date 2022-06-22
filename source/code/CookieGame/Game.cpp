@@ -62,6 +62,15 @@ void CreateSugarCube(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	EntitiesAdmin->AddComponent(e, render);
 }
 
+void CreateCamera(EntityAdmin *const EntitiesAdmin) {
+	auto mainCam = EntitiesAdmin->CreateEntity();
+	CameraComponent camComp;
+	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
+	camComp.m_Rotation = 0.0f;
+	EntitiesAdmin->AddComponent(mainCam, camComp);
+	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
+}
+
 void LoadResources() {
 	CKE_PROFILE_EVENT();
 	// Resources
@@ -100,6 +109,8 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	CreateFloatingButterStick(EntitiesAdmin, Float3(-2.0f, 0.0f, 0.0f));
 	// CreateControllableCookie(EntitiesAdmin, Float3(0.0f, 0.0f, 0.0f));
 	CreateSugarCube(EntitiesAdmin, Float3(2.0f, 0.0f, 0.0f));
+
+	CreateCamera(EntitiesAdmin);
 
 	for (size_t x = 0; x < 100; x++) {
 		for (size_t y = 0; y < 100; y++) {

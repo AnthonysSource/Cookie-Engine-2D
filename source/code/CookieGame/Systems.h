@@ -26,7 +26,7 @@ namespace Cookie {
 			for (auto const &entityID : m_View->m_Entities) {
 				TransformComponent *t = transforms->Get(entityID);
 				RotatingComponent const *f = rotations->Get(entityID);
-				t->m_Rotation += Float3(0.0f, f->m_Speed, 0.0f) * dt;
+				t->m_Rotation += f->m_Speed* dt;
 			}
 		}
 
@@ -91,7 +91,7 @@ namespace Cookie {
 			for (auto const &entityID : m_View->m_Entities) {
 				TransformComponent *t = transforms->Get(entityID);
 				FloatComponent *f = floats->Get(entityID);
-				t->m_Position.y = f->m_Amplitude * (float)cos(f->m_Speed * glfwGetTime());
+				t->m_Position.y = f->m_Amplitude * (float)cos(f->m_Speed * g_EngineClock.m_TimeData.m_SecondsUpTime);
 			}
 		}
 
