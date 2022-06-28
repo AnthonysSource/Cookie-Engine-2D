@@ -53,6 +53,8 @@ namespace Cookie {
 		EntitiesView *m_View;
 	};
 
+	// --------------------------------------------------------------------------
+
 	class CameraSystem : public System {
 	public:
 		void InitSignature() {}
@@ -77,6 +79,8 @@ namespace Cookie {
 			cam->m_Position += movementDir * length * 5.0f * dt;
 		}
 	};
+
+	// --------------------------------------------------------------------------
 
 	class AttackSystem : public System {
 	public:
@@ -176,6 +180,8 @@ namespace Cookie {
 		EntitiesView *m_AttackersView;
 		EntitiesView *m_TargetsView;
 	};
+
+	// --------------------------------------------------------------------------
 
 	class EnemySystem : public System {
 	public:

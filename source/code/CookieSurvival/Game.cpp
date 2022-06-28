@@ -136,7 +136,6 @@ void RegisterComponents(EntityAdmin *const EntitiesAdmin) {
 	EntitiesAdmin->RegisterSystem<EnemySystem>();
 }
 
-// Game World Init
 void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	CKE_PROFILE_EVENT();
 	using namespace Cookie;

@@ -50,7 +50,10 @@ filter "configurations:Shipping"
 -- Project Includes
 ---------------------------------------------------------------------
 include("source/code/CookieEngine")
-include("source/code/CookieGame")
-include("source/code/CookieBoids")
-include("source/code/CookieSurvival")
-include("source/code/CookiePhysics")
+
+group "Samples"
+    include("source/code/CookieGame")
+    include("source/code/CookieBoids")
+    include("source/code/CookieSurvival")
+    include("source/code/CookiePhysics")
+group "" -- end of "Samples"
