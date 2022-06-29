@@ -106,10 +106,6 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	using namespace Cookie;
 
 	// Create World Entities
-	CreateFloatingButterStick(EntitiesAdmin, Float3(-2.0f, 0.0f, 0.0f));
-	// CreateControllableCookie(EntitiesAdmin, Float3(0.0f, 0.0f, 0.0f));
-	CreateSugarCube(EntitiesAdmin, Float3(2.0f, 0.0f, 0.0f));
-
 	CreateCamera(EntitiesAdmin);
 
 	for (size_t x = 0; x < 100; x++) {
