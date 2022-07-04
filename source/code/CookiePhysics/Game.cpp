@@ -52,7 +52,6 @@ void CreatePhysicsGround(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	b2World *physicsWorld = EntitiesAdmin->GetSinglComponent<PhysicsWorldSinglComponent>()->m_World;
 
 	transform.m_Position = pos;
-	render.m_SpriteHandle = cookieSprite;
 	b2BodyDef groundBodyDef;
 	groundBodyDef.position.Set(pos.x, pos.y);
 	physics.m_Body = physicsWorld->CreateBody(&groundBodyDef);
@@ -60,17 +59,14 @@ void CreatePhysicsGround(EntityAdmin *const EntitiesAdmin, Float3 pos) {
 	groundBox.SetAsBox(50.0f, 1.0f);
 	physics.m_Body->CreateFixture(&groundBox, 0.0f);
 
-	render.m_SpriteHandle = cookieSprite;
-
 	EntitiesAdmin->AddComponent(e, transform);
-	EntitiesAdmin->AddComponent(e, render);
 	EntitiesAdmin->AddComponent(e, physics);
 };
 
 void CreateCamera(EntityAdmin *const EntitiesAdmin) {
 	auto mainCam = EntitiesAdmin->CreateEntity();
 	CameraComponent camComp;
-	camComp.m_Position = Float3(0.0f, 0.0f, 5.0f);
+	camComp.m_Position = Float3(0.0f, 0.0f, 15.0f);
 	camComp.m_Rotation = 0.0f;
 	EntitiesAdmin->AddComponent(mainCam, camComp);
 	EntitiesAdmin->GetSinglComponent<CameraComponentSingl>()->m_MainCam = mainCam;
@@ -108,7 +104,7 @@ void CreateWorld(EntityAdmin *const EntitiesAdmin) {
 	using namespace Cookie;
 
 	CreateCamera(EntitiesAdmin);
-	CreatePhysicsGround(EntitiesAdmin, Float3(0.0f, -5.0f, 0.0f));
+	CreatePhysicsGround(EntitiesAdmin, Float3(0.0f, -8.5f, 0.0f));
 
 	i32 rows = 500;
 	for (size_t x = 0; x < rows; x++) {

@@ -19,7 +19,7 @@ namespace Cookie {
 
 		const f32 maxSpeed = 1.0f;
 
-		const Float2 boundsSize = Float2(10.0f, 10.0f);
+		const Float2 boundsSize = Float2(11.0f, 7.0f);
 		const f32 clampToBoundsFactor = 1.0f;
 
 		void InitSignature() {
