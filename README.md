@@ -1,6 +1,11 @@
 # Cookie-Engine
 
-A simple ECS game engine written in C++ that has been built as a learning proyect.
+A simple & small game engine written in C++.
+
+## Features
+* 2D OpenGL Renderer
+* ECS Object Model
+* Box2D Physics
 
 ## Samples
 The repository contains the following sample projects:
